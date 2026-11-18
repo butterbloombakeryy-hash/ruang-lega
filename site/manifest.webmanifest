@@ -1,0 +1,14 @@
+{
+  "id":"./",
+  "name":"Ruang Lega — Smart Storage Assistant",
+  "short_name":"Ruang Lega",
+  "description":"Asisten pemeriksa file besar dan duplikat serta panduan pengelolaan penyimpanan digital.",
+  "lang":"id-ID",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "orientation":"any",
+  "background_color":"#f4faf7",
+  "theme_color":"#0d716b",
+  "icons":[{"src":"icons/ruang-lega.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]
+}
