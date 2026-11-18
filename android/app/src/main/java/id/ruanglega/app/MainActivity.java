@@ -32,21 +32,18 @@ import androidx.webkit.WebViewAssetLoader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.OutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
  * RUANG LEGA Android shell.
- * Storage statistics are queried through the public Android StorageStatsManager API.
- * Cache clearing is handed to Android's own confirmation UI; app-private data is never
- * accessed or erased by this application.
+ * Reads per-app storage totals via StorageStatsManager after explicit Usage Access.
+ * The system-wide cache clear is delegated to Android's own confirmation screen.
  */
 public class MainActivity extends Activity {
     private static final int REQUEST_PICK_FILES = 7101;
@@ -192,16 +189,14 @@ public class MainActivity extends Activity {
         PackageManager pm = getPackageManager();
         Intent launcherIntent = new Intent(Intent.ACTION_MAIN);
         launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-
         List<ResolveInfo> launchables = pm.queryIntentActivities(launcherIntent, 0);
-        Set<String> seen = new HashSet<>();
         List<JSONObject> rows = new ArrayList<>();
 
         for (ResolveInfo resolved : launchables) {
             if (resolved.activityInfo == null || resolved.activityInfo.applicationInfo == null) continue;
             ApplicationInfo appInfo = resolved.activityInfo.applicationInfo;
             String packageName = appInfo.packageName;
-            if (packageName == null || !seen.add(packageName)) continue;
+            if (packageName == null || packageName.equals(getPackageName())) continue;
 
             try {
                 UUID storageUuid = appInfo.storageUuid != null
@@ -223,7 +218,7 @@ public class MainActivity extends Activity {
                 row.put("totalBytes", appBytes + dataWithCacheBytes);
                 rows.add(row);
             } catch (PackageManager.NameNotFoundException | IOException | SecurityException ignored) {
-                // Some system/managed-profile packages are not queryable by this user.
+                // Some system, managed-profile, or restricted packages cannot be queried.
             }
         }
 
@@ -235,10 +230,27 @@ public class MainActivity extends Activity {
         return result;
     }
 
+    private long deleteContents(File dir) {
+        if (dir == null || !dir.exists() || !dir.isDirectory()) return 0L;
+        long reclaimed = 0L;
+        File[] files = dir.listFiles();
+        if (files == null) return 0L;
+        for (File file : files) {
+            if (file.isDirectory()) {
+                reclaimed += deleteContents(file);
+                if (file.delete()) { /* directory removed */ }
+            } else {
+                long size = file.length();
+                if (file.delete()) reclaimed += size;
+            }
+        }
+        return reclaimed;
+    }
+
     private final class NativeBridge {
         @JavascriptInterface
         public String getDeviceStorageSnapshot() {
-            return getDeviceStorageSnapshot().toString();
+            return MainActivity.this.getDeviceStorageSnapshot().toString();
         }
 
         @JavascriptInterface
@@ -258,7 +270,7 @@ public class MainActivity extends Activity {
                     startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this,
-                            "Pengaturan akses statistik tidak tersedia pada perangkat ini.",
+                            "Pengaturan akses statistik tidak tersedia.",
                             Toast.LENGTH_LONG).show();
                 }
             });
@@ -269,7 +281,7 @@ public class MainActivity extends Activity {
             runOnUiThread(() -> {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                     Toast.makeText(MainActivity.this,
-                            "Izin ini hanya tersedia pada Android 11 atau lebih baru.",
+                            "Fitur ini memerlukan Android 11 atau lebih baru.",
                             Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -283,7 +295,7 @@ public class MainActivity extends Activity {
                         startActivity(new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION));
                     } catch (Exception ignored) {
                         Toast.makeText(MainActivity.this,
-                                "Buka Pengaturan → Akses semua file secara manual.",
+                                "Aktifkan Akses semua file dari Pengaturan Android.",
                                 Toast.LENGTH_LONG).show();
                     }
                 }
@@ -324,7 +336,7 @@ public class MainActivity extends Activity {
                     startActivity(intent);
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this,
-                            "Halaman pengaturan aplikasi tidak dapat dibuka.",
+                            "Pengaturan aplikasi tidak dapat dibuka.",
                             Toast.LENGTH_LONG).show();
                 }
             });
@@ -337,14 +349,10 @@ public class MainActivity extends Activity {
 
             runOnUiThread(() -> {
                 try {
-                    // Android shows its own confirmation screen. The app does not clear
-                    // other apps' cache silently or without the user's approval.
+                    // Android displays its own user confirmation. This app cannot clear
+                    // other apps' private data or silently erase other apps' caches.
                     Intent intent = new Intent(StorageManager.ACTION_CLEAR_APP_CACHE);
                     startActivityForResult(intent, REQUEST_CLEAR_APP_CACHE);
-                } catch (SecurityException e) {
-                    Toast.makeText(MainActivity.this,
-                            "Android menolak permintaan. Periksa izin Akses semua file.",
-                            Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this,
                             "Pembersihan cache sistem tidak tersedia pada perangkat ini.",
@@ -352,6 +360,25 @@ public class MainActivity extends Activity {
                 }
             });
             return "system_confirmation_requested";
+        }
+
+        @JavascriptInterface
+        public void clearOwnCache() {
+            new Thread(() -> {
+                long freed = deleteContents(getCacheDir());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    freed += deleteContents(getExternalCacheDir());
+                }
+                final long size = freed;
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this,
+                            "Cache RUANG LEGA dibersihkan: " + android.text.format.Formatter.formatShortFileSize(MainActivity.this, size),
+                            Toast.LENGTH_LONG).show();
+                    if (webView != null) webView.evaluateJavascript(
+                            "window.RuangLegaNativeRefreshPermissions && window.RuangLegaNativeRefreshPermissions();",
+                            null);
+                });
+            }).start();
         }
 
         @JavascriptInterface
@@ -410,7 +437,7 @@ public class MainActivity extends Activity {
                                 + result + ");", null));
             }
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this, "Permintaan pembersihan cache sistem selesai.",
+                Toast.makeText(this, "Android melaporkan cache aplikasi berhasil dibersihkan.",
                         Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Pembersihan cache dibatalkan atau tidak selesai.",
