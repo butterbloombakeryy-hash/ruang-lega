@@ -31,8 +31,17 @@ APK adalah **debug APK** untuk uji coba/presentasi, bukan rilisan Play Store ber
 - Panduan Android, iPhone, Windows, dan pembersihan cache TikTok.
 - File yang dipilih diproses lokal dan tidak diunggah ke server.
 
+## Fitur Android tambahan (v1.3)
+- Membaca total/terpakai/tersedia pada volume penyimpanan internal perangkat.
+- Membaca ukuran aplikasi, data, dan cache untuk aplikasi yang tampil di launcher, melalui `StorageStatsManager`.
+- Memerlukan **Usage access** yang diaktifkan sendiri oleh pengguna di Pengaturan Android.
+- Membuka halaman Info Aplikasi agar pengguna dapat memilih **Hapus cache** per aplikasi.
+- Meminta layar konfirmasi resmi Android untuk membersihkan cache aplikasi lintas aplikasi pada Android 11+; memerlukan **Akses semua file**. Android tetap mengendalikan proses dan pengguna tetap harus menyetujui.
+
 ## Batasan dan privasi
-Website atau APK biasa **tidak dapat** membaca semua isi penyimpanan internal maupun menghapus cache aplikasi lain secara otomatis. Dashboard Storage API hanya mengestimasi penggunaan kuota origin aplikasi/browser, bukan total memori HP. Penghapusan file tetap menjadi keputusan pengguna melalui File/Galeri atau pengaturan OS. Hindari opsi “Hapus data” jika belum memahami dampaknya.
+Android tidak mengizinkan aplikasi biasa membaca isi privat aplikasi lain (misalnya isi chat, foto privat, atau database) atau menghapus data privatnya. RUANG LEGA hanya membaca angka ukuran app/data/cache yang disediakan sistem. Pembersihan lintas aplikasi menggunakan layar konfirmasi Android dan tidak berjalan diam-diam. Akses semua file adalah izin sensitif; jangan aktifkan bila tidak nyaman. Google Play membatasi izin luas ini, sehingga APK ini ditujukan untuk uji coba/presentasi sideload, bukan dinyatakan siap publikasi Play Store.
+
+Versi web/PWA tidak memiliki akses native ke statistik penyimpanan semua aplikasi atau pembersihan cache sistem. Dashboard Storage API di browser hanya mengestimasi kuota origin situs, bukan total memori HP.
 
 ## Struktur
 - `site/` — PWA publik.
