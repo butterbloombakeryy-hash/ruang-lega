@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ruang-lega-v1-7-stable';
+const CACHE_NAME = 'ruang-lega-v1-8-auto';
 const APP_SHELL = [
   './',
   './index.html',
@@ -18,7 +18,9 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
       .then((keys) => Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+        keys
+          .filter((key) => key.startsWith('ruang-lega-') && key !== CACHE_NAME)
+          .map((key) => caches.delete(key))
       ))
       .then(() => self.clients.claim())
   );
@@ -27,11 +29,9 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   if (request.method !== 'GET') return;
-
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Always try the network for page navigations so users receive the latest release.
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
@@ -47,7 +47,6 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // App-shell assets are cache-first for reliable offline use.
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
