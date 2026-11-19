@@ -151,6 +151,19 @@ button:focus-visible,a:focus-visible{outline:3px solid #7bd8c2;outline-offset:2p
 @media(max-width:850px){.cleanupHero{align-items:flex-start;flex-direction:column}.cleanupButtons{width:100%}}
 @media(max-width:600px){.cleanupHero{padding:15px}.cleanupStats{gap:6px}.cleanupStat{padding:9px}.cleanupStat strong{font-size:14px}.cleanupRow{align-items:flex-start}.cleanupRowSize{font-size:9px}}
 
+
+.autoCleanupWeb{margin-top:14px;border:1px solid #dceee4;background:linear-gradient(135deg,#f7fcf8,#eff8f2)}
+.autoCleanupHeader{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.autoCleanupTitle{font-size:14px;font-weight:850;color:#1a4b41}
+.autoCleanupMeta{font-size:10px;color:#778e84;margin-top:4px;line-height:1.55}
+.autoCleanupLogs{display:grid;gap:6px;margin-top:10px;max-height:190px;overflow:auto}
+.autoCleanupLog{display:flex;align-items:flex-start;gap:9px;padding:9px 10px;background:#fff;border:1px solid #e8f1eb;border-radius:10px}
+.autoCleanupLog b{display:block;font-size:9px;color:#385f54}
+.autoCleanupLog small{display:block;font-size:9px;color:#889890;margin-top:2px;line-height:1.45}
+.autoCleanupDot{width:8px;height:8px;border-radius:50%;background:#29a47a;margin-top:4px;flex:none}
+.autoCleanupDot.warn{background:#c58c38}
+.autoCleanupToggle{min-width:130px}
+
 </style>
 </head>
 <body>
@@ -177,10 +190,37 @@ button:focus-visible,a:focus-visible{outline:3px solid #7bd8c2;outline-offset:2p
   <div id="trashList" class="cleanupList"><div class="empty">Tekan “Pindai Sampah” lalu pilih folder yang ingin diperiksa.</div></div>
   <div id="trashStatus" class="cleanupStatus" aria-live="polite">Tidak ada file yang akan dihapus sebelum kamu memilihnya dan menyetujui konfirmasi.</div>
 
+
+  <div class="panel autoCleanupWeb" id="webAutoCleanupPanel">
+   <div class="autoCleanupHeader">
+    <div><div class="kicker">PWA maintenance</div><div class="autoCleanupTitle">Pembersihan otomatis cache website</div><div class="autoCleanupMeta" id="webAutoCleanupStatus">Memeriksa cache versi lama milik RUANG LEGA…</div></div>
+    <button id="webAutoCleanupNow" class="btn soft autoCleanupToggle">Bersihkan cache lama</button>
+   </div>
+   <div class="cleanupFoot">Website hanya membersihkan cache offline versi lama milik RUANG LEGA saat dibuka, saat versi baru aktif, dan saat diminta manual. Cache browser lain, file pribadi, unduhan, cookie, Local Storage, serta data aplikasi lain tidak disentuh. Pemeriksaan 24 jam berjalan saat website dibuka; browser tidak mengizinkan halaman web berjalan terjadwal ketika ditutup.</div>
+   <div class="sub" style="font-weight:800;margin-top:12px">LOG PEMBERSIHAN WEBSITE</div>
+   <div id="webAutoCleanupLogs" class="autoCleanupLogs"><div class="empty">Belum ada log.</div></div>
+  </div>
+
   <div id="nativeAndroidCleanup" class="panel" hidden style="margin-top:14px;border-color:#cfe8db">
    <div class="panelHead"><div><div class="kicker">Android native cleanup</div><h2>Pemindaian cache aplikasi Android</h2><p class="sub">Bagian ini aktif di APK RUANG LEGA. Android menampilkan ukuran cache aplikasi dan mengatur proses pembersihan melalui konfirmasi sistem.</p></div><span class="privacy"><i></i> Mode APK</span></div>
    <div class="cleanupStats"><div class="cleanupStat"><small>Aplikasi terbaca</small><strong id="nativeAppCount">—</strong></div><div class="cleanupStat"><small>Perkiraan total cache</small><strong id="nativeCacheTotal">—</strong></div><div class="cleanupStat"><small>Status izin</small><strong id="nativePermissionStatus">Belum dicek</strong></div></div>
    <div class="cleanupButtons"><button id="nativeScanAppsBtn" class="btn primary">⌕ Pindai cache aplikasi</button><button id="nativeClearCacheBtn" class="btn soft">Bersihkan cache (konfirmasi Android)</button><button id="nativeClearOwnCacheBtn" class="btn outline">Bersihkan cache RUANG LEGA</button></div>
+
+   <div class="panel autoCleanupWeb" id="nativeAutoCleanupSettings" style="margin-top:14px">
+    <div class="autoCleanupHeader">
+     <div><div class="kicker">Automatic maintenance</div><div class="autoCleanupTitle">Pembersihan cache otomatis Android</div><div class="autoCleanupMeta" id="nativeAutoCleanupStatus">Memeriksa jadwal pembersihan…</div></div>
+     <button id="nativeAutoCleanupToggle" class="btn primary autoCleanupToggle">Otomatis aktif</button>
+    </div>
+    <div class="cleanupStats">
+     <div class="cleanupStat"><small>Interval</small><strong id="nativeAutoCleanupInterval">24 jam</strong></div>
+     <div class="cleanupStat"><small>Pembersihan terakhir</small><strong id="nativeAutoCleanupLast">Belum ada</strong></div>
+     <div class="cleanupStat"><small>Ruang terakhir dibebaskan</small><strong id="nativeAutoCleanupFreed">0 B</strong></div>
+    </div>
+    <div class="cleanupFoot">Pembersihan otomatis hanya mengosongkan folder cache milik RUANG LEGA. File pengguna, database, pengaturan, sesi login, cookies, foto, dokumen, unduhan, dan data aplikasi lain tidak dihapus. Jadwal 24 jam dikelola Android dan dapat sedikit tertunda oleh mode hemat baterai.</div>
+    <div class="sub" style="font-weight:800;margin-top:12px">RIWAYAT OTOMATIS</div>
+    <div id="nativeAutoCleanupLogs" class="autoCleanupLogs"><div class="empty">Belum ada riwayat pembersihan.</div></div>
+   </div>
+
    <div id="nativeCacheList" class="cleanupList"><div class="empty">Belum ada hasil pemindaian.</div></div>
    <div id="nativeCleanupStatus" class="cleanupStatus" aria-live="polite">Fitur native hanya tersedia di aplikasi Android RUANG LEGA, bukan browser biasa.</div>
    <div class="cleanupFoot">Android tidak menjamin semua cache dapat dibersihkan massal pada setiap merek/perangkat. Saat diminta, Android membuka layar sistem dan pengguna harus menyetujui sendiri. Data aplikasi, chat, draft, dan foto pribadi tidak dihapus oleh fitur ini.</div>
@@ -400,6 +440,108 @@ $('nativeClearOwnCacheBtn').addEventListener('click',()=>{
  if(confirm('Bersihkan file cache sementara milik aplikasi RUANG LEGA saja? Data dan file aplikasi lain tidak akan dihapus.')){AndroidBridge.clearOwnCache();$('nativeCleanupStatus').textContent='Pembersihan cache RUANG LEGA diminta. Periksa notifikasi Android.'}
 });
 refreshNativeAndroid();
+
+let nativeAutoCleanupEnabled=true;
+function niceTime(value){
+ if(!value)return 'Belum ada';
+ try{return new Date(Number(value)).toLocaleString('id-ID',{dateStyle:'medium',timeStyle:'short'})}catch(_){return 'Tidak tersedia'}
+}
+function renderNativeAutoCleanup(){
+ if(!hasNativeAndroid())return;
+ try{
+  const info=JSON.parse(AndroidBridge.getAutoCacheCleanupStatus());
+  nativeAutoCleanupEnabled=!!info.enabled;
+  $('nativeAutoCleanupToggle').textContent=nativeAutoCleanupEnabled?'Otomatis aktif':'Otomatis nonaktif';
+  $('nativeAutoCleanupToggle').className=nativeAutoCleanupEnabled?'btn primary autoCleanupToggle':'btn outline autoCleanupToggle';
+  $('nativeAutoCleanupInterval').textContent=(info.intervalHours||24)+' jam';
+  $('nativeAutoCleanupLast').textContent=niceTime(info.lastRunMillis);
+  $('nativeAutoCleanupFreed').textContent=bytes(Number(info.lastFreedBytes)||0);
+  $('nativeAutoCleanupStatus').textContent=nativeAutoCleanupEnabled
+   ?'Aktif: berjalan saat diperlukan ketika aplikasi dibuka, setelah versi berubah, dan dijadwalkan setiap 24 jam.'
+   :'Nonaktif: pembersihan otomatis dijeda. Pembersihan manual tetap tersedia.';
+  const root=$('nativeAutoCleanupLogs');root.textContent='';
+  const logs=Array.isArray(info.logs)?info.logs.slice(-8).reverse():[];
+  if(!logs.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='Belum ada riwayat pembersihan.';root.append(empty)}
+  logs.forEach(log=>{
+   const row=document.createElement('div');row.className='autoCleanupLog';
+   const dot=document.createElement('span');dot.className='autoCleanupDot'+(log.status==='gagal'?' warn':'');
+   const body=document.createElement('span');body.style.minWidth='0';body.style.flex='1';
+   const title=document.createElement('b');title.textContent=(log.trigger||'Pembersihan')+' · '+(log.status||'');
+   const detail=document.createElement('small');detail.textContent=niceTime(log.time)+' · '+bytes(Number(log.freedBytes)||0)+' · '+(log.details||'');
+   body.append(title,detail);row.append(dot,body);root.append(row);
+  });
+ }catch(_){$('nativeAutoCleanupStatus').textContent='Log pembersihan belum dapat dibaca.'}
+}
+window.RuangLegaNativeRefreshAutoCleanup=renderNativeAutoCleanup;
+$('nativeAutoCleanupToggle').addEventListener('click',()=>{
+ if(!hasNativeAndroid())return;
+ AndroidBridge.setAutoCacheCleanupEnabled(!nativeAutoCleanupEnabled);
+});
+renderNativeAutoCleanup();
+
+const WEB_CLEANUP_VERSION='1.8.0';
+const WEB_CLEANUP_CACHE='ruang-lega-v1-8-auto-clean';
+const WEB_CLEANUP_LOG_KEY='ruang-lega-web-cleanup-logs';
+const WEB_CLEANUP_LAST_KEY='ruang-lega-web-cleanup-last';
+const WEB_CLEANUP_VERSION_KEY='ruang-lega-web-cleanup-version';
+function addWebCleanupLog(trigger,status,removed,details){
+ try{
+  const logs=JSON.parse(localStorage.getItem(WEB_CLEANUP_LOG_KEY)||'[]');
+  logs.push({time:Date.now(),trigger,status,removed,details});
+  localStorage.setItem(WEB_CLEANUP_LOG_KEY,JSON.stringify(logs.slice(-20)));
+ }catch(_){}
+}
+function renderWebCleanupLogs(){
+ const root=$('webAutoCleanupLogs');if(!root)return;
+ root.textContent='';
+ let logs=[];
+ try{logs=JSON.parse(localStorage.getItem(WEB_CLEANUP_LOG_KEY)||'[]')}catch(_){}
+ if(!logs.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='Belum ada log.';root.append(empty);return}
+ logs.slice(-6).reverse().forEach(log=>{
+  const row=document.createElement('div');row.className='autoCleanupLog';
+  const dot=document.createElement('span');dot.className='autoCleanupDot'+(log.status==='gagal'?' warn':'');
+  const body=document.createElement('span');body.style.minWidth='0';body.style.flex='1';
+  const title=document.createElement('b');title.textContent=(log.trigger||'Pemeriksaan')+' · '+(log.status||'');
+  const detail=document.createElement('small');detail.textContent=niceTime(log.time)+' · '+(log.removed||0)+' cache lama · '+(log.details||'');
+  body.append(title,detail);row.append(dot,body);root.append(row);
+ });
+}
+async function runWebAutoCleanup(force=false,trigger='Saat website dibuka'){
+ const status=$('webAutoCleanupStatus');
+ const now=Date.now();
+ let prior=0,oldVersion='';
+ try{prior=Number(localStorage.getItem(WEB_CLEANUP_LAST_KEY)||0);oldVersion=localStorage.getItem(WEB_CLEANUP_VERSION_KEY)||''}catch(_){}
+ const versionChanged=oldVersion!==WEB_CLEANUP_VERSION;
+ if(!force&&!versionChanged&&prior>0&&(now-prior)<24*60*60*1000){
+  if(status)status.textContent='Pemeriksaan otomatis terakhir masih dalam 24 jam terakhir. Cache versi terbaru dipertahankan.';
+  renderWebCleanupLogs();return;
+ }
+ if(status)status.textContent='Pembersihan cache offline versi lama sedang berjalan…';
+ try{
+  let removed=0;
+  if('caches'in window){
+   const keys=await caches.keys();
+   const obsolete=keys.filter(key=>key.startsWith('ruang-lega-')&&key!==WEB_CLEANUP_CACHE);
+   for(const key of obsolete){if(await caches.delete(key))removed++}
+  }
+  const details=removed
+    ?'Cache offline lama milik RUANG LEGA dihapus; cache aktif dipertahankan.'
+    :'Tidak ada cache versi lama. Cache offline aktif tetap dipertahankan.';
+  addWebCleanupLog(trigger,removed?'selesai':'diperiksa',removed,details);
+  try{
+   localStorage.setItem(WEB_CLEANUP_LAST_KEY,String(now));
+   localStorage.setItem(WEB_CLEANUP_VERSION_KEY,WEB_CLEANUP_VERSION);
+  }catch(_){}
+  if(status)status.textContent='Pemeriksaan selesai. '+removed+' cache versi lama dibersihkan. File pengguna dan data situs tetap aman.';
+  if(removed)toast(removed+' cache offline versi lama dibersihkan.');
+ }catch(error){
+  addWebCleanupLog(trigger,'gagal',0,'Browser tidak mengizinkan pembersihan Cache Storage: '+String(error&&error.message||error));
+  if(status)status.textContent='Pembersihan cache web tidak dapat dilakukan pada browser ini.';
+ }
+ renderWebCleanupLogs();
+}
+$('webAutoCleanupNow').addEventListener('click',()=>runWebAutoCleanup(true,'Pembersihan manual'));
+runWebAutoCleanup(false,localStorage.getItem(WEB_CLEANUP_VERSION_KEY)!==WEB_CLEANUP_VERSION?'Pembaruan versi website':'Saat website dibuka');
 
 const guides={windows:{steps:['Buka Settings → System → Storage untuk melihat kategori penggunaan ruang.','Pilih Temporary files untuk meninjau file sementara yang dapat dibersihkan.','Buka File Explorer → Downloads dan urutkan berdasarkan Size untuk mencari file besar.','Periksa Recycle Bin dan cadangkan dokumen penting sebelum menghapus.'],note:'Hindari menghapus folder Windows, Program Files, atau file sistem yang tidak dikenal.'},
 mac:{steps:['Buka menu Apple → System Settings → General → Storage.','Tinjau kategori Documents, Applications, dan Trash.','Buka Finder dan gunakan Sort by Size untuk menemukan file besar.','Kosongkan Trash hanya setelah memastikan file tidak lagi dibutuhkan.'],note:'Jangan menghapus Library atau folder sistem secara manual jika tidak memahami fungsinya.'},
