@@ -480,7 +480,7 @@ $('nativeAutoCleanupToggle').addEventListener('click',()=>{
 renderNativeAutoCleanup();
 
 const WEB_CLEANUP_VERSION='1.8.0';
-const WEB_CLEANUP_CACHE='ruang-lega-v1-8-auto-clean';
+const WEB_CLEANUP_CACHE='ruang-lega-v1-8-auto';
 const WEB_CLEANUP_LOG_KEY='ruang-lega-web-cleanup-logs';
 const WEB_CLEANUP_LAST_KEY='ruang-lega-web-cleanup-last';
 const WEB_CLEANUP_VERSION_KEY='ruang-lega-web-cleanup-version';
@@ -521,12 +521,12 @@ async function runWebAutoCleanup(force=false,trigger='Saat website dibuka'){
   let removed=0;
   if('caches'in window){
    const keys=await caches.keys();
-   const obsolete=keys.filter(key=>key.startsWith('ruang-lega-')&&key!==WEB_CLEANUP_CACHE);
+   const obsolete=keys.filter(key=>key.startsWith('ruang-lega-temp-')&&key!==WEB_CLEANUP_CACHE);
    for(const key of obsolete){if(await caches.delete(key))removed++}
   }
   const details=removed
-    ?'Cache offline lama milik RUANG LEGA dihapus; cache aktif dipertahankan.'
-    :'Tidak ada cache versi lama. Cache offline aktif tetap dipertahankan.';
+    ?'Cache sementara milik RUANG LEGA dihapus; cache offline aktif dipertahankan.'
+    :'Tidak ada cache sementara. Cache offline aktif dipertahankan; cache versi lama dibersihkan saat Service Worker versi baru aktif.';
   addWebCleanupLog(trigger,removed?'selesai':'diperiksa',removed,details);
   try{
    localStorage.setItem(WEB_CLEANUP_LAST_KEY,String(now));
