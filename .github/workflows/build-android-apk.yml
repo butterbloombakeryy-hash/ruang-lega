@@ -17,11 +17,13 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+
       - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
+
       - name: Locate Android SDK tools
         shell: bash
         run: |
@@ -33,22 +35,66 @@ jobs:
           fi
           echo "ANDROID_HOME=$SDK_ROOT" >> "$GITHUB_ENV"
           echo "SDKMANAGER=$SDKMANAGER" >> "$GITHUB_ENV"
+
       - name: Install Android SDK packages
         shell: bash
         run: |
           yes | "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --licenses || true
           "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-35' 'build-tools;35.0.0'
+
+      # Keep the same debug signing identity between fresh GitHub-hosted runners.
+      - name: Restore stable app signing key
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/ruang-lega-debug.keystore
+          key: ruang-lega-stable-debug-signing-v1
+
+      - name: Create stable signing key if needed
+        shell: bash
+        run: |
+          mkdir -p "$HOME/.android"
+          if [ ! -f "$HOME/.android/ruang-lega-debug.keystore" ]; then
+            keytool -genkeypair -noprompt -v \
+              -keystore "$HOME/.android/ruang-lega-debug.keystore" \
+              -storepass android \
+              -alias androiddebugkey \
+              -keypass android \
+              -keyalg RSA -keysize 2048 -validity 10000 \
+              -dname "CN=RUANG LEGA Debug,O=RUANG LEGA,C=ID"
+          fi
+          keytool -list -keystore "$HOME/.android/ruang-lega-debug.keystore" \
+            -storepass android -alias androiddebugkey
+
       - name: Set up Gradle 8.9
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-      - name: Build debug APK
+
+      - name: Build universal Android APK
         working-directory: android
-        run: gradle --no-daemon assembleDebug
+        run: gradle --no-daemon clean assembleDebug
+
+      - name: Verify APK signature and device compatibility
+        shell: bash
+        run: |
+          APK="android/app/build/outputs/apk/debug/app-debug.apk"
+          APKSIGNER="$ANDROID_HOME/build-tools/35.0.0/apksigner"
+          AAPT="$ANDROID_HOME/build-tools/35.0.0/aapt"
+          "$APKSIGNER" verify --verbose --print-certs "$APK"
+          "$AAPT" dump badging "$APK" | grep -E "^(package:|sdkVersion:|targetSdkVersion:|application-label:)"
+          if unzip -Z1 "$APK" | grep -q '^lib/'; then
+            echo "Native ABI libraries detected; inspect ABI packaging."
+          else
+            echo "No native ABI libraries: APK is architecture-independent Java/Kotlin."
+          fi
+          mkdir -p dist
+          cp "$APK" dist/RUANG_LEGA_Android_v1_11.apk
+          sha256sum dist/RUANG_LEGA_Android_v1_11.apk
+
       - name: Upload installable APK
         uses: actions/upload-artifact@v4
         with:
-          name: ruang-lega-android-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: RUANG_LEGA_Android_v1_11
+          path: dist/RUANG_LEGA_Android_v1_11.apk
           if-no-files-found: error
           retention-days: 30
