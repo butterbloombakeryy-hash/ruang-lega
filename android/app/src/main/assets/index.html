@@ -479,8 +479,8 @@ $('nativeAutoCleanupToggle').addEventListener('click',()=>{
 });
 renderNativeAutoCleanup();
 
-const WEB_CLEANUP_VERSION='1.8.0';
-const WEB_CLEANUP_CACHE='ruang-lega-v1-8-auto';
+const WEB_CLEANUP_VERSION='1.9.0';
+const WEB_CLEANUP_CACHE='ruang-lega-v1-9-auto';
 const WEB_CLEANUP_LOG_KEY='ruang-lega-web-cleanup-logs';
 const WEB_CLEANUP_LAST_KEY='ruang-lega-web-cleanup-last';
 const WEB_CLEANUP_VERSION_KEY='ruang-lega-web-cleanup-version';
@@ -554,6 +554,39 @@ async function runWebAutoCleanup(force=false,trigger='Saat website dibuka'){
 $('webAutoCleanupNow').addEventListener('click',()=>runWebAutoCleanup(true,'Pembersihan manual'));
 let savedWebVersion='';try{savedWebVersion=localStorage.getItem(WEB_CLEANUP_VERSION_KEY)||''}catch(_){}
 runWebAutoCleanup(false,savedWebVersion!==WEB_CLEANUP_VERSION?'Pembaruan versi website':'Saat website dibuka');
+
+
+async function registerWebPeriodicCleanup(){
+ if(!('serviceWorker'in navigator))return;
+ try{
+  const registration=await navigator.serviceWorker.ready;
+  if(!registration.periodicSync||typeof registration.periodicSync.register!=='function'){
+   const el=$('webAutoCleanupStatus');
+   if(el)el.textContent='Pembersihan otomatis berjalan saat website dibuka. Browser ini tidak mendukung jadwal background 24 jam.';
+   return;
+  }
+  const tags=await registration.periodicSync.getTags();
+  if(!tags.includes('ruang-lega-cache-cleanup')){
+   await registration.periodicSync.register('ruang-lega-cache-cleanup',{minInterval:24*60*60*1000});
+  }
+  const el=$('webAutoCleanupStatus');
+  if(el)el.textContent='Jadwal background 24 jam terdaftar (jika browser mengizinkan). Pemeriksaan saat website dibuka tetap aktif sebagai cadangan.';
+ }catch(error){
+  const el=$('webAutoCleanupStatus');
+  if(el)el.textContent='Jadwal background tidak diizinkan browser. Pembersihan tetap berjalan saat website dibuka.';
+ }
+}
+if('serviceWorker'in navigator){
+ navigator.serviceWorker.addEventListener('message',event=>{
+  const data=event.data||{};
+  if(data.type!=='RUANG_LEGA_AUTO_CACHE_CLEANUP')return;
+  addWebCleanupLog(data.trigger||'Jadwal background 24 jam','selesai',Number(data.removed)||0,'Cache sementara/runtime dibersihkan; shell offline utama dipertahankan.');
+  renderWebCleanupLogs();
+  const status=$('webAutoCleanupStatus');
+  if(status)status.textContent='Pembersihan background selesai. '+(Number(data.removed)||0)+' entri cache lama dibersihkan; shell offline dipertahankan.';
+ });
+ registerWebPeriodicCleanup();
+}
 
 const guides={windows:{steps:['Buka Settings → System → Storage untuk melihat kategori penggunaan ruang.','Pilih Temporary files untuk meninjau file sementara yang dapat dibersihkan.','Buka File Explorer → Downloads dan urutkan berdasarkan Size untuk mencari file besar.','Periksa Recycle Bin dan cadangkan dokumen penting sebelum menghapus.'],note:'Hindari menghapus folder Windows, Program Files, atau file sistem yang tidak dikenal.'},
 mac:{steps:['Buka menu Apple → System Settings → General → Storage.','Tinjau kategori Documents, Applications, dan Trash.','Buka Finder dan gunakan Sort by Size untuk menemukan file besar.','Kosongkan Trash hanya setelah memastikan file tidak lagi dibutuhkan.'],note:'Jangan menghapus Library atau folder sistem secara manual jika tidak memahami fungsinya.'},
