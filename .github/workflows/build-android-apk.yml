@@ -11,6 +11,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ruang-lega-android-build
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,7 +51,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.android/ruang-lega-debug.keystore
-          key: ruang-lega-stable-debug-signing-v1
+          key: ruang-lega-stable-debug-signing-v2
 
       - name: Create stable signing key if needed
         shell: bash
