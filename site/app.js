@@ -176,7 +176,7 @@ $('nativeScanAppsBtn').addEventListener('click',()=>{
   });
   $('nativeCleanupStatus').textContent='Selesai memeriksa '+apps.length+' aplikasi. Ini adalah ukuran cache yang dilaporkan Android, bukan bukti semua cache aman dihapus.';
  }catch(_){$('nativeCleanupStatus').textContent='Pemindaian gagal. Coba tutup dan buka kembali aplikasi.'}
- finally{$('nativeScanAppsBtn').disabled=false;refreshNativeAndroid()}
+ finally{$('nativeScanAppsBtn').disabled=false;refreshNativeAndroid();if(typeof refreshNativeDeviceCacheAccess==='function')refreshNativeDeviceCacheAccess()}
 });
 $('nativeClearCacheBtn').addEventListener('click',()=>{
  if(!hasNativeAndroid())return;
@@ -463,6 +463,7 @@ $('nativeGrantCacheAccessBtn').addEventListener('click',()=>{
  AndroidBridge.requestAllFilesAccess();
 });
 
+refreshNativeDeviceCacheAccess();
 
 const WEB_CLEANUP_VERSION='1.10.0';
 const WEB_CLEANUP_CACHE='ruang-lega-v1-10-auto';
