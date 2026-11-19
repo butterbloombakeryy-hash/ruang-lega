@@ -8,8 +8,8 @@ android {
         applicationId = "id.ruanglega.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.6.0"
+        versionCode = 4
+        versionName = "1.7.0"
     }
 
     compileOptions {
@@ -28,4 +28,5 @@ android {
 
 dependencies {
     implementation("androidx.webkit:webkit:1.12.1")
+    implementation("androidx.work:work-runtime:2.12.0")
 }
