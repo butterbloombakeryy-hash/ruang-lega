@@ -59,6 +59,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AutoCacheCleanupManager.initialize(this);
         getWindow().setStatusBarColor(Color.rgb(16, 63, 62));
         getWindow().setNavigationBarColor(Color.rgb(16, 63, 62));
 
@@ -129,7 +130,8 @@ public class MainActivity extends Activity {
         webView.postDelayed(() -> {
             if (webView != null) {
                 webView.evaluateJavascript(
-                        "window.RuangLegaNativeRefreshPermissions && window.RuangLegaNativeRefreshPermissions();",
+                        "window.RuangLegaNativeRefreshPermissions && window.RuangLegaNativeRefreshPermissions();"
+                                + "window.RuangLegaNativeRefreshAutoCleanup && window.RuangLegaNativeRefreshAutoCleanup();",
                         null);
             }
         }, 350);
@@ -230,23 +232,6 @@ public class MainActivity extends Activity {
         return result;
     }
 
-    private long deleteContents(File dir) {
-        if (dir == null || !dir.exists() || !dir.isDirectory()) return 0L;
-        long reclaimed = 0L;
-        File[] files = dir.listFiles();
-        if (files == null) return 0L;
-        for (File file : files) {
-            if (file.isDirectory()) {
-                reclaimed += deleteContents(file);
-                if (file.delete()) { /* directory removed */ }
-            } else {
-                long size = file.length();
-                if (file.delete()) reclaimed += size;
-            }
-        }
-        return reclaimed;
-    }
-
     private final class NativeBridge {
         @JavascriptInterface
         public String getDeviceStorageSnapshot() {
@@ -262,6 +247,27 @@ public class MainActivity extends Activity {
         public boolean hasAllFilesAccess() {
             return MainActivity.this.hasAllFilesAccess();
         }
+
+        @JavascriptInterface
+        public String getAutoCacheCleanupStatus() {
+            return AutoCacheCleanupManager.getStatus(MainActivity.this).toString();
+        }
+
+        @JavascriptInterface
+        public boolean isAutoCacheCleanupEnabled() {
+            return AutoCacheCleanupManager.isEnabled(MainActivity.this);
+        }
+
+        @JavascriptInterface
+        public void setAutoCacheCleanupEnabled(boolean enabled) {
+            AutoCacheCleanupManager.setEnabled(MainActivity.this, enabled);
+            runOnUiThread(() -> {
+                if (webView != null) webView.evaluateJavascript(
+                        "window.RuangLegaNativeRefreshAutoCleanup && window.RuangLegaNativeRefreshAutoCleanup();",
+                        null);
+            });
+        }
+
 
         @JavascriptInterface
         public void requestUsageAccess() {
@@ -365,17 +371,17 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void clearOwnCache() {
             new Thread(() -> {
-                long freed = deleteContents(getCacheDir());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    freed += deleteContents(getExternalCacheDir());
-                }
-                final long size = freed;
+                long size = AutoCacheCleanupManager.performCleanup(
+                        MainActivity.this, "Pembersihan manual", true);
+                final long freed = Math.max(0L, size);
                 runOnUiThread(() -> {
-                    Toast.makeText(MainActivity.this,
-                            "Cache RUANG LEGA dibersihkan: " + android.text.format.Formatter.formatShortFileSize(MainActivity.this, size),
-                            Toast.LENGTH_LONG).show();
+                    String message = size < 0L
+                            ? "Pembersihan cache RUANG LEGA gagal. Lihat log untuk detail."
+                            : "Cache RUANG LEGA dibersihkan: "
+                                + android.text.format.Formatter.formatShortFileSize(MainActivity.this, freed);
+                    Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
                     if (webView != null) webView.evaluateJavascript(
-                            "window.RuangLegaNativeRefreshPermissions && window.RuangLegaNativeRefreshPermissions();",
+                            "window.RuangLegaNativeRefreshAutoCleanup && window.RuangLegaNativeRefreshAutoCleanup();",
                             null);
                 });
             }).start();
