@@ -176,6 +176,15 @@ button:focus-visible,a:focus-visible{outline:3px solid #7bd8c2;outline-offset:2p
   <div class="fileTools" style="padding:0"><span class="sortLabel" id="trashFolderLabel">Belum ada folder yang dipilih</span><div class="fileActions"><button id="selectAllTrashBtn" class="btn soft" disabled>Pilih semua kandidat</button><button id="clearTrashSelectionBtn" class="btn outline" disabled>Batal pilih</button></div></div>
   <div id="trashList" class="cleanupList"><div class="empty">Tekan “Pindai Sampah” lalu pilih folder yang ingin diperiksa.</div></div>
   <div id="trashStatus" class="cleanupStatus" aria-live="polite">Tidak ada file yang akan dihapus sebelum kamu memilihnya dan menyetujui konfirmasi.</div>
+
+  <div id="nativeAndroidCleanup" class="panel" hidden style="margin-top:14px;border-color:#cfe8db">
+   <div class="panelHead"><div><div class="kicker">Android native cleanup</div><h2>Pemindaian cache aplikasi Android</h2><p class="sub">Bagian ini aktif di APK RUANG LEGA. Android menampilkan ukuran cache aplikasi dan mengatur proses pembersihan melalui konfirmasi sistem.</p></div><span class="privacy"><i></i> Mode APK</span></div>
+   <div class="cleanupStats"><div class="cleanupStat"><small>Aplikasi terbaca</small><strong id="nativeAppCount">—</strong></div><div class="cleanupStat"><small>Perkiraan total cache</small><strong id="nativeCacheTotal">—</strong></div><div class="cleanupStat"><small>Status izin</small><strong id="nativePermissionStatus">Belum dicek</strong></div></div>
+   <div class="cleanupButtons"><button id="nativeScanAppsBtn" class="btn primary">⌕ Pindai cache aplikasi</button><button id="nativeClearCacheBtn" class="btn soft">Bersihkan cache (konfirmasi Android)</button><button id="nativeClearOwnCacheBtn" class="btn outline">Bersihkan cache RUANG LEGA</button></div>
+   <div id="nativeCacheList" class="cleanupList"><div class="empty">Belum ada hasil pemindaian.</div></div>
+   <div id="nativeCleanupStatus" class="cleanupStatus" aria-live="polite">Fitur native hanya tersedia di aplikasi Android RUANG LEGA, bukan browser biasa.</div>
+   <div class="cleanupFoot">Android tidak menjamin semua cache dapat dibersihkan massal pada setiap merek/perangkat. Saat diminta, Android membuka layar sistem dan pengguna harus menyetujui sendiri. Data aplikasi, chat, draft, dan foto pribadi tidak dihapus oleh fitur ini.</div>
+  </div>
   <div class="cleanupFoot"><b>Perlindungan data:</b> hanya file dalam folder yang kamu pilih dan izinkan yang dipindai. Kandidat ditandai berdasarkan pola nama yang umum untuk file sementara (misalnya .tmp/.part yang berumur minimal 7 hari), file sisa unduhan lama, serta metadata folder seperti Thumbs.db. Dokumen, foto, video, arsip, file backup, dan log tidak otomatis dianggap sampah. Browser tidak bisa menghapus cache privat aplikasi atau file sistem di luar folder yang diizinkan.</div>
  </section>
 
@@ -348,6 +357,69 @@ $('cleanTrashBtn').addEventListener('click',async()=>{
  }catch(error){$('trashStatus').textContent='Pembersihan tidak dapat dilanjutkan. Periksa izin folder dan coba lagi.'}
  finally{$('cleanTrashBtn').textContent='✦ Bersihkan yang dipilih';updateTrashStats()}
 });
+
+
+/* Native Android cache tools: stats-only scan and Android-controlled cleanup dialog */
+function hasNativeAndroid(){return !!(window.AndroidBridge&&typeof AndroidBridge.getDeviceStorageSnapshot==='function')}
+function refreshNativeAndroid(){
+ const panel=$('nativeAndroidCleanup');if(!panel)return;
+ if(!hasNativeAndroid())return;
+ panel.hidden=false;
+ let usage=false,allFiles=false;
+ try{usage=AndroidBridge.hasUsageAccess();allFiles=AndroidBridge.hasAllFilesAccess()}catch(_){}
+ $('nativePermissionStatus').textContent=usage?(allFiles?'Izin siap':'Usage access aktif'):'Perlu izin';
+}
+window.RuangLegaNativeRefreshPermissions=refreshNativeAndroid;
+window.RuangLegaNativeCacheResult=function(result){
+ $('nativeCleanupStatus').textContent=result===-1?'Android melaporkan kesalahan saat membersihkan cache.':result===0?'Pembersihan dibatalkan atau tidak disetujui.':'Permintaan pembersihan selesai. Pindai ulang untuk memeriksa ukuran cache.';
+};
+$('nativeScanAppsBtn').addEventListener('click',()=>{
+ if(!hasNativeAndroid())return;
+ if(!AndroidBridge.hasUsageAccess()){
+  $('nativeCleanupStatus').textContent='Aktifkan Usage access pada Pengaturan Android, lalu kembali dan tekan Pindai lagi.';
+  AndroidBridge.requestUsageAccess();return;
+ }
+ $('nativeScanAppsBtn').disabled=true;$('nativeCleanupStatus').textContent='Membaca statistik aplikasi dari Android…';
+ try{
+  const result=JSON.parse(AndroidBridge.scanInstalledApps());
+  if(!result.ok){$('nativeCleanupStatus').textContent='Pemindaian belum bisa dilakukan: '+(result.error||'kesalahan tidak diketahui');return}
+  const apps=Array.isArray(result.apps)?result.apps:[],sum=apps.reduce((n,a)=>n+(Number(a.cacheBytes)||0),0);
+  $('nativeAppCount').textContent=apps.length.toLocaleString('id-ID');
+  $('nativeCacheTotal').textContent=bytes(sum);
+  const root=$('nativeCacheList');root.textContent='';
+  if(!apps.length){const e=document.createElement('div');e.className='empty';e.textContent='Android tidak memberikan daftar aplikasi yang dapat ditampilkan.';root.append(e)}
+  apps.slice(0,100).forEach(app=>{
+   const row=document.createElement('div');row.className='cleanupRow';
+   const main=document.createElement('span');main.className='cleanupRowMain';
+   const name=document.createElement('span');name.className='cleanupRowName';name.textContent=app.appName||app.packageName;
+   const pkg=document.createElement('span');pkg.className='cleanupRowPath';pkg.textContent=app.packageName+' · Data '+bytes(Number(app.dataBytes)||0);
+   main.append(name,pkg);
+   const size=document.createElement('span');size.className='cleanupRowSize';size.textContent='Cache '+bytes(Number(app.cacheBytes)||0);
+   const open=document.createElement('button');open.className='btn outline';open.textContent='Kelola';open.addEventListener('click',()=>AndroidBridge.openAppSettings(app.packageName));
+   row.append(main,size,open);root.append(row);
+  });
+  $('nativeCleanupStatus').textContent='Selesai memeriksa '+apps.length+' aplikasi. Ini adalah ukuran cache yang dilaporkan Android, bukan bukti semua cache aman dihapus.';
+ }catch(_){$('nativeCleanupStatus').textContent='Pemindaian gagal. Coba tutup dan buka kembali aplikasi.'}
+ finally{$('nativeScanAppsBtn').disabled=false;refreshNativeAndroid()}
+});
+$('nativeClearCacheBtn').addEventListener('click',()=>{
+ if(!hasNativeAndroid())return;
+ if(!AndroidBridge.hasAllFilesAccess()){
+  $('nativeCleanupStatus').textContent='Android meminta izin khusus sebelum menampilkan konfirmasi pembersihan cache.';
+  AndroidBridge.requestAllFilesAccess();return;
+ }
+ if(!confirm('Minta Android membersihkan cache aplikasi yang diizinkan? Android akan menampilkan konfirmasi sistem. Data pribadi aplikasi tidak diminta untuk dihapus.'))return;
+ const response=AndroidBridge.requestClearExternalCaches();
+ $('nativeCleanupStatus').textContent=response==='system_confirmation_requested'?'Layar konfirmasi Android sedang dibuka. Setujui hanya bila kamu ingin melanjutkan.':response==='unsupported'?'Fitur massal memerlukan Android 11 atau lebih baru.':'Android belum mengizinkan permintaan ini. Periksa izin dan kompatibilitas perangkat.';
+});
+$('nativeClearOwnCacheBtn').addEventListener('click',()=>{
+ if(!hasNativeAndroid())return;
+ if(confirm('Bersihkan file cache sementara milik aplikasi RUANG LEGA saja? Data dan file aplikasi lain tidak akan dihapus.')){
+  AndroidBridge.clearOwnCache();
+  $('nativeCleanupStatus').textContent='Pembersihan cache milik RUANG LEGA diminta. Periksa notifikasi Android.';
+ }
+});
+refreshNativeAndroid();
 
 const guides={
 windows:{steps:['Buka Settings → System → Storage untuk melihat kategori penggunaan ruang.','Pilih Temporary files untuk meninjau file sementara yang dapat dibersihkan.','Buka File Explorer → Downloads dan urutkan berdasarkan Size untuk mencari file besar.','Periksa Recycle Bin dan cadangkan dokumen penting sebelum menghapus.'],note:'Hindari menghapus folder Windows, Program Files, atau file sistem yang tidak dikenal.'},
