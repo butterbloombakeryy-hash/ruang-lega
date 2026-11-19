@@ -1,7 +1,8 @@
-const CACHE_NAME = 'ruang-lega-v1-9-auto';
+const CACHE_NAME = 'ruang-lega-v1-9-1';
 const APP_SHELL = [
   './',
   './index.html',
+  './app.js?v=1.9.1',
   './manifest.webmanifest',
   './icons/ruang-lega.svg'
 ];
@@ -18,8 +19,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
       .then((keys) => Promise.all(
-        keys
-          .filter((key) => key.startsWith('ruang-lega-') && key !== CACHE_NAME)
+        keys.filter((key) => key.startsWith('ruang-lega-') && key !== CACHE_NAME)
           .map((key) => caches.delete(key))
       ))
       .then(() => self.clients.claim())
@@ -34,7 +34,6 @@ async function cleanupRuangLegaCaches() {
       if (await caches.delete(key)) removed++;
     }
   }
-
   const activeCache = await caches.open(CACHE_NAME);
   const keepUrls = new Set(APP_SHELL.map((path) => new URL(path, self.registration.scope).href));
   const requests = await activeCache.keys();
