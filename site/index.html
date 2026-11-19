@@ -17,6 +17,61 @@
 .androidPanel{margin:18px 0;border-color:#b8ddd0}.deviceStat{display:grid;grid-template-columns:1.1fr .9fr;gap:15px;align-items:center}.deviceNumbers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.deviceNumbers .stat{padding:12px}.deviceNumbers strong{font-size:17px}.permGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.perm{background:#f6faf7;border:1px solid #e1eee7;padding:12px;border-radius:13px}.perm b{display:block;font-size:12px}.perm p{font-size:10px;color:var(--muted);margin:4px 0 9px}.appList{margin-top:13px;max-height:540px;overflow:auto}.appRow{border-top:1px solid #edf3ef;padding:13px 0;display:flex;justify-content:space-between;gap:12px;align-items:center}.appName{font-size:12px;font-weight:850;overflow-wrap:anywhere}.pkgName{font-size:10px;color:var(--muted);overflow-wrap:anywhere}.appMetrics{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}.appMetric{font-size:10px;background:#eef7f2;padding:4px 7px;border-radius:7px;color:#496963}.appActions{display:flex;flex-direction:column;gap:6px;flex:none}.appActions .btn{padding:8px 10px;font-size:10px}.deviceBar{height:9px;border-radius:12px;background:#e9f1ed;overflow:hidden;margin-top:9px}.deviceBar span{display:block;height:100%;background:linear-gradient(90deg,#0d716b,#66c5a1);width:0}.nativeHint{font-size:11px;color:var(--muted);margin-top:11px;line-height:1.55}.nativeStatus{font-size:11px;color:var(--teal);margin-top:12px;min-height:18px}
 @media(max-width:760px){.deviceStat{grid-template-columns:1fr}.deviceNumbers{grid-template-columns:repeat(3,1fr)}.permGrid{grid-template-columns:1fr}.appRow{align-items:flex-start}.appActions .btn{white-space:nowrap}}
 
+
+/* RUANG LEGA v1.4 app-like visual system */
+:root{--ink:#143d3a;--muted:#708582;--teal:#08796f;--teal2:#20a78f;--mint:#e7f7f0;--paper:#edf5f1;--line:#dfebe5;--white:#fff;--shadow:0 18px 52px rgba(16,76,62,.09)}
+html{scroll-behavior:smooth;scroll-padding-top:26px}
+body{background:radial-gradient(ellipse at 8% 0%,#e0f4eb 0,transparent 31%),#f2f7f4;color:var(--ink);font-family:Inter,"SF Pro Display",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.012em}
+.wrap{max-width:900px;padding:24px 24px 112px}
+.top{position:sticky;top:0;z-index:10;margin:-24px -24px 18px;padding:15px 24px;background:rgba(242,247,244,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(216,233,224,.75)}
+.brand{gap:10px}.logo{width:44px;height:44px;border-radius:15px;background:linear-gradient(145deg,#075a54,#22a98f);box-shadow:0 8px 18px rgba(9,121,111,.24)}
+.brand b{font-size:15px;letter-spacing:.09em;color:#15413d}.brand small{font-size:9px;letter-spacing:.14em;color:#7c928c}
+.topActions{display:flex;align-items:center;gap:10px}.securePill{display:inline-flex;align-items:center;gap:7px;background:#e6f5ed;border:1px solid #d4ecdf;color:#397468;border-radius:30px;padding:7px 11px;font-size:10px;font-weight:800}.securePill i{width:6px;height:6px;border-radius:50%;background:#31a77d;box-shadow:0 0 0 3px #c9eadb}
+.btn{border-radius:13px;padding:11px 15px;font-size:12px;transition:transform .18s,box-shadow .18s}.btn:active,.quickAction:active,.dockItem:active{transform:scale(.97)}
+.primary{background:linear-gradient(135deg,#0b8075,#0b6a64);box-shadow:0 7px 18px rgba(8,121,111,.18)}.soft{background:#e8f6ef;color:#14776b;border:1px solid #d8eee2}.outline{border:1px solid #dceae3;background:white;color:#35625a}
+.appHero{min-height:285px;display:flex;align-items:center;position:relative;isolation:isolate;overflow:hidden;border-radius:27px;padding:29px 31px 25px;background:linear-gradient(115deg,#0c4542 0%,#08786d 58%,#20a68e 100%);box-shadow:0 18px 44px rgba(8,104,92,.2);margin-bottom:18px}
+.appHero:before{content:"";position:absolute;inset:auto -40px -170px auto;width:380px;height:380px;border-radius:50%;border:1px solid #ffffff22;box-shadow:0 0 0 26px #ffffff09,0 0 0 58px #ffffff08,0 0 0 93px #ffffff06;z-index:-1}
+.heroCopy{position:relative;z-index:2;max-width:600px}.appHero .eyebrow{font-size:9px;letter-spacing:.17em;color:#a9e8d5;font-weight:900}.heroGreeting{margin-top:13px;color:#dcf6e9;font-size:13px;font-weight:700}
+.appHero h1{font-size:clamp(27px,4vw,39px);line-height:1.12;letter-spacing:-.045em;max-width:580px;margin:7px 0 10px;color:white}.appHero p{font-size:12px;max-width:480px;color:#d6eee7;line-height:1.65}
+.heroActions{display:flex;gap:9px;margin-top:17px}.heroLight{background:#f4fffa;color:#0d6f64;box-shadow:0 6px 18px #073e3829}.heroGhost{color:white;background:#ffffff17;border:1px solid #ffffff55}.appHero .note{font-size:10px;color:#c3e9dc;border:0;padding:0;margin:19px 0 0;max-width:540px}
+.heroOrb{position:absolute;right:8%;top:50%;transform:translateY(-50%);width:160px;height:160px;border-radius:50%;border:1px solid #d5fff044;background:radial-gradient(circle at 35% 27%,#ffffff49,#ffffff0d 58%,#ffffff04 70%);display:grid;place-items:center;box-shadow:inset 0 0 26px #ffffff20,0 0 0 13px #ffffff09}
+.orbInner{width:126px;height:126px;border-radius:50%;background:linear-gradient(145deg,#c4f2df,#83d8bd);color:#0a665c;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 10px 30px #093f3838;transform:rotate(-8deg)}
+.orbInner span{font-size:19px;line-height:1}.orbInner b{text-align:center;font-size:11px;letter-spacing:.09em;line-height:1.2;margin-top:4px}.orbInner small{font-size:8px;margin-top:6px;color:#307b6d}
+#homeSection{grid-template-columns:1fr 1fr;gap:14px}
+.card{border:1px solid #e1eee7;border-radius:21px;padding:20px;background:rgba(255,255,255,.95);box-shadow:0 8px 26px rgba(27,79,64,.045)}
+.head{margin-bottom:14px}.kicker{font-size:9px;letter-spacing:.16em;color:#26927f}.card h2{font-size:16px;letter-spacing:-.03em;color:#183f3b}.sub{font-size:11px;line-height:1.55;color:#81938e}
+.storage{gap:16px}.ring{width:108px;height:108px;background:conic-gradient(#21a78e calc(var(--pct)*1%),#e8f0eb 0);box-shadow:0 7px 18px #15876b13}.ring:before{inset:8px;background:#fff}.ring strong{font-size:23px;color:#144f47}.ring span{font-size:9px}.storageText strong{font-size:21px;color:#164640}.storageText small{font-size:10px}.bar{height:7px;background:#eff4f0}.bar span{background:linear-gradient(90deg,#0c8176,#5bcaa5)}
+.caution{background:#fff8ed;border:1px solid #f0e4cb;border-radius:11px;color:#8e6b35;font-size:10px;line-height:1.5;padding:9px 11px;margin-top:13px}
+.stats{gap:8px}.stat{background:#f5faf7;border:1px solid #eaf2ed;border-radius:13px;padding:12px}.stat span{font-size:10px;color:#82938e}.stat strong{font-size:19px;color:#174a42}
+.quickActions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 19px}.quickAction{border:1px solid #e1eee7;background:#fff;border-radius:16px;padding:13px 12px;display:flex;align-items:center;gap:10px;text-align:left;box-shadow:0 5px 17px #214d3b08;color:var(--ink);transition:transform .18s,box-shadow .18s}.quickAction:hover{box-shadow:0 9px 23px #214d3b12}.quickIcon{width:34px;height:34px;border-radius:11px;background:#e7f6ee;color:#0c8276;display:grid;place-items:center;font-size:20px;flex:none}.quickAction b{display:block;font-size:10px}.quickAction small{display:block;color:#879690;font-size:9px;line-height:1.35;margin-top:2px}.quickArrow{margin-left:auto;color:#9bb6aa;font-size:21px}
+.androidPanel{margin:0 0 18px}.androidPanel .deviceStat{background:linear-gradient(120deg,#f0faf4,#e7f6ef);border:1px solid #e0f0e6;border-radius:16px;padding:15px}.deviceNumbers .stat{background:#fff}.perm{background:#f8fbf8;border:1px solid #e5efe9;border-radius:14px}.appRow{padding:13px 4px}.appMetric{background:#eef7f2}
+.filecard{padding:0;overflow:hidden}.filehead{padding:19px 20px 13px;border-bottom:1px solid #eaf1ed}.filehead h2{font-size:17px}.actions{gap:7px}.actions .btn{font-size:10px;padding:9px 11px}
+.drop{margin:17px 20px 15px;padding:23px 15px;background:linear-gradient(145deg,#f7fcf8,#eff8f2);border:1.5px dashed #b8d9c8;border-radius:17px}.drop>div:first-child{margin-bottom:7px;color:#0c8478}.drop strong{font-size:13px;color:#234d44}.drop p{font-size:10px;max-width:480px;margin:5px auto 13px}.drop label{border-radius:12px}
+.filelist{padding:0 20px 14px}.item{padding:12px 2px}.fname{font-size:11px}.fmeta{font-size:9px}.fsize{font-size:11px}
+.sectionTitle{margin:24px 2px 13px}.sectionTitle h2{font-size:18px;color:#17453f}.sectionTitle p{font-size:11px}.guides{gap:13px}.guides .card{padding:18px}.guides h2{font-size:16px}.tabs{gap:6px}.tab{font-size:10px;border-radius:9px;padding:8px 10px}.guides ol{font-size:11px;line-height:1.6}.safety{font-size:10px;background:#f0f8f3}
+.footer{font-size:9px;color:#8a9b95;margin:26px auto 8px;line-height:1.8}.toast{bottom:85px;border-radius:14px;font-size:11px;padding:12px 16px}
+.appDock{position:fixed;z-index:30;bottom:14px;left:50%;transform:translateX(-50%);width:min(540px,calc(100vw - 32px));padding:8px 10px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:space-around;gap:4px;border:1px solid #dcebe2;border-radius:21px;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);box-shadow:0 14px 38px rgba(15,65,53,.18)}
+.dockItem{flex:1;border:0;background:transparent;color:#8a9b95;border-radius:14px;padding:6px 3px;display:flex;flex-direction:column;align-items:center;gap:1px}.dockItem span{font-size:20px;line-height:1.2}.dockItem small{font-size:9px;font-weight:750}.dockItem.active{background:#e8f6ef;color:#08766a}
+button:focus-visible{outline:3px solid #7bd8c2;outline-offset:2px}
+@media(max-width:760px){
+ .wrap{max-width:560px;padding:0 13px calc(106px + env(safe-area-inset-bottom))}
+ .top{margin:0 -13px 13px;padding:12px 15px}
+ .securePill{font-size:0;padding:8px}.securePill i{width:7px;height:7px}
+ .brand b{font-size:14px}.brand small{font-size:8px}
+ .appHero{padding:23px 20px 17px;min-height:276px;border-radius:22px;margin-bottom:13px;align-items:flex-start}
+ .heroCopy{max-width:100%}.appHero h1{font-size:29px;max-width:360px}.appHero p{max-width:310px;font-size:11px}.heroOrb{width:95px;height:95px;right:12px;top:26px;transform:none;opacity:.85}.orbInner{width:75px;height:75px}.orbInner span{font-size:12px}.orbInner b{font-size:7px}.orbInner small{font-size:6px}
+ .heroActions{gap:7px;margin-top:14px}.heroActions .btn{font-size:10px;padding:9px 11px}
+ .appHero .note{max-width:100%;font-size:9px;margin-top:15px;line-height:1.4}
+ #homeSection{grid-template-columns:1fr;gap:11px}
+ .card{padding:17px;border-radius:18px}.storage{gap:14px}.ring{width:96px;height:96px}.storageText strong{font-size:20px}
+ .quickActions{grid-template-columns:1fr;gap:8px;margin:12px 0 15px}.quickAction{padding:10px 12px;border-radius:14px}.quickIcon{width:32px;height:32px}.quickAction b{font-size:11px}
+ .androidPanel{padding:17px}.deviceStat{grid-template-columns:1fr}.deviceNumbers{gap:6px}.deviceNumbers .stat{padding:10px 7px}.deviceNumbers .stat strong{font-size:14px}
+ .filehead{padding:16px 16px 12px;display:block}.filehead .actions{margin-top:11px}.filehead .actions .btn{font-size:9px;padding:8px 9px}.drop{margin:14px;padding:20px 12px}.filelist{padding:0 15px 14px}
+ .guides{grid-template-columns:1fr}.guides .card{padding:17px}.sectionTitle{margin:21px 2px 11px}.sectionTitle h2{font-size:17px}
+ .appDock{bottom:calc(8px + env(safe-area-inset-bottom));width:calc(100vw - 24px);border-radius:18px}.dockItem span{font-size:19px}.dockItem small{font-size:8px}.toast{bottom:82px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+
 </style>
 <!-- Redeploy after GitHub Pages source was enabled -->
 </head>
@@ -24,10 +79,10 @@
 <div class="wrap">
 <header class="top">
  <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c-3 4-6.5 7.1-6.5 11a6.5 6.5 0 0 0 13 0C18.5 10.1 15 7 12 3Z"/><path d="M9 15c.4 1.5 1.4 2.2 3 2.5"/></svg></div><div><b>RUANG LEGA</b><small>Smart Storage Assistant</small></div></div>
- <button id="installBtn" class="btn outline hidden">＋ Pasang aplikasi</button>
+ <div class="topActions"><span class="securePill"><i></i> Privasi terlindungi</span><button id="installBtn" class="btn outline hidden">＋ Pasang aplikasi</button></div>
 </header>
-<section class="hero"><div class="eyebrow">Digital space, made simple</div><h1>Berikan ruang lebih untuk hal penting.</h1><p>Kenali file besar dan file kembar, pahami pemakaian penyimpanan situs, lalu ikuti panduan merapikan perangkat dengan lebih aman.</p><div class="note">Privasi diutamakan: file yang kamu pilih diperiksa langsung di perangkat dan tidak diunggah ke server. RUANG LEGA tidak menghapus file atau cache aplikasi secara otomatis.</div></section>
-<div class="grid">
+<section class="hero appHero"><div class="heroCopy"><div class="eyebrow">YOUR PERSONAL STORAGE ASSISTANT</div><div class="heroGreeting">Halo, selamat datang 👋</div><h1>Ruang digital yang lebih lega, mulai dari sini.</h1><p>Pantau file, temukan duplikat, dan kelola penyimpanan perangkat dengan langkah yang aman.</p><div class="heroActions"><button class="btn heroLight" data-jump="fileSection">⌕ Periksa file</button><button class="btn heroGhost" data-jump="androidTools">▤ Penyimpanan</button></div><div class="note">File yang kamu pilih dianalisis langsung di perangkat. Data pribadi tidak dikirim ke server.</div></div><div class="heroOrb"><div class="orbInner"><span>✦</span><b>SPACE<br>FOR MORE</b><small>Keep what matters</small></div></div></section>
+<div id="homeSection" class="grid">
 <section class="card">
  <div class="head"><div><div class="kicker">Storage overview</div><h2>Ringkasan penyimpanan</h2><p class="sub">Estimasi untuk data situs RUANG LEGA di browser ini.</p></div><button id="refreshBtn" class="btn soft">↻ Perbarui</button></div>
  <div class="storage"><div class="ring" id="ring" style="--pct:0"><div><strong id="percent">—%</strong><span>kuota situs</span></div></div><div class="storageText"><strong id="used">Memuat…</strong><small id="quota">Meminta estimasi browser</small><div class="bar"><span id="bar"></span></div></div></div>
@@ -40,6 +95,11 @@
 </section>
 </div>
 
+<div class="quickActions">
+ <button class="quickAction" data-jump="fileSection"><span class="quickIcon">⌕</span><span><b>Periksa file</b><small>Temukan file besar & duplikat</small></span><span class="quickArrow">›</span></button>
+ <button class="quickAction" data-jump="androidTools"><span class="quickIcon">▤</span><span><b>Storage perangkat</b><small>Lihat ruang dan cache aplikasi</small></span><span class="quickArrow">›</span></button>
+ <button class="quickAction" data-jump="guideSection"><span class="quickIcon">♡</span><span><b>Panduan aman</b><small>Rawat penyimpanan dengan bijak</small></span><span class="quickArrow">›</span></button>
+</div>
 <section id="androidTools" class="section card androidPanel hidden">
  <div class="head"><div><div class="kicker">Android device tools</div><h2>Penyimpanan perangkat</h2><p class="sub">Statistik internal Android dan cache aplikasi yang dapat dibaca setelah izin diberikan.</p></div><button id="deviceRefreshBtn" class="btn soft">↻ Perbarui</button></div>
  <div class="deviceStat">
@@ -70,19 +130,25 @@
  <div class="nativeHint">Penting: Android tidak mengizinkan aplikasi biasa menghapus data privat aplikasi lain secara diam-diam. Tombol pembersihan lintas aplikasi hanya meminta layar konfirmasi resmi Android. Setiap aplikasi juga memiliki tombol untuk membuka halaman Penyimpanan aplikasinya agar kamu dapat memilih Hapus cache sendiri. Fitur ini memerlukan Android 11+ untuk permintaan massal dan tidak selalu tersedia di semua merek/perangkat.</div>
 </section>
 
-<section class="section card filecard">
+<section id="fileSection" class="section card filecard">
  <div class="filehead"><div><div class="kicker">Local file inspector</div><h2>Pemeriksa file</h2><p class="sub">Pilih foto, video, dokumen, atau file lain dari perangkat.</p></div><div class="actions"><button id="findBtn" class="btn soft" disabled>⌕ Cari file kembar</button><button id="exportBtn" class="btn outline" disabled>↓ Ekspor CSV</button><button id="clearBtn" class="btn outline" disabled>Kosongkan daftar</button></div></div>
  <div class="drop"><div style="font-size:27px">▧</div><strong>Pilih file yang ingin ditinjau</strong><p>Pemeriksaan dilakukan lokal. File lebih dari 30 MB dilewati saat pencarian hash agar proses tetap ringan.</p><label for="fileInput" class="btn primary">Pilih file dari perangkat</label><input id="fileInput" type="file" multiple></div>
  <div class="filelist"><div class="sub" style="font-weight:800;margin-bottom:8px">FILE TERPILIH <span id="selectedLabel">(0)</span></div><div id="items" class="empty">Belum ada file. Pilih beberapa file untuk memulai.</div></div>
  <div id="scanStatus" class="status" aria-live="polite"></div>
 </section>
-<div class="sectionTitle"><h2>Panduan membersihkan penyimpanan</h2><p>Pilih perangkat yang kamu gunakan dan ikuti langkah yang aman.</p></div>
+<div id="guideSection" class="sectionTitle"><h2>Panduan membersihkan penyimpanan</h2><p>Pilih perangkat yang kamu gunakan dan ikuti langkah yang aman.</p></div>
 <div class="guides">
 <section class="card"><div class="kicker">Step-by-step guide</div><h2>Petunjuk perangkat</h2><div class="tabs"><button class="tab active" data-device="android">Android</button><button class="tab" data-device="iphone">iPhone</button><button class="tab" data-device="windows">Windows</button></div><div id="guideContent"></div></section>
 <section class="card"><div class="kicker">TikTok cache guide</div><h2>Bersihkan cache TikTok</h2><ol><li>Buka TikTok, lalu masuk ke tab <b>Profil</b>.</li><li>Ketuk ikon menu <b>☰</b> → <b>Pengaturan dan privasi</b>.</li><li>Pilih <b>Ruang kosong / Free up space</b> atau menu sejenis.</li><li>Tekan <b>Hapus</b> pada bagian Cache. Tinjau bagian Unduhan sebelum menghapus.</li></ol><div class="safety">Nama menu dapat berubah mengikuti versi aplikasi. Menghapus cache berbeda dari menghapus data aplikasi. Jangan menghapus draft, unduhan, atau data penting tanpa memeriksanya lebih dahulu.</div></section>
 </div>
-<div class="footer">RUANG LEGA · Dibuat untuk proyek KKA Aris Sahwan · Versi 1.3<br>Alat bantu pengelolaan file, bukan pembersih sistem. Selalu periksa file sebelum menghapus.</div>
+<div class="footer">RUANG LEGA · Dibuat untuk proyek KKA Aris Sahwan · Versi 1.4<br>Alat bantu pengelolaan file, bukan pembersih sistem. Selalu periksa file sebelum menghapus.</div>
 </div>
+<nav class="appDock" aria-label="Navigasi utama">
+ <button class="dockItem active" data-jump="homeSection"><span>⌂</span><small>Beranda</small></button>
+ <button class="dockItem" data-jump="fileSection"><span>⌕</span><small>Pemeriksa</small></button>
+ <button class="dockItem" data-jump="androidTools"><span>▤</span><small>Storage</small></button>
+ <button class="dockItem" data-jump="guideSection"><span>♡</span><small>Panduan</small></button>
+</nav>
 <div id="toast" class="toast hidden" role="status"></div>
 <script>
 (function(){
@@ -105,8 +171,20 @@ $('refreshBtn').addEventListener('click',storage);storage();
 function nativeAndroid(){return !!(window.AndroidBridge&&typeof AndroidBridge.getDeviceStorageSnapshot==='function')}
 function refreshAndroidTools(){
  const panel=$('androidTools');if(!panel)return;
- if(!nativeAndroid()){panel.classList.add('hidden');return}
  panel.classList.remove('hidden');
+ if(!nativeAndroid()){
+  $('deviceUsed').textContent='APK Android';
+  $('devicePercent').textContent='Fitur perangkat';
+  $('deviceDetail').textContent='Pemindaian penyimpanan dan cache aplikasi tersedia di APK Android, bukan browser.';
+  $('deviceTotal').textContent='—';$('deviceUsedSmall').textContent='—';$('deviceFree').textContent='—';$('deviceBar').style.width='0%';
+  $('usagePermissionBtn').textContent='Khusus APK Android';$('usagePermissionBtn').disabled=true;
+  $('filesPermissionBtn').textContent='Khusus APK Android';$('filesPermissionBtn').disabled=true;
+  $('scanAppsBtn').disabled=true;$('clearAllCacheBtn').disabled=true;$('clearSelfCacheBtn').disabled=true;
+  $('appScanStatus').textContent='Mode website: gunakan APK RUANG LEGA untuk membaca statistik cache dan membuka fitur pengelolaan native Android.';
+  $('appCount').textContent='—';$('appCacheTotal').textContent='—';
+  return;
+ }
+ $('usagePermissionBtn').disabled=false;$('filesPermissionBtn').disabled=false;$('clearAllCacheBtn').disabled=false;$('clearSelfCacheBtn').disabled=false;
  try{
   const s=JSON.parse(AndroidBridge.getDeviceStorageSnapshot());
   if(s.ok){const p=Math.max(0,Math.min(100,s.usagePercent||0));$('deviceUsed').textContent=bytes(s.usedBytes);$('devicePercent').textContent=p.toLocaleString('id-ID',{maximumFractionDigits:1})+'% terpakai';$('deviceDetail').textContent='Android '+s.androidVersion+' · Internal storage';$('deviceTotal').textContent=bytes(s.totalBytes);$('deviceUsedSmall').textContent=bytes(s.usedBytes);$('deviceFree').textContent=bytes(s.freeBytes);$('deviceBar').style.width=p+'%'}
@@ -176,6 +254,9 @@ windows:{steps:['Buka Settings → System → Storage.','Periksa kategori Tempor
 };
 function renderGuide(device){state.guide=device;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.device===device));const g=guides[device];$('guideContent').innerHTML='<ol>'+g.steps.map(s=>'<li>'+s+'</li>').join('')+'</ol><div class="safety">'+g.note+'</div>'}
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>renderGuide(b.dataset.device)));renderGuide('android');
+document.querySelectorAll('[data-jump]').forEach(btn=>btn.addEventListener('click',()=>{const target=btn.dataset.jump;const node=$(target);if(node){node.scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.dockItem').forEach(b=>b.classList.toggle('active',b.dataset.jump===target))}}));
+const dockTargets=['homeSection','fileSection','androidTools','guideSection'];
+if('IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){const target=entry.target.id;document.querySelectorAll('.dockItem').forEach(b=>b.classList.toggle('active',b.dataset.jump===target))}})},{rootMargin:'-25% 0px -60% 0px'});dockTargets.forEach(id=>{const n=$(id);if(n)observer.observe(n)})}
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.installPrompt=e;$('installBtn').classList.remove('hidden')});
 $('installBtn').addEventListener('click',async()=>{if(!state.installPrompt)return;state.installPrompt.prompt();await state.installPrompt.userChoice;state.installPrompt=null;$('installBtn').classList.add('hidden')});
 if('serviceWorker'in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
