@@ -541,7 +541,8 @@ async function runWebAutoCleanup(force=false,trigger='Saat website dibuka'){
  renderWebCleanupLogs();
 }
 $('webAutoCleanupNow').addEventListener('click',()=>runWebAutoCleanup(true,'Pembersihan manual'));
-runWebAutoCleanup(false,localStorage.getItem(WEB_CLEANUP_VERSION_KEY)!==WEB_CLEANUP_VERSION?'Pembaruan versi website':'Saat website dibuka');
+let savedWebVersion='';try{savedWebVersion=localStorage.getItem(WEB_CLEANUP_VERSION_KEY)||''}catch(_){}
+runWebAutoCleanup(false,savedWebVersion!==WEB_CLEANUP_VERSION?'Pembaruan versi website':'Saat website dibuka');
 
 const guides={windows:{steps:['Buka Settings → System → Storage untuk melihat kategori penggunaan ruang.','Pilih Temporary files untuk meninjau file sementara yang dapat dibersihkan.','Buka File Explorer → Downloads dan urutkan berdasarkan Size untuk mencari file besar.','Periksa Recycle Bin dan cadangkan dokumen penting sebelum menghapus.'],note:'Hindari menghapus folder Windows, Program Files, atau file sistem yang tidak dikenal.'},
 mac:{steps:['Buka menu Apple → System Settings → General → Storage.','Tinjau kategori Documents, Applications, dan Trash.','Buka Finder dan gunakan Sort by Size untuk menemukan file besar.','Kosongkan Trash hanya setelah memastikan file tidak lagi dibutuhkan.'],note:'Jangan menghapus Library atau folder sistem secara manual jika tidak memahami fungsinya.'},
