@@ -176,17 +176,21 @@ $('nativeScanAppsBtn').addEventListener('click',()=>{
   });
   $('nativeCleanupStatus').textContent='Selesai memeriksa '+apps.length+' aplikasi. Ini adalah ukuran cache yang dilaporkan Android, bukan bukti semua cache aman dihapus.';
  }catch(_){$('nativeCleanupStatus').textContent='Pemindaian gagal. Coba tutup dan buka kembali aplikasi.'}
- finally{$('nativeScanAppsBtn').disabled=false;refreshNativeAndroid()}
+ finally{$('nativeScanAppsBtn').disabled=false;refreshNativeAndroid();if(typeof refreshNativeDeviceCacheAccess==='function')refreshNativeDeviceCacheAccess()}
 });
 $('nativeClearCacheBtn').addEventListener('click',()=>{
  if(!hasNativeAndroid())return;
- if(!AndroidBridge.hasAllFilesAccess()){
-  $('nativeCleanupStatus').textContent='Android meminta izin khusus sebelum menampilkan konfirmasi pembersihan cache.';
-  AndroidBridge.requestAllFilesAccess();return;
- }
- if(!confirm('Minta Android membersihkan cache aplikasi yang diizinkan? Android akan menampilkan konfirmasi sistem. Data pribadi aplikasi tidak diminta untuk dihapus.'))return;
  const response=AndroidBridge.requestClearExternalCaches();
- $('nativeCleanupStatus').textContent=response==='system_confirmation_requested'?'Layar konfirmasi Android sedang dibuka. Setujui hanya bila ingin melanjutkan.':response==='unsupported'?'Fitur massal memerlukan Android 11 atau lebih baru.':'Android belum mengizinkan permintaan ini. Periksa izin dan kompatibilitas perangkat.';
+ if(response==='all_files_access_required'){
+  $('nativeCleanupStatus').textContent='Akses semua file belum diberikan. Izinkan akses khusus terlebih dahulu, lalu tekan tombol ini lagi.';
+  AndroidBridge.requestAllFilesAccess();
+ }else if(response==='unsupported'){
+  $('nativeCleanupStatus').textContent='Pembersihan cache eksternal perangkat memerlukan Android 11 (API 30) atau lebih baru.';
+ }else if(response==='system_confirmation_requested'){
+  $('nativeCleanupStatus').textContent='Dialog resmi Android sedang dibuka. Setujui di dialog Android untuk melanjutkan; RUANG LEGA tidak dapat menyetujui atas nama pengguna.';
+ }else{
+  $('nativeCleanupStatus').textContent='Android tidak dapat membuka dialog pembersihan pada perangkat ini. Gunakan Pengaturan → Aplikasi untuk mengelola cache satu per satu.';
+ }
 });
 $('nativeClearOwnCacheBtn').addEventListener('click',()=>{
  if(!hasNativeAndroid())return;
@@ -231,6 +235,235 @@ $('nativeAutoCleanupToggle').addEventListener('click',()=>{
  AndroidBridge.setAutoCacheCleanupEnabled(!nativeAutoCleanupEnabled);
 });
 renderNativeAutoCleanup();
+
+
+/* Device folder access: explicit selection + safe 24-hour cleanup on next app visit. */
+const WEB_FOLDER_AUTO_DB='ruang-lega-device-access';
+const WEB_FOLDER_AUTO_STORE='handles';
+const WEB_FOLDER_AUTO_KEY='cleanup-folder';
+const WEB_FOLDER_AUTO_ENABLED='ruang-lega-folder-auto-enabled';
+const WEB_FOLDER_AUTO_LAST='ruang-lega-folder-auto-last';
+const WEB_FOLDER_AUTO_FREED='ruang-lega-folder-auto-freed';
+const WEB_FOLDER_AUTO_LOGS='ruang-lega-folder-auto-logs';
+const WEB_FOLDER_AUTO_INTERVAL=24*60*60*1000;
+let webCleanupDirectoryHandle=null;
+let webCleanupDirectoryName='';
+let webFolderCleanupInProgress=false;
+
+function openFolderPermissionDb(){
+ return new Promise((resolve,reject)=>{
+  if(!('indexedDB'in window)){reject(new Error('Penyimpanan izin folder tidak tersedia'));return}
+  const request=indexedDB.open(WEB_FOLDER_AUTO_DB,1);
+  request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains(WEB_FOLDER_AUTO_STORE))request.result.createObjectStore(WEB_FOLDER_AUTO_STORE)};
+  request.onsuccess=()=>resolve(request.result);
+  request.onerror=()=>reject(request.error||new Error('Gagal membuka penyimpanan izin folder'));
+ });
+}
+async function folderDbGet(key){
+ const db=await openFolderPermissionDb();
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction(WEB_FOLDER_AUTO_STORE,'readonly');
+  const req=tx.objectStore(WEB_FOLDER_AUTO_STORE).get(key);
+  req.onsuccess=()=>resolve(req.result||null);
+  req.onerror=()=>reject(req.error);
+  tx.oncomplete=()=>db.close();
+ });
+}
+async function folderDbSet(key,value){
+ const db=await openFolderPermissionDb();
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction(WEB_FOLDER_AUTO_STORE,'readwrite');
+  tx.objectStore(WEB_FOLDER_AUTO_STORE).put(value,key);
+  tx.oncomplete=()=>{db.close();resolve(true)};
+  tx.onerror=()=>{db.close();reject(tx.error)};
+ });
+}
+function addFolderAutoLog(trigger,status,count,freed,details){
+ try{
+  const logs=JSON.parse(localStorage.getItem(WEB_FOLDER_AUTO_LOGS)||'[]');
+  logs.push({time:Date.now(),trigger,status,count,freed,details});
+  localStorage.setItem(WEB_FOLDER_AUTO_LOGS,JSON.stringify(logs.slice(-30)));
+ }catch(_){}
+}
+function renderFolderAutoLogs(){
+ const root=$('webFolderAutoLogs');if(!root)return;
+ root.textContent='';
+ let logs=[];try{logs=JSON.parse(localStorage.getItem(WEB_FOLDER_AUTO_LOGS)||'[]')}catch(_){}
+ if(!logs.length){const e=document.createElement('div');e.className='empty';e.textContent='Belum ada riwayat pembersihan.';root.append(e);return}
+ logs.slice(-8).reverse().forEach(log=>{
+  const row=document.createElement('div');row.className='autoCleanupLog';
+  const dot=document.createElement('span');dot.className='autoCleanupDot'+(log.status==='gagal'?' warn':'');
+  const body=document.createElement('span');body.style.minWidth='0';body.style.flex='1';
+  const title=document.createElement('b');title.textContent=(log.trigger||'Pembersihan folder')+' · '+(log.status||'');
+  const detail=document.createElement('small');detail.textContent=niceTime(log.time)+' · '+(log.count||0)+' file · '+bytes(Number(log.freed)||0)+' · '+(log.details||'');
+  body.append(title,detail);row.append(dot,body);root.append(row);
+ });
+}
+function renderFolderAutoStatus(message){
+ const status=$('webFolderAutoCleanupStatus');if(status)status.textContent=message;
+ let enabled=false;try{enabled=localStorage.getItem(WEB_FOLDER_AUTO_ENABLED)==='true'}catch(_){}
+ const grant=$('webFolderGrantBtn'),run=$('webFolderRunBtn'),off=$('webFolderDisableBtn');
+ if(grant)grant.textContent=enabled?'Perbarui izin folder':'Izinkan akses folder';
+ if(run)run.disabled=!webCleanupDirectoryHandle;
+ if(off)off.disabled=!enabled;
+ const name=$('webFolderName');if(name)name.textContent=webCleanupDirectoryName||'Belum dipilih';
+ const interval=$('webFolderInterval');if(interval)interval.textContent=enabled?'Setiap 24 jam saat situs dibuka':'Belum aktif';
+ const freed=$('webFolderFreed');if(freed)freed.textContent=bytes(Number(localStorage.getItem(WEB_FOLDER_AUTO_FREED)||0));
+ renderFolderAutoLogs();
+}
+const protectedFolderNames=new Set([
+ '$RECYCLE.BIN','SYSTEM VOLUME INFORMATION','WINDOWS','PROGRAM FILES',
+ 'PROGRAM FILES (X86)','PROGRAMDATA','APPDATA','SYSTEM','LIBRARY',
+ 'APPLICATION SUPPORT','.GIT','NODE_MODULES','ANDROID','ANDROID DATA','ANDROID OBB'
+]);
+function safeTemporaryFileReason(name,file){
+ const lower=name.toLowerCase();
+ const ageDays=(Date.now()-(Number(file.lastModified)||Date.now()))/86400000;
+ if(ageDays<7)return '';
+ if(/\.(tmp|temp|part|partial|crdownload|download)$/i.test(lower))
+  return 'File sementara/unduhan tidak lengkap berumur minimal 7 hari';
+ return '';
+}
+async function scanAndCleanApprovedFolder(root,trigger){
+ if(webFolderCleanupInProgress)return null;
+ webFolderCleanupInProgress=true;
+ let scanned=0,removed=0,freed=0,failed=0,capped=false;
+ const maxFiles=5000;
+ async function walk(dir){
+  for await(const [name,handle] of dir.entries()){
+   if(scanned>=maxFiles){capped=true;return}
+   if(handle.kind==='directory'){
+    if(protectedFolderNames.has(name.toUpperCase()))continue;
+    await walk(handle);
+    if(capped)return;
+   }else if(handle.kind==='file'){
+    scanned++;
+    try{
+     const file=await handle.getFile();
+     if(!safeTemporaryFileReason(name,file))continue;
+     await dir.removeEntry(name);
+     removed++;freed+=file.size;
+    }catch(_){failed++}
+   }
+  }
+ }
+ try{
+  await walk(root);
+  localStorage.setItem(WEB_FOLDER_AUTO_LAST,String(Date.now()));
+  localStorage.setItem(WEB_FOLDER_AUTO_FREED,String(freed));
+  addFolderAutoLog(trigger,'selesai',removed,freed,
+   'Folder pilihan: '+root.name+'. '+scanned+' file diperiksa; hanya ekstensi sementara lama yang dihapus.'+(failed?' '+failed+' file gagal diproses.':'')+(capped?' Batas 5.000 file tercapai.':''));
+  renderFolderAutoStatus('Selesai. '+removed+' file sementara lama dihapus; estimasi '+bytes(freed)+' ruang dibebaskan dari folder '+root.name+'.');
+  if(removed)toast(removed+' file sementara dibersihkan dari '+root.name);
+  return {removed,freed,scanned,failed,capped};
+ }catch(error){
+  addFolderAutoLog(trigger,'gagal',0,0,String(error&&error.message||error));
+  renderFolderAutoStatus('Pembersihan gagal. Izin folder mungkin dicabut; tekan Izinkan akses folder untuk menyambungkan ulang.');
+  return null;
+ }finally{
+  webFolderCleanupInProgress=false;
+ }
+}
+async function requestFolderPermissionAndEnable(){
+ if(!window.isSecureContext||typeof window.showDirectoryPicker!=='function'){
+  renderFolderAutoStatus('Browser ini tidak menyediakan izin folder tulis. Gunakan Chrome atau Edge desktop terbaru melalui HTTPS. Website hanya dapat mengelola cache milik situsnya sendiri.');
+  toast('Akses folder otomatis tidak didukung browser ini.');
+  return;
+ }
+ const ok=confirm(
+  'RUANG LEGA akan meminta akses baca-tulis ke SATU folder yang kamu pilih.\n\nSetelah diaktifkan, aplikasi hanya menghapus file berakhiran .tmp, .temp, .part, .partial, .crdownload, atau .download yang berumur minimal 7 hari di folder tersebut.\n\nFoto, video, dokumen, arsip, file lain, dan folder di luar pilihan tidak dihapus. Lanjutkan?'
+ );
+ if(!ok)return;
+ try{
+  const handle=await window.showDirectoryPicker({id:'ruang-lega-device-cleanup',mode:'readwrite'});
+  let permission=await handle.queryPermission({mode:'readwrite'});
+  if(permission!=='granted')permission=await handle.requestPermission({mode:'readwrite'});
+  if(permission!=='granted'){renderFolderAutoStatus('Izin baca-tulis tidak diberikan. Tidak ada file yang dihapus.');return}
+  await folderDbSet(WEB_FOLDER_AUTO_KEY,handle);
+  webCleanupDirectoryHandle=handle;webCleanupDirectoryName=handle.name;
+  localStorage.setItem(WEB_FOLDER_AUTO_ENABLED,'true');
+  renderFolderAutoStatus('Izin diberikan untuk folder '+handle.name+'. Menjalankan pemindaian aman pertama…');
+  await scanAndCleanApprovedFolder(handle,'Aktivasi izin folder');
+ }catch(error){
+  if(error&&error.name==='AbortError')renderFolderAutoStatus('Pemilihan folder dibatalkan. Tidak ada perubahan.');
+  else renderFolderAutoStatus('Gagal memperoleh izin folder: '+String(error&&error.message||error));
+ }
+}
+async function checkApprovedFolderAutoCleanup(){
+ const panel=$('webFolderAutoCleanupPanel');if(!panel)return;
+ if(hasNativeAndroid()){panel.hidden=true;return}
+ if(!window.isSecureContext||typeof window.showDirectoryPicker!=='function'){
+  renderFolderAutoStatus('Browser ini tidak menyediakan API izin hapus folder. Gunakan Chrome/Edge desktop terbaru. Website tetap dapat membersihkan cache milik situsnya sendiri.');
+  $('webFolderGrantBtn').disabled=true;$('webFolderRunBtn').disabled=true;$('webFolderDisableBtn').disabled=true;
+  renderFolderAutoLogs();return;
+ }
+ try{
+  webCleanupDirectoryHandle=await folderDbGet(WEB_FOLDER_AUTO_KEY);
+  webCleanupDirectoryName=webCleanupDirectoryHandle?webCleanupDirectoryHandle.name:'';
+ }catch(error){renderFolderAutoStatus('Penyimpanan izin folder tidak tersedia pada browser ini.');return}
+ let enabled=false;try{enabled=localStorage.getItem(WEB_FOLDER_AUTO_ENABLED)==='true'}catch(_){}
+ if(!enabled||!webCleanupDirectoryHandle){
+  renderFolderAutoStatus('Belum aktif. Tekan Izinkan akses folder, pilih folder (misalnya Downloads), lalu setujui izin baca-tulis.');
+  return;
+ }
+ let permission='prompt';
+ try{permission=await webCleanupDirectoryHandle.queryPermission({mode:'readwrite'})}catch(_){}
+ if(permission!=='granted'){
+  renderFolderAutoStatus('Izin folder perlu diaktifkan ulang. Tekan Perbarui izin folder dan setujui akses baca-tulis.');
+  return;
+ }
+ let last=0;try{last=Number(localStorage.getItem(WEB_FOLDER_AUTO_LAST)||0)}catch(_){}
+ if(!last||(Date.now()-last)>=WEB_FOLDER_AUTO_INTERVAL){
+  renderFolderAutoStatus('Jadwal 24 jam sudah tiba. Memeriksa file sementara pada folder '+webCleanupDirectoryName+'…');
+  await scanAndCleanApprovedFolder(webCleanupDirectoryHandle,'Jadwal otomatis 24 jam');
+ }else{
+  const next=new Date(last+WEB_FOLDER_AUTO_INTERVAL).toLocaleString('id-ID',{dateStyle:'medium',timeStyle:'short'});
+  renderFolderAutoStatus('Otomatis aktif untuk folder '+webCleanupDirectoryName+'. Pemeriksaan berikutnya paling cepat '+next+'.');
+ }
+}
+$('webFolderGrantBtn').addEventListener('click',requestFolderPermissionAndEnable);
+$('webFolderRunBtn').addEventListener('click',async()=>{
+ if(!webCleanupDirectoryHandle){renderFolderAutoStatus('Pilih folder dan berikan izin terlebih dahulu.');return}
+ let permission=await webCleanupDirectoryHandle.queryPermission({mode:'readwrite'});
+ if(permission!=='granted')permission=await webCleanupDirectoryHandle.requestPermission({mode:'readwrite'});
+ if(permission!=='granted'){renderFolderAutoStatus('Izin baca-tulis belum diberikan.');return}
+ await scanAndCleanApprovedFolder(webCleanupDirectoryHandle,'Pembersihan manual');
+});
+$('webFolderDisableBtn').addEventListener('click',()=>{
+ localStorage.setItem(WEB_FOLDER_AUTO_ENABLED,'false');
+ renderFolderAutoStatus('Pembersihan otomatis folder dinonaktifkan. Izin folder tetap dapat dicabut melalui pengaturan situs browser.');
+});
+window.addEventListener('pageshow',()=>{checkApprovedFolderAutoCleanup()});
+document.addEventListener('visibilitychange',()=>{
+ if(document.visibilityState==='visible')checkApprovedFolderAutoCleanup();
+});
+checkApprovedFolderAutoCleanup();
+
+/* Android special storage permission and official OS cache-clear dialog. */
+function refreshNativeDeviceCacheAccess(){
+ if(!hasNativeAndroid())return;
+ const granted=AndroidBridge.hasAllFilesAccess();
+ const status=$('nativePermissionStatus');
+ if(status)status.textContent=granted?'Akses semua file diizinkan':'Akses khusus belum diberikan';
+ const button=$('nativeGrantCacheAccessBtn');
+ if(button)button.textContent=granted?'Akses penyimpanan diizinkan':'Izinkan akses penyimpanan';
+}
+const priorNativePermissionRefresh=window.RuangLegaNativeRefreshPermissions;
+window.RuangLegaNativeRefreshPermissions=()=>{
+ if(typeof priorNativePermissionRefresh==='function')priorNativePermissionRefresh();
+ refreshNativeDeviceCacheAccess();
+};
+$('nativeGrantCacheAccessBtn').addEventListener('click',()=>{
+ if(!hasNativeAndroid())return;
+ if(AndroidBridge.hasAllFilesAccess()){
+  $('nativeCleanupStatus').textContent='Akses khusus sudah aktif. Tekan “Minta Android bersihkan cache aplikasi” untuk membuka dialog sistem.';
+  refreshNativeDeviceCacheAccess();return;
+ }
+ $('nativeCleanupStatus').textContent='Membuka Pengaturan Android. Aktifkan “Izinkan akses untuk mengelola semua file”, lalu kembali ke RUANG LEGA.';
+ AndroidBridge.requestAllFilesAccess();
+});
+
+refreshNativeDeviceCacheAccess();
 
 const WEB_CLEANUP_VERSION='1.10.0';
 const WEB_CLEANUP_CACHE='ruang-lega-v1-10-auto';
