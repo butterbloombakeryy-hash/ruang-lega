@@ -128,6 +128,29 @@ button:focus-visible,a:focus-visible{outline:3px solid #7bd8c2;outline-offset:2p
 @media(max-width:850px){.sidebar{display:none}.main{margin:0;padding:16px 16px 95px}.topbar{margin-bottom:15px}.hero{min-height:0;padding:24px;border-radius:21px}.hero h1{font-size:30px}.orb{width:96px;height:96px}.orbInner{width:76px;height:76px}.orbInner span{font-size:17px}.orbInner b{font-size:7px}.orbInner small{font-size:6px}.workspace{grid-template-columns:1fr}.sideStack{grid-template-columns:1fr 1fr}.mobileDock{position:fixed;z-index:50;bottom:calc(8px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100vw - 24px);max-width:560px;padding:8px 9px;display:flex;justify-content:space-around;gap:4px;border:1px solid #dcebe2;border-radius:18px;background:rgba(255,255,255,.94);backdrop-filter:blur(20px);box-shadow:0 14px 38px rgba(15,65,53,.17)}.mobileDock a{flex:1;text-decoration:none;color:#8a9b95;padding:5px 2px;display:flex;flex-direction:column;align-items:center;gap:1px;border-radius:12px}.mobileDock a.active{background:#e8f6ef;color:#08766a}.mobileDock span{font-size:18px;line-height:1.2}.mobileDock small{font-size:8px;font-weight:800}.toast{bottom:82px}}
 @media(max-width:600px){.main{padding:12px 12px 96px}.topbar{margin-bottom:12px}.breadcrumb{font-size:9px}.privacy{font-size:0;padding:8px}.privacy i{width:7px;height:7px}.topActions .btn{padding:8px 10px;font-size:9px}.hero{padding:21px 18px 18px;align-items:flex-start;min-height:248px}.heroCopy{position:relative;z-index:2}.hero h1{font-size:27px;max-width:360px}.hero p{font-size:10px;max-width:310px}.orb{position:absolute;right:12px;top:16px;width:81px;height:81px;opacity:.75}.orbInner{width:64px;height:64px}.orbInner span{font-size:13px}.orbInner b{font-size:6px}.orbInner small{font-size:5px}.heroActions{margin-top:14px}.heroActions .btn{font-size:9px;padding:8px 10px}.metrics{gap:7px;margin:11px 0}.metric{padding:10px 8px;gap:7px;align-items:flex-start;flex-direction:column}.metricIcon{width:29px;height:29px;border-radius:9px;font-size:15px}.metric small{font-size:8px}.metric strong{font-size:14px}.metric em{font-size:7px}.storageGrid{grid-template-columns:1fr;gap:10px}.panel{padding:15px;border-radius:16px}.storageBox{gap:13px}.ring{width:87px;height:87px}.ring strong{font-size:18px}.storageText strong{font-size:17px}.storageInfo{gap:6px}.infoTile{padding:9px}.infoTile b{font-size:14px}.sideStack{grid-template-columns:1fr}.fileHead{padding:16px 15px 12px}.fileHead h2{font-size:15px}.fileHead .panelHead{display:block}.fileActions{width:100%}.fileActions .btn{font-size:8px;padding:8px}.drop{margin:13px 12px;padding:19px 10px}.drop strong{font-size:11px}.drop p{font-size:9px}.fileTools{padding:0 12px 10px}.fileTable th,.fileTable td{padding-left:12px;padding-right:12px}.status{padding:0 13px 12px}.guideGrid{grid-template-columns:1fr}.guideSection{margin-top:16px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+
+/* v1.6 safe cleanup workspace */
+.cleanupPanel{margin:18px 0 17px;overflow:hidden}
+.cleanupHero{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:21px 22px;background:linear-gradient(115deg,#effaf3,#e4f5ec);border:1px solid #d9eee1;border-radius:15px}
+.cleanupHero h2{font-size:18px;margin:3px 0 5px}
+.cleanupHero p{font-size:10px;color:#668078;max-width:700px;margin:0;line-height:1.55}
+.cleanupButtons{display:flex;gap:8px;flex-wrap:wrap;flex:none}
+.cleanupStats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:14px 0}
+.cleanupStat{background:#f8fbf9;border:1px solid #e8f1eb;border-radius:12px;padding:12px}
+.cleanupStat small{display:block;font-size:9px;color:#82948c}
+.cleanupStat strong{display:block;font-size:17px;margin-top:3px}
+.cleanupList{display:grid;gap:6px;max-height:340px;overflow:auto;margin-top:10px}
+.cleanupRow{display:flex;align-items:center;gap:10px;padding:10px 11px;border:1px solid #edf2ee;border-radius:11px;background:#fff}
+.cleanupRow input{accent-color:#08796f;width:16px;height:16px;flex:none}
+.cleanupRowMain{min-width:0;flex:1}
+.cleanupRowName{display:block;font-size:10px;font-weight:800;overflow-wrap:anywhere;color:#315a50}
+.cleanupRowPath{display:block;font-size:9px;color:#8b9a93;overflow-wrap:anywhere}
+.cleanupRowSize{font-size:10px;font-weight:850;white-space:nowrap}
+.cleanupStatus{font-size:10px;color:#617970;line-height:1.6;margin-top:10px;min-height:18px}
+.cleanupFoot{padding:11px 12px;background:#fff8ed;border:1px solid #f1e5cd;color:#89662e;border-radius:11px;font-size:9px;line-height:1.6;margin-top:13px}
+@media(max-width:850px){.cleanupHero{align-items:flex-start;flex-direction:column}.cleanupButtons{width:100%}}
+@media(max-width:600px){.cleanupHero{padding:15px}.cleanupStats{gap:6px}.cleanupStat{padding:9px}.cleanupStat strong{font-size:14px}.cleanupRow{align-items:flex-start}.cleanupRowSize{font-size:9px}}
+
 </style>
 </head>
 <body>
@@ -135,14 +158,28 @@ button:focus-visible,a:focus-visible{outline:3px solid #7bd8c2;outline-offset:2p
 <aside class="sidebar">
  <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c-3 4-6.5 7.1-6.5 11a6.5 6.5 0 0 0 13 0C18.5 10.1 15 7 12 3Z"/><path d="M9 15c.4 1.5 1.4 2.2 3 2.5"/></svg></div><div><b>RUANG LEGA</b><small>Smart Storage Assistant</small></div></div>
  <div class="navLabel">Menu utama</div>
- <nav class="nav"><a class="active" href="#home"><span>⌂</span>Dashboard</a><a href="#workspace"><span>▤</span>Pemeriksa file</a><a href="#storage"><span>◉</span>Penyimpanan web</a><a href="#guide"><span>☷</span>Panduan perangkat</a></nav>
+ <nav class="nav"><a class="active" href="#home"><span>⌂</span>Dashboard</a><a href="#workspace"><span>▤</span>Pemeriksa file</a><a href="#cleanupSection"><span>✦</span>Pindai sampah</a><a href="#storage"><span>◉</span>Penyimpanan web</a><a href="#guide"><span>☷</span>Panduan perangkat</a></nav>
  <div class="sidebarFoot"><b>✦ Privasi diutamakan</b><p>File yang kamu pilih diproses langsung di browser. RUANG LEGA tidak mengunggah file ke server.</p></div>
 </aside>
 <main class="main">
  <header class="topbar"><div class="breadcrumb">Ruang kerja / <b>Dashboard</b></div><div class="topActions"><span class="privacy"><i></i> Pemrosesan lokal</span><button id="installBtn" class="btn outline" hidden>＋ Pasang aplikasi</button></div></header>
  <section class="hero" id="home"><div class="heroCopy"><div class="eyebrow">YOUR PERSONAL STORAGE ASSISTANT</div><h1>Ruang digital yang lebih lega, mulai dari sini.</h1><p>Periksa file besar, temukan file identik, dan kelola ruang penyimpanan dengan langkah yang aman — dari laptop, tablet, maupun HP.</p><div class="heroActions"><button class="btn heroLight" data-jump="workspace">⌕ Periksa file sekarang</button><button class="btn heroGhost" data-jump="guide">Lihat panduan perangkat →</button></div></div><div class="orb" aria-hidden="true"><div class="orbInner"><span>✦</span><b>SPACE<br>FOR MORE</b><small>Keep what matters</small></div></div></section>
  <section class="metrics" aria-label="Ringkasan pemeriksaan"><div class="metric"><div class="metricIcon">▤</div><div><small>File dipilih</small><strong id="fileCount">0</strong><em>file dalam sesi ini</em></div></div><div class="metric"><div class="metricIcon">◫</div><div><small>Total ukuran</small><strong id="totalSize">0 B</strong><em>file yang kamu pilih</em></div></div><div class="metric"><div class="metricIcon">✧</div><div><small>Potensi duplikat</small><strong id="duplicateSize">0 B</strong><em>estimasi ruang berulang</em></div></div></section>
- <section class="storageGrid" id="storage">
+ 
+ <section class="panel cleanupPanel" id="cleanupSection">
+  <div class="panelHead"><div><div class="kicker">Safe cleanup assistant</div><h2>Pindai Sampah & Bersihkan Ruang</h2><p class="sub">Pindai folder yang kamu pilih untuk mencari file sementara yang kemungkinan sudah tidak digunakan.</p></div><span class="privacy"><i></i> Perlu izin pengguna</span></div>
+  <div class="cleanupHero">
+   <div><div class="kicker">Folder cleanup</div><h2>Temukan file sementara yang tertinggal</h2><p>Pilih folder seperti Downloads atau folder kerja. RUANG LEGA akan mencari file sementara lama, file unduhan tidak lengkap, dan metadata sampah yang dikenali. Kamu bisa meninjau dan memilih item sebelum menghapusnya.</p></div>
+   <div class="cleanupButtons"><button id="scanTrashBtn" class="btn primary">⌕ Pindai Sampah</button><button id="cleanTrashBtn" class="btn outline" disabled>✦ Bersihkan yang dipilih</button></div>
+  </div>
+  <div class="cleanupStats"><div class="cleanupStat"><small>File yang dipindai</small><strong id="trashScanned">0</strong></div><div class="cleanupStat"><small>Kandidat sampah</small><strong id="trashFound">0</strong></div><div class="cleanupStat"><small>Potensi ruang kembali</small><strong id="trashBytes">0 B</strong></div></div>
+  <div class="fileTools" style="padding:0"><span class="sortLabel" id="trashFolderLabel">Belum ada folder yang dipilih</span><div class="fileActions"><button id="selectAllTrashBtn" class="btn soft" disabled>Pilih semua kandidat</button><button id="clearTrashSelectionBtn" class="btn outline" disabled>Batal pilih</button></div></div>
+  <div id="trashList" class="cleanupList"><div class="empty">Tekan “Pindai Sampah” lalu pilih folder yang ingin diperiksa.</div></div>
+  <div id="trashStatus" class="cleanupStatus" aria-live="polite">Tidak ada file yang akan dihapus sebelum kamu memilihnya dan menyetujui konfirmasi.</div>
+  <div class="cleanupFoot"><b>Perlindungan data:</b> hanya file dalam folder yang kamu pilih dan izinkan yang dipindai. Kandidat ditandai berdasarkan pola nama yang umum untuk file sementara (misalnya .tmp/.part yang berumur minimal 7 hari), file sisa unduhan lama, serta metadata folder seperti Thumbs.db. Dokumen, foto, video, arsip, file backup, dan log tidak otomatis dianggap sampah. Browser tidak bisa menghapus cache privat aplikasi atau file sistem di luar folder yang diizinkan.</div>
+ </section>
+
+<section class="storageGrid" id="storage">
   <div class="panel"><div class="panelHead"><div><div class="kicker">Penyimpanan browser</div><h2>Ruang situs ini</h2><p class="sub">Estimasi data RUANG LEGA yang tersimpan di browser perangkat ini.</p></div><button id="refreshStorage" class="btn outline">↻ Perbarui</button></div><div class="storageBox"><div class="ring" id="storageRing"><div><strong id="storagePercent">—%</strong><span>digunakan</span></div></div><div class="storageText"><strong id="storageUsed">Belum tersedia</strong><small id="storageQuota">Estimasi kuota penyimpanan untuk situs ini.</small><div class="progress"><span id="storageBar"></span></div></div></div><div class="notice">Angka ini hanya untuk penyimpanan situs RUANG LEGA di browser, bukan seluruh kapasitas SSD/HDD laptop atau memori HP.</div></div>
   <div class="panel"><div class="panelHead"><div><div class="kicker">Informasi perangkat</div><h2>Mode penggunaan</h2><p class="sub">Fitur mengikuti izin yang tersedia di browser dan sistem operasi.</p></div></div><div class="storageInfo"><div class="infoTile"><small>Perangkat terdeteksi</small><b id="deviceType">Browser</b></div><div class="infoTile"><small>Folder sekaligus</small><b id="folderSupport">Memeriksa…</b></div><div class="infoTile"><small>Koneksi</small><b id="onlineState">Memeriksa…</b></div><div class="infoTile"><small>Privasi file</small><b>Di perangkat</b></div></div><p class="sub" style="margin-top:12px">Di laptop, pilih banyak file atau satu folder untuk dianalisis. Browser tidak diberi izin untuk menyisir seluruh disk secara diam-diam.</p></div>
  </section>
@@ -162,7 +199,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #7bd8c2;outline-offset:2p
  <section class="guideSection" id="guide"><div class="panelHead"><div><div class="kicker">Panduan lintas perangkat</div><h2>Kelola penyimpanan sesuai perangkatmu</h2><p class="sub">Panduan singkat untuk Android, iPhone/iPad, Windows, dan macOS.</p></div></div><div class="guideGrid"><div class="panel"><div class="guideTabs"><button class="tab active" data-guide="windows">Windows</button><button class="tab" data-guide="mac">macOS</button><button class="tab" data-guide="android">Android</button><button class="tab" data-guide="iphone">iPhone/iPad</button></div><div class="guideContent" id="guideContent"></div></div><div class="panel"><div class="kicker">Pahami batas akses</div><h2>Apa yang bisa dilakukan web?</h2><div class="tipList"><div class="tip"><span>✓</span>Menganalisis file dan folder yang secara sadar kamu pilih.</div><div class="tip"><span>✓</span>Mengurutkan file berdasarkan ukuran dan mendeteksi salinan identik.</div><div class="tip"><span>✓</span>Membuat laporan CSV yang bisa dibuka di Excel.</div><div class="tip"><span>—</span>Tidak dapat memindai seluruh disk atau menghapus file secara otomatis.</div><div class="tip"><span>—</span>Tidak dapat membaca cache privat TikTok, WhatsApp, atau aplikasi desktop lain.</div></div><div class="safety">Pembatasan ini merupakan perlindungan privasi browser. Untuk membersihkan cache aplikasi, gunakan menu Settings/Pengaturan perangkat atau aplikasi tersebut.</div></div></div></section>
  <footer class="footer">RUANG LEGA · Smart Storage Assistant<br>Analisis file dilakukan lokal di browser. Pilihan file tidak dikirim ke server. © 2026</footer>
 </main>
-<nav class="mobileDock" aria-label="Navigasi bawah"><a class="active" href="#home"><span>⌂</span><small>Home</small></a><a href="#workspace"><span>▤</span><small>File</small></a><a href="#storage"><span>◉</span><small>Storage</small></a><a href="#guide"><span>☷</span><small>Panduan</small></a></nav>
+<nav class="mobileDock" aria-label="Navigasi bawah"><a class="active" href="#home"><span>⌂</span><small>Home</small></a><a href="#workspace"><span>▤</span><small>File</small></a><a href="#cleanupSection"><span>✦</span><small>Bersihkan</small></a><a href="#storage"><span>◉</span><small>Storage</small></a><a href="#guide"><span>☷</span><small>Panduan</small></a></nav>
 </div>
 <div id="toast" class="toast" hidden></div>
 <script>
@@ -189,6 +226,129 @@ async function refreshStorage(){try{if(!navigator.storage||!navigator.storage.es
 $('refreshStorage').addEventListener('click',()=>{refreshStorage();toast('Estimasi penyimpanan diperbarui')});refreshStorage();
 function deviceInfo(){const ua=navigator.userAgent||'';let type='Desktop';if(/Android|iPhone|iPad|iPod|Mobile/i.test(ua))type=/iPad|Tablet/i.test(ua)?'Tablet':'HP';$('deviceType').textContent=type;$('folderSupport').textContent='webkitdirectory'in document.createElement('input')?'Didukung':'Pilih file';$('onlineState').textContent=navigator.onLine?'Online':'Offline'}
 deviceInfo();window.addEventListener('online',deviceInfo);window.addEventListener('offline',deviceInfo);
+
+/* v1.6 safe folder cleanup: explicit folder permission, preview, selection and confirmation */
+const cleanupState={root:null,items:[],scanned:0,capped:false};
+const skipCleanupFolders=new Set(['$RECYCLE.BIN','SYSTEM VOLUME INFORMATION','WINDOWS','PROGRAM FILES','PROGRAM FILES (X86)','PROGRAMDATA','SYSTEM','LIBRARY','.GIT','NODE_MODULES','ANDROID','ANDROID DATA','ANDROID OBB']);
+function trashRule(name,lastModified){
+ const lower=name.toLowerCase();
+ const ageDays=(Date.now()-(Number(lastModified)||Date.now()))/86400000;
+ if(['.ds_store','thumbs.db','desktop.ini'].includes(lower))return 'Metadata sistem folder';
+ if(lower.startsWith('~
+windows:{steps:['Buka Settings → System → Storage untuk melihat kategori penggunaan ruang.','Pilih Temporary files untuk meninjau file sementara yang dapat dibersihkan.','Buka File Explorer → Downloads dan urutkan berdasarkan Size untuk mencari file besar.','Periksa Recycle Bin dan cadangkan dokumen penting sebelum menghapus.'],note:'Hindari menghapus folder Windows, Program Files, atau file sistem yang tidak dikenal.'},
+mac:{steps:['Buka menu Apple → System Settings → General → Storage.','Tinjau kategori Documents, Applications, dan Trash.','Buka Finder dan gunakan Sort by Size untuk menemukan file besar.','Kosongkan Trash hanya setelah memastikan file tidak lagi dibutuhkan.'],note:'Jangan menghapus Library atau folder sistem secara manual jika tidak memahami fungsinya.'},
+android:{steps:['Buka Pengaturan → Penyimpanan untuk melihat ruang perangkat.','Masuk ke Pengaturan → Aplikasi → pilih aplikasi terkait.','Pilih Penyimpanan → Hapus cache jika ingin membersihkan file sementara.','Periksa folder Downloads dan media yang sudah dicadangkan.'],note:'Jangan pilih Hapus data/Clear storage kecuali siap kehilangan data lokal atau harus masuk ulang.'},
+iphone:{steps:['Buka Pengaturan → Umum → Penyimpanan iPhone/iPad.','Tinjau aplikasi yang menggunakan ruang paling besar.','Gunakan Offload App jika ingin melepas aplikasi sambil mempertahankan dokumen dan data.','Tinjau Foto, Pesan, dan Unduhan setelah memastikan ada cadangan.'],note:'Offload App berbeda dari Delete App. iOS tidak menyediakan tombol hapus cache untuk semua aplikasi.'}
+};
+function renderGuide(which){state.guide=which;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.guide===which));const g=guides[which],root=$('guideContent');root.textContent='';const ol=document.createElement('ol');g.steps.forEach(s=>{const li=document.createElement('li');li.textContent=s;ol.append(li)});const note=document.createElement('div');note.className='safety';note.textContent=g.note;root.append(ol,note)}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>renderGuide(b.dataset.guide)));renderGuide('windows');
+document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>{const el=$(b.dataset.jump);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}));
+document.querySelectorAll('.nav a,.mobileDock a').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('.nav a,.mobileDock a').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.nav a[href="'+a.getAttribute('href')+'"],.mobileDock a[href="'+a.getAttribute('href')+'"]').forEach(x=>x.classList.add('active'))}));
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.installPrompt=e;$('installBtn').hidden=false});
+$('installBtn').addEventListener('click',async()=>{if(!state.installPrompt)return;state.installPrompt.prompt();await state.installPrompt.userChoice;state.installPrompt=null;$('installBtn').hidden=true});
+if('serviceWorker'in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+})();
+</script>
+</body>
+</html>)&&ageDays>=2)return 'File kunci Office lama (2+ hari)';
+ if(/\.(tmp|temp|part|partial|crdownload|download)$/i.test(lower)&&ageDays>=7)return 'File sementara/unduhan tidak lengkap (7+ hari)';
+ return '';
+}
+function updateTrashStats(){
+ const selected=cleanupState.items.filter(x=>x.selected);
+ $('trashScanned').textContent=cleanupState.scanned.toLocaleString('id-ID');
+ $('trashFound').textContent=cleanupState.items.length.toLocaleString('id-ID');
+ $('trashBytes').textContent=bytes(cleanupState.items.reduce((n,x)=>n+x.size,0));
+ $('cleanTrashBtn').disabled=!selected.length||!cleanupState.root;
+ $('selectAllTrashBtn').disabled=!cleanupState.items.length;
+ $('clearTrashSelectionBtn').disabled=!selected.length;
+}
+function renderTrashList(){
+ const root=$('trashList');root.textContent='';
+ if(!cleanupState.items.length){const empty=document.createElement('div');empty.className='empty';empty.textContent=cleanupState.root?'Tidak ditemukan kandidat berdasarkan aturan sampah aman. Tidak ada file yang diubah.':'Tekan “Pindai Sampah” lalu pilih folder yang ingin diperiksa.';root.append(empty);updateTrashStats();return}
+ cleanupState.items.forEach((item,index)=>{
+  const row=document.createElement('label');row.className='cleanupRow';
+  const check=document.createElement('input');check.type='checkbox';check.checked=!!item.selected;check.addEventListener('change',()=>{item.selected=check.checked;updateTrashStats()});
+  const main=document.createElement('span');main.className='cleanupRowMain';
+  const name=document.createElement('span');name.className='cleanupRowName';name.textContent=item.name;
+  const path=document.createElement('span');path.className='cleanupRowPath';path.textContent=item.path+' · '+item.reason;
+  main.append(name,path);
+  const size=document.createElement('span');size.className='cleanupRowSize';size.textContent=bytes(item.size);
+  row.append(check,main,size);root.append(row);
+ });
+ updateTrashStats();
+}
+async function walkCleanupFolder(dir,path){
+ for await(const [name,handle] of dir.entries()){
+  if(cleanupState.scanned>=5000){cleanupState.capped=true;return}
+  const nextPath=path?path+'/'+name:name;
+  if(handle.kind==='directory'){
+   if(skipCleanupFolders.has(name.toUpperCase()))continue;
+   await walkCleanupFolder(handle,nextPath);
+   if(cleanupState.capped)return;
+  }else if(handle.kind==='file'){
+   cleanupState.scanned++;
+   try{
+    const file=await handle.getFile();
+    const reason=trashRule(name,file.lastModified);
+    if(reason)cleanupState.items.push({id:cleanupState.items.length,name,path:nextPath,size:file.size,reason,parent:dir,handle,selected:false});
+   }catch(_){/* File may have changed or be unavailable; skip it. */}
+  }
+ }
+}
+$('scanTrashBtn').addEventListener('click',async()=>{
+ if(!window.isSecureContext||typeof window.showDirectoryPicker!=='function'){
+  $('trashStatus').textContent='Browser ini belum mendukung pemindaian folder yang dapat dihapus. Gunakan Chrome atau Edge terbaru di komputer melalui HTTPS. Pemilih file biasa tetap tersedia untuk analisis tanpa penghapusan.';
+  toast('Fitur pemindaian folder memerlukan browser desktop yang mendukung izin folder.');return;
+ }
+ try{
+  const root=await window.showDirectoryPicker({id:'ruang-lega-cleanup',mode:'readwrite'});
+  const permission=await root.queryPermission({mode:'readwrite'});
+  if(permission!=='granted'){
+   const granted=await root.requestPermission({mode:'readwrite'});
+   if(granted!=='granted'){ $('trashStatus').textContent='Izin baca dan tulis folder tidak diberikan. Tidak ada file yang diubah.';return}
+  }
+  cleanupState.root=root;cleanupState.items=[];cleanupState.scanned=0;cleanupState.capped=false;
+  $('trashFolderLabel').textContent='Folder diperiksa: '+root.name;
+  $('trashStatus').textContent='Memindai nama dan ukuran file… proses ini hanya membaca folder yang kamu pilih.';
+  $('scanTrashBtn').disabled=true;$('scanTrashBtn').textContent='Memindai…';
+  await walkCleanupFolder(root,'');
+  renderTrashList();
+  $('trashStatus').textContent='Pemindaian selesai. '+cleanupState.items.length+' kandidat ditemukan dari '+cleanupState.scanned+' file. Pilih hanya file yang kamu yakin tidak dibutuhkan.';
+  if(cleanupState.capped)$('trashStatus').textContent+=' Batas 5.000 file tercapai; sebagian isi folder mungkin belum dipindai.';
+  toast('Pemindaian sampah selesai');
+ }catch(error){
+  if(error&&error.name==='AbortError')$('trashStatus').textContent='Pemilihan folder dibatalkan. Tidak ada perubahan.';
+  else $('trashStatus').textContent='Folder tidak dapat dipindai. Pastikan izin diberikan dan coba folder lain.';
+ }finally{$('scanTrashBtn').disabled=false;$('scanTrashBtn').textContent='⌕ Pindai Sampah';}
+});
+$('selectAllTrashBtn').addEventListener('click',()=>{cleanupState.items.forEach(x=>x.selected=true);renderTrashList()});
+$('clearTrashSelectionBtn').addEventListener('click',()=>{cleanupState.items.forEach(x=>x.selected=false);renderTrashList()});
+$('cleanTrashBtn').addEventListener('click',async()=>{
+ const selected=cleanupState.items.filter(x=>x.selected);
+ if(!selected.length||!cleanupState.root)return;
+ const estimated=selected.reduce((n,x)=>n+x.size,0);
+ if(!confirm('Hapus '+selected.length+' file kandidat dari folder “'+cleanupState.root.name+'”?\\nEstimasi ruang yang dapat dibebaskan: '+bytes(estimated)+'.\\n\\nPenghapusan ini tidak selalu dapat dibatalkan. Pastikan kamu telah memeriksa daftar.'))return;
+ try{
+  const permission=await cleanupState.root.queryPermission({mode:'readwrite'});
+  if(permission!=='granted'&&await cleanupState.root.requestPermission({mode:'readwrite'})!=='granted'){
+   $('trashStatus').textContent='Izin tulis folder tidak tersedia. Tidak ada file yang dihapus.';return;
+  }
+  $('cleanTrashBtn').disabled=true;$('cleanTrashBtn').textContent='Membersihkan…';
+  let removed=0,freed=0,failed=[];
+  for(const item of selected){
+   try{await item.parent.removeEntry(item.name);removed++;freed+=item.size}
+   catch(_){failed.push(item.path)}
+  }
+  cleanupState.items=cleanupState.items.filter(x=>!selected.includes(x)||failed.includes(x.path));
+  cleanupState.items.forEach(x=>x.selected=false);
+  renderTrashList();
+  $('trashStatus').textContent='Selesai: '+removed+' file dihapus, estimasi '+bytes(freed)+' dibebaskan.'+(failed.length?' '+failed.length+' file gagal dihapus atau sudah berubah.':'');
+  toast(removed+' file sampah dibersihkan');
+ }catch(error){$('trashStatus').textContent='Pembersihan tidak dapat dilanjutkan. Periksa izin folder dan coba lagi.'}
+ finally{$('cleanTrashBtn').textContent='✦ Bersihkan yang dipilih';updateTrashStats()}
+});
+
 const guides={
 windows:{steps:['Buka Settings → System → Storage untuk melihat kategori penggunaan ruang.','Pilih Temporary files untuk meninjau file sementara yang dapat dibersihkan.','Buka File Explorer → Downloads dan urutkan berdasarkan Size untuk mencari file besar.','Periksa Recycle Bin dan cadangkan dokumen penting sebelum menghapus.'],note:'Hindari menghapus folder Windows, Program Files, atau file sistem yang tidak dikenal.'},
 mac:{steps:['Buka menu Apple → System Settings → General → Storage.','Tinjau kategori Documents, Applications, dan Trash.','Buka Finder dan gunakan Sort by Size untuk menemukan file besar.','Kosongkan Trash hanya setelah memastikan file tidak lagi dibutuhkan.'],note:'Jangan menghapus Library atau folder sistem secara manual jika tidak memahami fungsinya.'},
