@@ -137,10 +137,9 @@ public final class AutoCacheCleanupManager {
             int previousVersion = p.getInt(KEY_LAST_VERSION, -1);
             boolean versionChanged = previousVersion != currentVersion;
 
-            if (!force && !versionChanged && lastRun > 0L
-                    && (now - lastRun) < DUPLICATE_GUARD_MS) {
+            if (!force && lastRun > 0L && (now - lastRun) < INTERVAL_MS) {
                 appendLog(application, trigger, "dilewati", 0L,
-                        "Pembersihan baru saja berjalan; permintaan ganda dilewati.");
+                        "Interval 24 jam belum lewat; pembersihan berkala berikutnya akan menangani cache.");
                 return 0L;
             }
 
