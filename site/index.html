@@ -523,10 +523,21 @@ async function runWebAutoCleanup(force=false,trigger='Saat website dibuka'){
    const keys=await caches.keys();
    const obsolete=keys.filter(key=>key.startsWith('ruang-lega-temp-')&&key!==WEB_CLEANUP_CACHE);
    for(const key of obsolete){if(await caches.delete(key))removed++}
+   const activeCache=await caches.open(WEB_CLEANUP_CACHE);
+   const keepUrls=new Set([
+    new URL('./',location.href).href,
+    new URL('./index.html',location.href).href,
+    new URL('./manifest.webmanifest',location.href).href,
+    new URL('./icons/ruang-lega.svg',location.href).href
+   ]);
+   const requests=await activeCache.keys();
+   for(const request of requests){
+    if(!keepUrls.has(request.url)&&await activeCache.delete(request))removed++;
+   }
   }
   const details=removed
-    ?'Cache sementara milik RUANG LEGA dihapus; cache offline aktif dipertahankan.'
-    :'Tidak ada cache sementara. Cache offline aktif dipertahankan; cache versi lama dibersihkan saat Service Worker versi baru aktif.';
+    ?'Cache sementara/runtime lama milik RUANG LEGA dihapus; shell offline, manifest, dan ikon inti dipertahankan.'
+    :'Tidak ada cache runtime lama yang perlu dibuang. Shell offline tetap dipertahankan; cache versi lama dibersihkan saat Service Worker baru aktif.';
   addWebCleanupLog(trigger,removed?'selesai':'diperiksa',removed,details);
   try{
    localStorage.setItem(WEB_CLEANUP_LAST_KEY,String(now));
