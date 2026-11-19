@@ -58,3 +58,13 @@ Versi web/PWA tidak memiliki akses native ke statistik penyimpanan semua aplikas
 - Fitur penghapusan folder belum tersedia di browser yang tidak mendukung File System Access API; browser biasa tetap dapat menganalisis file pilihan namun tidak diberi hak menghapusnya.
 - APK Android menyertakan panel native untuk membaca statistik cache aplikasi setelah Usage Access dan mengajukan permintaan pembersihan melalui konfirmasi sistem Android. Pembersihan cache milik RUANG LEGA sendiri juga tersedia. Android tetap mengatur persetujuan; aplikasi tidak menghapus data privat aplikasi lain.
 - Web/PWA tidak dapat membaca cache privat aplikasi lain atau membersihkan seluruh disk secara diam-diam. Angka Storage API hanya kuota situs. Hindari klaim bahwa satu tombol web dapat membersihkan semua sampah perangkat.
+
+
+## Pembersihan cache otomatis (v1.8)
+- Android memakai AndroidX WorkManager untuk menjadwalkan pembersihan cache internal dan eksternal milik RUANG LEGA sendiri setiap 24 jam.
+- Aplikasi memeriksa saat pertama kali dibuka, setelah versionCode berubah, dan saat dibuka kembali setelah interval 24 jam terlampaui.
+- Hanya isi `cacheDir` dan `externalCacheDirs` milik paket RUANG LEGA yang dibersihkan. Folder `files`, database, SharedPreferences, log, cookies, WebView DOM storage, file unduhan, foto, dokumen, dan data/cache aplikasi lain tidak disentuh.
+- Log menyimpan waktu, pemicu, status mulai/selesai/gagal, dan estimasi byte yang dibebaskan. Pengguna dapat mengaktifkan atau menonaktifkan jadwal otomatis dari panel Android.
+- Jadwal WorkManager adalah pekerjaan berkala yang dapat ditunda oleh Doze/optimasi baterai Android; 24 jam adalah interval target, bukan janji waktu eksekusi tepat.
+- PWA membersihkan cache sementara milik RUANG LEGA saat dibuka paling banyak sekali per 24 jam dan mencatat log lokal. Ketika versi Service Worker baru aktif, cache versi lama dengan awalan `ruang-lega-` dibersihkan. Halaman PWA tidak bisa bekerja terjadwal ketika browser ditutup.
+- Tidak ada pembersihan otomatis terhadap cache privat aplikasi lain atau file pengguna. Penghapusan folder pribadi tetap memerlukan pemilihan folder dan persetujuan pengguna.
