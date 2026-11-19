@@ -2,7 +2,7 @@
   "id":"./",
   "name":"Ruang Lega — Smart Storage Assistant",
   "short_name":"Ruang Lega",
-  "description":"Asisten pemeriksa file besar dan duplikat serta pengelola cache aplikasi RUANG LEGA.",
+  "description":"Asisten pengelola file, folder pilihan, dan fitur pembersihan cache perangkat yang didukung sistem.",
   "lang":"id-ID",
   "start_url":"./",
   "scope":"./",
