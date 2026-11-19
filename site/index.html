@@ -3,263 +3,206 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0d716b">
-<meta name="description" content="Ruang Lega membantu pengguna memeriksa file besar dan duplikat serta mengelola penyimpanan digital dengan aman.">
+<meta name="theme-color" content="#08796f">
+<meta name="description" content="RUANG LEGA membantu memeriksa file besar dan duplikat secara lokal di HP, tablet, dan laptop.">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/ruang-lega.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./icons/ruang-lega.svg">
 <title>RUANG LEGA — Smart Storage Assistant</title>
 <style>
-:root{color-scheme:light;--ink:#173638;--muted:#647b7b;--teal:#0d716b;--teal2:#19a18f;--mint:#e2f5ef;--paper:#f4faf7;--line:#dcebe4;--white:#fff;--gold:#a66a1d;--red:#ad4d43;--shadow:0 15px 45px rgba(22,77,67,.08}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer}.wrap{max-width:1120px;margin:auto;padding:22px 22px 56px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:24px}.brand{display:flex;gap:11px;align-items:center}.logo{width:45px;height:45px;border-radius:15px;background:linear-gradient(140deg,#0b514e,#20a892);display:grid;place-items:center;color:white;box-shadow:0 8px 20px #0d716b33}.logo svg{width:28px}.brand b{letter-spacing:.08em;font-size:16px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.13em;text-transform:uppercase}.btn{border:0;border-radius:12px;padding:11px 15px;font-weight:750;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:7px}.primary{background:var(--teal);color:white}.outline{background:#fff;color:var(--ink);border:1px solid var(--line)}.soft{background:var(--mint);color:var(--teal)}.hidden{display:none!important}.hero{position:relative;overflow:hidden;background:linear-gradient(115deg,#103f3e,#0d716b 65%,#169b88);color:white;border-radius:26px;padding:34px 36px;margin-bottom:18px;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;width:300px;height:300px;border:1px solid #ffffff22;border-radius:50%;right:-90px;top:-160px;box-shadow:0 0 0 35px #ffffff09,0 0 0 75px #ffffff08}.eyebrow{font-size:10px;letter-spacing:.18em;color:#b9eee1;font-weight:850;text-transform:uppercase}.hero h1{font-size:clamp(30px,5vw,47px);line-height:1.08;letter-spacing:-.04em;margin:10px 0}.hero p{max-width:700px;color:#d6eee8;margin:0;font-size:14px}.hero .note{font-size:11px;margin-top:18px;padding-top:14px;border-top:1px solid #ffffff33;color:#d1e9e4;max-width:750px}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.card{background:white;border:1px solid var(--line);border-radius:20px;padding:21px;box-shadow:0 5px 22px #174e4008}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:17px}.kicker{font-size:10px;color:var(--teal);font-weight:850;letter-spacing:.15em;text-transform:uppercase}.card h2{font-size:19px;letter-spacing:-.025em;margin:2px 0}.sub{font-size:12px;color:var(--muted);margin:4px 0 0}.storage{display:flex;gap:22px;align-items:center}.ring{--pct:0;width:118px;height:118px;border-radius:50%;background:conic-gradient(var(--teal2) calc(var(--pct)*1%),#e8f1ed 0);display:grid;place-items:center;flex:none;position:relative}.ring:before{content:"";position:absolute;inset:9px;border-radius:50%;background:#fff}.ring>div{position:relative;text-align:center}.ring strong{font-size:25px;display:block;line-height:1.1}.ring span{font-size:10px;color:var(--muted)}.storageText{min-width:0;flex:1}.storageText strong{font-size:24px;letter-spacing:-.04em}.storageText small{display:block;color:var(--muted);font-size:11px}.bar{height:8px;border-radius:9px;background:#edf3ef;margin-top:12px;overflow:hidden}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#0d716b,#70c9a9);border-radius:9px}.caution{background:#fff8ec;border:1px solid #f3e5c9;color:#886024;padding:10px 12px;border-radius:11px;font-size:11px;margin-top:15px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#f5faf7;border:1px solid #e8f1ec;border-radius:14px;padding:15px}.stat span{display:block;color:var(--muted);font-size:11px}.stat strong{display:block;font-size:23px;letter-spacing:-.04em;margin-top:3px}.section{margin-top:20px}.filecard{padding:0;overflow:hidden}.filehead{padding:19px 21px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.filehead h2{margin:0}.actions{display:flex;gap:8px;flex-wrap:wrap}.drop{margin:18px 21px;padding:22px;border:1.5px dashed #b7d9ca;background:#f8fcf9;border-radius:16px;text-align:center}.drop strong{display:block;margin:6px 0}.drop p{font-size:11px;color:var(--muted);margin:3px 0 13px}.drop input{display:none}.filelist{padding:0 21px 18px}.item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-top:1px solid #edf3ef}.fname{font-size:12px;font-weight:750;overflow-wrap:anywhere}.fmeta{font-size:10px;color:var(--muted)}.fsize{text-align:right;white-space:nowrap;font-size:12px;font-weight:750}.tag{font-size:9px;color:#49786e;background:#eaf5ef;padding:3px 7px;border-radius:20px;display:inline-block;margin-top:4px}.tag.warn{background:#fff2dd;color:#8c5d1f}.empty{text-align:center;color:var(--muted);padding:14px;font-size:12px}.status{padding:0 21px 16px;color:var(--teal);font-size:11px;min-height:24px}.sectionTitle{margin:24px 0 12px}.sectionTitle h2{margin:0;font-size:21px}.sectionTitle p{margin:4px 0;color:var(--muted);font-size:12px}.guides{display:grid;grid-template-columns:1fr 1fr;gap:16px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:13px 0}.tab{padding:8px 11px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--muted);font-weight:750;font-size:11px}.tab.active{background:var(--teal);color:#fff;border-color:var(--teal)}ol{padding-left:20px;margin:12px 0;color:#425c59;font-size:12px}li{margin:10px 0}.safety{background:#f2faf6;border:1px solid #e0eee6;padding:12px;border-radius:12px;color:#42635c;font-size:11px;margin-top:12px}.footer{color:var(--muted);font-size:10px;text-align:center;margin-top:24px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#163f3b;color:white;border-radius:12px;padding:11px 15px;font-size:12px;box-shadow:var(--shadow);z-index:5;max-width:90vw}
-@media(max-width:760px){.grid,.guides{grid-template-columns:1fr}.hero{padding:27px 23px}.wrap{padding:16px 14px 40px}.card{padding:18px}.filehead{padding:17px}.drop{margin:15px;padding:18px}.filelist{padding:0 15px 15px}.status{padding:0 15px 14px}.ring{width:100px;height:100px}.storage{gap:14px}.storageText strong{font-size:20px}}
-
-.androidPanel{margin:18px 0;border-color:#b8ddd0}.deviceStat{display:grid;grid-template-columns:1.1fr .9fr;gap:15px;align-items:center}.deviceNumbers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.deviceNumbers .stat{padding:12px}.deviceNumbers strong{font-size:17px}.permGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.perm{background:#f6faf7;border:1px solid #e1eee7;padding:12px;border-radius:13px}.perm b{display:block;font-size:12px}.perm p{font-size:10px;color:var(--muted);margin:4px 0 9px}.appList{margin-top:13px;max-height:540px;overflow:auto}.appRow{border-top:1px solid #edf3ef;padding:13px 0;display:flex;justify-content:space-between;gap:12px;align-items:center}.appName{font-size:12px;font-weight:850;overflow-wrap:anywhere}.pkgName{font-size:10px;color:var(--muted);overflow-wrap:anywhere}.appMetrics{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}.appMetric{font-size:10px;background:#eef7f2;padding:4px 7px;border-radius:7px;color:#496963}.appActions{display:flex;flex-direction:column;gap:6px;flex:none}.appActions .btn{padding:8px 10px;font-size:10px}.deviceBar{height:9px;border-radius:12px;background:#e9f1ed;overflow:hidden;margin-top:9px}.deviceBar span{display:block;height:100%;background:linear-gradient(90deg,#0d716b,#66c5a1);width:0}.nativeHint{font-size:11px;color:var(--muted);margin-top:11px;line-height:1.55}.nativeStatus{font-size:11px;color:var(--teal);margin-top:12px;min-height:18px}
-@media(max-width:760px){.deviceStat{grid-template-columns:1fr}.deviceNumbers{grid-template-columns:repeat(3,1fr)}.permGrid{grid-template-columns:1fr}.appRow{align-items:flex-start}.appActions .btn{white-space:nowrap}}
-
-
-/* RUANG LEGA v1.4 app-like visual system */
-:root{--ink:#143d3a;--muted:#708582;--teal:#08796f;--teal2:#20a78f;--mint:#e7f7f0;--paper:#edf5f1;--line:#dfebe5;--white:#fff;--shadow:0 18px 52px rgba(16,76,62,.09)}
-html{scroll-behavior:smooth;scroll-padding-top:26px}
-body{background:radial-gradient(ellipse at 8% 0%,#e0f4eb 0,transparent 31%),#f2f7f4;color:var(--ink);font-family:Inter,"SF Pro Display",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.012em}
-.wrap{max-width:900px;padding:24px 24px 112px}
-.top{position:sticky;top:0;z-index:10;margin:-24px -24px 18px;padding:15px 24px;background:rgba(242,247,244,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(216,233,224,.75)}
-.brand{gap:10px}.logo{width:44px;height:44px;border-radius:15px;background:linear-gradient(145deg,#075a54,#22a98f);box-shadow:0 8px 18px rgba(9,121,111,.24)}
-.brand b{font-size:15px;letter-spacing:.09em;color:#15413d}.brand small{font-size:9px;letter-spacing:.14em;color:#7c928c}
-.topActions{display:flex;align-items:center;gap:10px}.securePill{display:inline-flex;align-items:center;gap:7px;background:#e6f5ed;border:1px solid #d4ecdf;color:#397468;border-radius:30px;padding:7px 11px;font-size:10px;font-weight:800}.securePill i{width:6px;height:6px;border-radius:50%;background:#31a77d;box-shadow:0 0 0 3px #c9eadb}
-.btn{border-radius:13px;padding:11px 15px;font-size:12px;transition:transform .18s,box-shadow .18s}.btn:active,.quickAction:active,.dockItem:active{transform:scale(.97)}
-.primary{background:linear-gradient(135deg,#0b8075,#0b6a64);box-shadow:0 7px 18px rgba(8,121,111,.18)}.soft{background:#e8f6ef;color:#14776b;border:1px solid #d8eee2}.outline{border:1px solid #dceae3;background:white;color:#35625a}
-.appHero{min-height:285px;display:flex;align-items:center;position:relative;isolation:isolate;overflow:hidden;border-radius:27px;padding:29px 31px 25px;background:linear-gradient(115deg,#0c4542 0%,#08786d 58%,#20a68e 100%);box-shadow:0 18px 44px rgba(8,104,92,.2);margin-bottom:18px}
-.appHero:before{content:"";position:absolute;inset:auto -40px -170px auto;width:380px;height:380px;border-radius:50%;border:1px solid #ffffff22;box-shadow:0 0 0 26px #ffffff09,0 0 0 58px #ffffff08,0 0 0 93px #ffffff06;z-index:-1}
-.heroCopy{position:relative;z-index:2;max-width:600px}.appHero .eyebrow{font-size:9px;letter-spacing:.17em;color:#a9e8d5;font-weight:900}.heroGreeting{margin-top:13px;color:#dcf6e9;font-size:13px;font-weight:700}
-.appHero h1{font-size:clamp(27px,4vw,39px);line-height:1.12;letter-spacing:-.045em;max-width:580px;margin:7px 0 10px;color:white}.appHero p{font-size:12px;max-width:480px;color:#d6eee7;line-height:1.65}
-.heroActions{display:flex;gap:9px;margin-top:17px}.heroLight{background:#f4fffa;color:#0d6f64;box-shadow:0 6px 18px #073e3829}.heroGhost{color:white;background:#ffffff17;border:1px solid #ffffff55}.appHero .note{font-size:10px;color:#c3e9dc;border:0;padding:0;margin:19px 0 0;max-width:540px}
-.heroOrb{position:absolute;right:8%;top:50%;transform:translateY(-50%);width:160px;height:160px;border-radius:50%;border:1px solid #d5fff044;background:radial-gradient(circle at 35% 27%,#ffffff49,#ffffff0d 58%,#ffffff04 70%);display:grid;place-items:center;box-shadow:inset 0 0 26px #ffffff20,0 0 0 13px #ffffff09}
-.orbInner{width:126px;height:126px;border-radius:50%;background:linear-gradient(145deg,#c4f2df,#83d8bd);color:#0a665c;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 10px 30px #093f3838;transform:rotate(-8deg)}
-.orbInner span{font-size:19px;line-height:1}.orbInner b{text-align:center;font-size:11px;letter-spacing:.09em;line-height:1.2;margin-top:4px}.orbInner small{font-size:8px;margin-top:6px;color:#307b6d}
-#homeSection{grid-template-columns:1fr 1fr;gap:14px}
-.card{border:1px solid #e1eee7;border-radius:21px;padding:20px;background:rgba(255,255,255,.95);box-shadow:0 8px 26px rgba(27,79,64,.045)}
-.head{margin-bottom:14px}.kicker{font-size:9px;letter-spacing:.16em;color:#26927f}.card h2{font-size:16px;letter-spacing:-.03em;color:#183f3b}.sub{font-size:11px;line-height:1.55;color:#81938e}
-.storage{gap:16px}.ring{width:108px;height:108px;background:conic-gradient(#21a78e calc(var(--pct)*1%),#e8f0eb 0);box-shadow:0 7px 18px #15876b13}.ring:before{inset:8px;background:#fff}.ring strong{font-size:23px;color:#144f47}.ring span{font-size:9px}.storageText strong{font-size:21px;color:#164640}.storageText small{font-size:10px}.bar{height:7px;background:#eff4f0}.bar span{background:linear-gradient(90deg,#0c8176,#5bcaa5)}
-.caution{background:#fff8ed;border:1px solid #f0e4cb;border-radius:11px;color:#8e6b35;font-size:10px;line-height:1.5;padding:9px 11px;margin-top:13px}
-.stats{gap:8px}.stat{background:#f5faf7;border:1px solid #eaf2ed;border-radius:13px;padding:12px}.stat span{font-size:10px;color:#82938e}.stat strong{font-size:19px;color:#174a42}
-.quickActions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 19px}.quickAction{border:1px solid #e1eee7;background:#fff;border-radius:16px;padding:13px 12px;display:flex;align-items:center;gap:10px;text-align:left;box-shadow:0 5px 17px #214d3b08;color:var(--ink);transition:transform .18s,box-shadow .18s}.quickAction:hover{box-shadow:0 9px 23px #214d3b12}.quickIcon{width:34px;height:34px;border-radius:11px;background:#e7f6ee;color:#0c8276;display:grid;place-items:center;font-size:20px;flex:none}.quickAction b{display:block;font-size:10px}.quickAction small{display:block;color:#879690;font-size:9px;line-height:1.35;margin-top:2px}.quickArrow{margin-left:auto;color:#9bb6aa;font-size:21px}
-.androidPanel{margin:0 0 18px}.androidPanel .deviceStat{background:linear-gradient(120deg,#f0faf4,#e7f6ef);border:1px solid #e0f0e6;border-radius:16px;padding:15px}.deviceNumbers .stat{background:#fff}.perm{background:#f8fbf8;border:1px solid #e5efe9;border-radius:14px}.appRow{padding:13px 4px}.appMetric{background:#eef7f2}
-.filecard{padding:0;overflow:hidden}.filehead{padding:19px 20px 13px;border-bottom:1px solid #eaf1ed}.filehead h2{font-size:17px}.actions{gap:7px}.actions .btn{font-size:10px;padding:9px 11px}
-.drop{margin:17px 20px 15px;padding:23px 15px;background:linear-gradient(145deg,#f7fcf8,#eff8f2);border:1.5px dashed #b8d9c8;border-radius:17px}.drop>div:first-child{margin-bottom:7px;color:#0c8478}.drop strong{font-size:13px;color:#234d44}.drop p{font-size:10px;max-width:480px;margin:5px auto 13px}.drop label{border-radius:12px}
-.filelist{padding:0 20px 14px}.item{padding:12px 2px}.fname{font-size:11px}.fmeta{font-size:9px}.fsize{font-size:11px}
-.sectionTitle{margin:24px 2px 13px}.sectionTitle h2{font-size:18px;color:#17453f}.sectionTitle p{font-size:11px}.guides{gap:13px}.guides .card{padding:18px}.guides h2{font-size:16px}.tabs{gap:6px}.tab{font-size:10px;border-radius:9px;padding:8px 10px}.guides ol{font-size:11px;line-height:1.6}.safety{font-size:10px;background:#f0f8f3}
-.footer{font-size:9px;color:#8a9b95;margin:26px auto 8px;line-height:1.8}.toast{bottom:85px;border-radius:14px;font-size:11px;padding:12px 16px}
-.appDock{position:fixed;z-index:30;bottom:14px;left:50%;transform:translateX(-50%);width:min(540px,calc(100vw - 32px));padding:8px 10px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:space-around;gap:4px;border:1px solid #dcebe2;border-radius:21px;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);box-shadow:0 14px 38px rgba(15,65,53,.18)}
-.dockItem{flex:1;border:0;background:transparent;color:#8a9b95;border-radius:14px;padding:6px 3px;display:flex;flex-direction:column;align-items:center;gap:1px}.dockItem span{font-size:20px;line-height:1.2}.dockItem small{font-size:9px;font-weight:750}.dockItem.active{background:#e8f6ef;color:#08766a}
-button:focus-visible{outline:3px solid #7bd8c2;outline-offset:2px}
-@media(max-width:760px){
- .wrap{max-width:560px;padding:0 13px calc(106px + env(safe-area-inset-bottom))}
- .top{margin:0 -13px 13px;padding:12px 15px}
- .securePill{font-size:0;padding:8px}.securePill i{width:7px;height:7px}
- .brand b{font-size:14px}.brand small{font-size:8px}
- .appHero{padding:23px 20px 17px;min-height:276px;border-radius:22px;margin-bottom:13px;align-items:flex-start}
- .heroCopy{max-width:100%}.appHero h1{font-size:29px;max-width:360px}.appHero p{max-width:310px;font-size:11px}.heroOrb{width:95px;height:95px;right:12px;top:26px;transform:none;opacity:.85}.orbInner{width:75px;height:75px}.orbInner span{font-size:12px}.orbInner b{font-size:7px}.orbInner small{font-size:6px}
- .heroActions{gap:7px;margin-top:14px}.heroActions .btn{font-size:10px;padding:9px 11px}
- .appHero .note{max-width:100%;font-size:9px;margin-top:15px;line-height:1.4}
- #homeSection{grid-template-columns:1fr;gap:11px}
- .card{padding:17px;border-radius:18px}.storage{gap:14px}.ring{width:96px;height:96px}.storageText strong{font-size:20px}
- .quickActions{grid-template-columns:1fr;gap:8px;margin:12px 0 15px}.quickAction{padding:10px 12px;border-radius:14px}.quickIcon{width:32px;height:32px}.quickAction b{font-size:11px}
- .androidPanel{padding:17px}.deviceStat{grid-template-columns:1fr}.deviceNumbers{gap:6px}.deviceNumbers .stat{padding:10px 7px}.deviceNumbers .stat strong{font-size:14px}
- .filehead{padding:16px 16px 12px;display:block}.filehead .actions{margin-top:11px}.filehead .actions .btn{font-size:9px;padding:8px 9px}.drop{margin:14px;padding:20px 12px}.filelist{padding:0 15px 14px}
- .guides{grid-template-columns:1fr}.guides .card{padding:17px}.sectionTitle{margin:21px 2px 11px}.sectionTitle h2{font-size:17px}
- .appDock{bottom:calc(8px + env(safe-area-inset-bottom));width:calc(100vw - 24px);border-radius:18px}.dockItem span{font-size:19px}.dockItem small{font-size:8px}.toast{bottom:82px}
-}
+:root{--ink:#153e3a;--muted:#718680;--teal:#08796f;--teal2:#20a78f;--mint:#e8f7ef;--paper:#f3f8f5;--line:#e0ebe5;--white:#fff;--gold:#94651d;--shadow:0 16px 42px rgba(17,75,61,.08)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input{font:inherit}button{cursor:pointer}
+.app{min-height:100vh}
+.sidebar{position:fixed;inset:0 auto 0 0;width:248px;padding:26px 18px;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:20}
+.brand{display:flex;align-items:center;gap:11px;padding:0 9px 26px}
+.logo{width:43px;height:43px;border-radius:15px;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,#075a54,#22a98f);box-shadow:0 8px 18px #08796f2c;flex:none}
+.logo svg{width:26px}
+.brand b{display:block;font-size:14px;letter-spacing:.1em}
+.brand small{display:block;color:#879891;font-size:9px;letter-spacing:.13em;text-transform:uppercase}
+.navLabel{padding:8px 11px;color:#9aa9a3;font-size:9px;font-weight:850;letter-spacing:.17em;text-transform:uppercase}
+.nav{display:grid;gap:5px}
+.nav a{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;color:#738780;text-decoration:none;font-size:12px;font-weight:750;transition:.18s}
+.nav a span{width:20px;text-align:center;font-size:17px}
+.nav a:hover,.nav a.active{background:#eaf7f0;color:var(--teal)}
+.sidebarFoot{margin-top:auto;border:1px solid #dfeee5;background:#f4faf6;border-radius:16px;padding:14px}
+.sidebarFoot b{font-size:11px;display:flex;align-items:center;gap:7px}
+.sidebarFoot p{font-size:10px;color:var(--muted);margin:7px 0 0;line-height:1.55}
+.main{margin-left:248px;max-width:1600px;padding:25px clamp(22px,3vw,48px) 56px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}
+.breadcrumb{font-size:11px;color:#90a19a}.breadcrumb b{color:#315c52}
+.topActions{display:flex;gap:9px;align-items:center}
+.privacy{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid #dceee3;background:#f0f9f3;color:#437b6c;border-radius:30px;font-size:10px;font-weight:800}
+.privacy i{width:7px;height:7px;border-radius:50%;background:#2eaa7b;box-shadow:0 0 0 3px #d0edde}
+.btn{border:0;border-radius:11px;padding:10px 14px;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:11px;font-weight:800;transition:transform .16s,box-shadow .16s}
+.btn:active{transform:scale(.97)}
+.primary{background:linear-gradient(135deg,#0b8075,#0b6a64);color:#fff;box-shadow:0 6px 16px #08796f26}
+.outline{background:#fff;color:#38645a;border:1px solid #dceae3}
+.soft{background:#e8f6ef;color:#14776b;border:1px solid #d8eee2}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.hero{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:26px;min-height:236px;padding:30px 34px;border-radius:25px;background:linear-gradient(112deg,#103f3d 0%,#08786d 58%,#20a68e 100%);color:#fff;box-shadow:0 17px 40px #0b6a5e24}
+.hero:after{content:"";position:absolute;z-index:-1;right:-100px;top:-200px;width:440px;height:440px;border:1px solid #ffffff24;border-radius:50%;box-shadow:0 0 0 35px #ffffff09,0 0 0 75px #ffffff07,0 0 0 115px #ffffff05}
+.heroCopy{max-width:690px}
+.eyebrow{font-size:9px;letter-spacing:.2em;font-weight:900;color:#a9e8d5}
+.hero h1{font-size:clamp(28px,3.2vw,43px);line-height:1.1;letter-spacing:-.045em;margin:12px 0 10px;max-width:660px}
+.hero p{font-size:12px;color:#d5eee6;max-width:610px;margin:0}
+.heroActions{display:flex;flex-wrap:wrap;gap:9px;margin-top:19px}
+.heroLight{background:#f4fffa;color:#0d6f64}
+.heroGhost{background:#ffffff18;color:#fff;border:1px solid #ffffff50}
+.orb{width:150px;height:150px;flex:none;border:1px solid #d5fff044;border-radius:50%;background:radial-gradient(circle at 35% 27%,#ffffff49,#ffffff0d 58%,#ffffff04 70%);display:grid;place-items:center;box-shadow:inset 0 0 26px #ffffff20,0 0 0 13px #ffffff09}
+.orbInner{width:118px;height:118px;border-radius:50%;background:linear-gradient(145deg,#c4f2df,#83d8bd);color:#0a665c;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 10px 30px #093f3838;transform:rotate(-8deg)}
+.orbInner span{font-size:23px}.orbInner b{text-align:center;font-size:10px;letter-spacing:.1em;line-height:1.2;margin-top:3px}.orbInner small{font-size:8px;margin-top:6px;color:#307b6d}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:17px 0}
+.metric{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px;box-shadow:0 5px 20px #174e4007;min-width:0}
+.metricIcon{width:39px;height:39px;border-radius:13px;background:#e9f7ef;color:var(--teal);display:grid;place-items:center;font-size:20px;flex:none}
+.metric small{display:block;color:#8a9a94;font-size:10px}.metric strong{display:block;font-size:19px;letter-spacing:-.04em;overflow-wrap:anywhere}.metric em{font-style:normal;font-size:9px;color:#8a9a94}
+.panel{background:#fff;border:1px solid var(--line);border-radius:19px;padding:20px;box-shadow:0 7px 24px #174e4007;min-width:0}
+.panelHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:15px}
+.kicker{font-size:9px;letter-spacing:.16em;color:#26927f;font-weight:900;text-transform:uppercase}
+.panel h2{font-size:16px;letter-spacing:-.025em;margin:3px 0 0}
+.sub{font-size:10px;color:#81938e;margin:4px 0 0;line-height:1.55}
+.storageGrid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px;margin-bottom:18px}
+.storageBox{display:flex;align-items:center;gap:17px;min-width:0}
+.ring{--pct:0;width:102px;height:102px;border-radius:50%;flex:none;position:relative;background:conic-gradient(var(--teal2) calc(var(--pct)*1%),#e8f0eb 0);display:grid;place-items:center}
+.ring:before{content:"";position:absolute;inset:8px;border-radius:50%;background:#fff}
+.ring>div{position:relative;text-align:center}
+.ring strong{font-size:21px;display:block;line-height:1.1}.ring span{font-size:9px;color:var(--muted)}
+.storageText{min-width:0}.storageText strong{font-size:19px;letter-spacing:-.04em;display:block}.storageText small{font-size:10px;color:var(--muted);display:block}
+.progress{height:7px;border-radius:8px;background:#eff4f0;margin-top:10px;overflow:hidden}.progress span{height:100%;display:block;width:0;background:linear-gradient(90deg,#0c8176,#5bcaa5);border-radius:8px}
+.notice{background:#fff8ed;border:1px solid #f0e4cb;border-radius:11px;color:#8e6b35;font-size:10px;line-height:1.55;padding:10px 11px;margin-top:13px}
+.storageInfo{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.infoTile{background:#f5faf7;border:1px solid #eaf2ed;border-radius:12px;padding:12px}
+.infoTile small{display:block;color:#82938e;font-size:9px}.infoTile b{display:block;font-size:16px;margin-top:2px}
+.workspace{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,.8fr);gap:16px;align-items:start}
+.filePanel{padding:0;overflow:hidden}
+.fileHead{padding:20px 21px 15px;border-bottom:1px solid #eaf1ed;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.fileHead h2{font-size:17px;margin:0}
+.fileActions{display:flex;gap:7px;flex-wrap:wrap}
+.drop{margin:17px 20px;padding:25px 18px;text-align:center;background:linear-gradient(145deg,#f7fcf8,#eff8f2);border:1.5px dashed #b8d9c8;border-radius:16px;transition:.18s}
+.drop.drag{border-color:#0b9a83;background:#e8f8ef;box-shadow:inset 0 0 0 2px #0b9a8315}
+.dropIcon{font-size:25px;color:#0c8478}
+.drop strong{display:block;font-size:13px;margin:5px 0;color:#234d44}
+.drop p{font-size:10px;color:#80938c;margin:4px auto 13px;max-width:540px}
+.dropButtons{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.hiddenInput{display:none}
+.fileTools{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 20px 13px;flex-wrap:wrap}
+.search{min-width:180px;max-width:300px;flex:1;position:relative}
+.search input{width:100%;border:1px solid #e2ece6;border-radius:10px;padding:9px 11px;color:var(--ink);outline:none;font-size:11px;background:#fbfdfb}
+.search input:focus{border-color:#75c5ad;box-shadow:0 0 0 3px #dff4e9}
+.sortLabel{font-size:10px;color:#80928b}
+.fileTableWrap{overflow-x:auto}
+.fileTable{width:100%;border-collapse:collapse;min-width:440px}
+.fileTable th{text-align:left;font-size:9px;color:#91a099;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:10px 20px;background:#fafcfb;border-top:1px solid #edf3ef;border-bottom:1px solid #edf3ef}
+.fileTable td{padding:11px 20px;border-bottom:1px solid #eff4f1;font-size:10px;vertical-align:middle}
+.fileTable tr:last-child td{border-bottom:0}
+.fileName{font-weight:800;max-width:260px;overflow-wrap:anywhere;color:#315a50}
+.fileMeta{font-size:9px;color:#94a29c;margin-top:2px}
+.sizeCell{text-align:right;white-space:nowrap;font-weight:800}
+.fileType{display:inline-block;padding:3px 7px;border-radius:20px;background:#eaf5ef;color:#49786e;font-size:8px}
+.dupTag{display:inline-block;margin-left:5px;padding:3px 6px;border-radius:20px;background:#fff1df;color:#91601e;font-size:8px}
+.empty{text-align:center;color:#8a9b94;font-size:11px;padding:24px}
+.status{font-size:10px;color:var(--teal);padding:0 20px 16px;min-height:28px}
+.sideStack{display:grid;gap:14px}
+.steps{display:grid;gap:12px;margin-top:15px}
+.step{display:flex;gap:10px;align-items:flex-start}
+.stepNo{width:25px;height:25px;display:grid;place-items:center;border-radius:9px;background:#e9f7ef;color:#08796f;font-size:10px;font-weight:900;flex:none}
+.step b{display:block;font-size:10px}.step p{font-size:9px;color:#879790;margin:2px 0 0;line-height:1.5}
+.tipList{display:grid;gap:8px;margin-top:12px}
+.tip{display:flex;gap:8px;font-size:10px;color:#60776f;align-items:flex-start}.tip span{color:#168b79;font-size:14px;line-height:1}
+.guideSection{margin-top:20px}
+.guideGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:13px}
+.guideTabs{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}
+.tab{border:1px solid var(--line);background:#fff;color:#778b83;border-radius:9px;padding:7px 10px;font-size:9px;font-weight:800}
+.tab.active{background:var(--teal);border-color:var(--teal);color:white}
+.guideContent ol{padding-left:19px;margin:10px 0;color:#536c63;font-size:10px;line-height:1.6}
+.guideContent li{margin:7px 0}
+.safety{background:#f0f8f3;border:1px solid #e0eee6;padding:10px;border-radius:11px;color:#42635c;font-size:9px;margin-top:12px;line-height:1.55}
+.footer{text-align:center;font-size:9px;color:#91a199;margin:26px 0 0;line-height:1.8}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#163f3b;color:white;border-radius:12px;padding:11px 15px;font-size:11px;box-shadow:var(--shadow);z-index:60;max-width:90vw}
+.mobileDock{display:none}
+button:focus-visible,a:focus-visible{outline:3px solid #7bd8c2;outline-offset:2px}
+@media(min-width:1500px){.main{padding-left:52px;padding-right:52px}.hero{min-height:255px}.panel{padding:23px}.fileHead{padding-left:24px;padding-right:24px}}
+@media(max-width:1100px){.sidebar{width:215px}.main{margin-left:215px;padding:22px}.workspace{grid-template-columns:minmax(0,1.4fr) minmax(235px,.8fr)}.orb{width:120px;height:120px}.orbInner{width:95px;height:95px}}
+@media(max-width:850px){.sidebar{display:none}.main{margin:0;padding:16px 16px 95px}.topbar{margin-bottom:15px}.hero{min-height:0;padding:24px;border-radius:21px}.hero h1{font-size:30px}.orb{width:96px;height:96px}.orbInner{width:76px;height:76px}.orbInner span{font-size:17px}.orbInner b{font-size:7px}.orbInner small{font-size:6px}.workspace{grid-template-columns:1fr}.sideStack{grid-template-columns:1fr 1fr}.mobileDock{position:fixed;z-index:50;bottom:calc(8px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100vw - 24px);max-width:560px;padding:8px 9px;display:flex;justify-content:space-around;gap:4px;border:1px solid #dcebe2;border-radius:18px;background:rgba(255,255,255,.94);backdrop-filter:blur(20px);box-shadow:0 14px 38px rgba(15,65,53,.17)}.mobileDock a{flex:1;text-decoration:none;color:#8a9b95;padding:5px 2px;display:flex;flex-direction:column;align-items:center;gap:1px;border-radius:12px}.mobileDock a.active{background:#e8f6ef;color:#08766a}.mobileDock span{font-size:18px;line-height:1.2}.mobileDock small{font-size:8px;font-weight:800}.toast{bottom:82px}}
+@media(max-width:600px){.main{padding:12px 12px 96px}.topbar{margin-bottom:12px}.breadcrumb{font-size:9px}.privacy{font-size:0;padding:8px}.privacy i{width:7px;height:7px}.topActions .btn{padding:8px 10px;font-size:9px}.hero{padding:21px 18px 18px;align-items:flex-start;min-height:248px}.heroCopy{position:relative;z-index:2}.hero h1{font-size:27px;max-width:360px}.hero p{font-size:10px;max-width:310px}.orb{position:absolute;right:12px;top:16px;width:81px;height:81px;opacity:.75}.orbInner{width:64px;height:64px}.orbInner span{font-size:13px}.orbInner b{font-size:6px}.orbInner small{font-size:5px}.heroActions{margin-top:14px}.heroActions .btn{font-size:9px;padding:8px 10px}.metrics{gap:7px;margin:11px 0}.metric{padding:10px 8px;gap:7px;align-items:flex-start;flex-direction:column}.metricIcon{width:29px;height:29px;border-radius:9px;font-size:15px}.metric small{font-size:8px}.metric strong{font-size:14px}.metric em{font-size:7px}.storageGrid{grid-template-columns:1fr;gap:10px}.panel{padding:15px;border-radius:16px}.storageBox{gap:13px}.ring{width:87px;height:87px}.ring strong{font-size:18px}.storageText strong{font-size:17px}.storageInfo{gap:6px}.infoTile{padding:9px}.infoTile b{font-size:14px}.sideStack{grid-template-columns:1fr}.fileHead{padding:16px 15px 12px}.fileHead h2{font-size:15px}.fileHead .panelHead{display:block}.fileActions{width:100%}.fileActions .btn{font-size:8px;padding:8px}.drop{margin:13px 12px;padding:19px 10px}.drop strong{font-size:11px}.drop p{font-size:9px}.fileTools{padding:0 12px 10px}.fileTable th,.fileTable td{padding-left:12px;padding-right:12px}.status{padding:0 13px 12px}.guideGrid{grid-template-columns:1fr}.guideSection{margin-top:16px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
-
 </style>
-<!-- Redeploy after GitHub Pages source was enabled -->
 </head>
 <body>
-<div class="wrap">
-<header class="top">
+<div class="app">
+<aside class="sidebar">
  <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c-3 4-6.5 7.1-6.5 11a6.5 6.5 0 0 0 13 0C18.5 10.1 15 7 12 3Z"/><path d="M9 15c.4 1.5 1.4 2.2 3 2.5"/></svg></div><div><b>RUANG LEGA</b><small>Smart Storage Assistant</small></div></div>
- <div class="topActions"><span class="securePill"><i></i> Privasi terlindungi</span><button id="installBtn" class="btn outline hidden">＋ Pasang aplikasi</button></div>
-</header>
-<section class="hero appHero"><div class="heroCopy"><div class="eyebrow">YOUR PERSONAL STORAGE ASSISTANT</div><div class="heroGreeting">Halo, selamat datang 👋</div><h1>Ruang digital yang lebih lega, mulai dari sini.</h1><p>Pantau file, temukan duplikat, dan kelola penyimpanan perangkat dengan langkah yang aman.</p><div class="heroActions"><button class="btn heroLight" data-jump="fileSection">⌕ Periksa file</button><button class="btn heroGhost" data-jump="androidTools">▤ Penyimpanan</button></div><div class="note">File yang kamu pilih dianalisis langsung di perangkat. Data pribadi tidak dikirim ke server.</div></div><div class="heroOrb"><div class="orbInner"><span>✦</span><b>SPACE<br>FOR MORE</b><small>Keep what matters</small></div></div></section>
-<div id="homeSection" class="grid">
-<section class="card">
- <div class="head"><div><div class="kicker">Storage overview</div><h2>Ringkasan penyimpanan</h2><p class="sub">Estimasi untuk data situs RUANG LEGA di browser ini.</p></div><button id="refreshBtn" class="btn soft">↻ Perbarui</button></div>
- <div class="storage"><div class="ring" id="ring" style="--pct:0"><div><strong id="percent">—%</strong><span>kuota situs</span></div></div><div class="storageText"><strong id="used">Memuat…</strong><small id="quota">Meminta estimasi browser</small><div class="bar"><span id="bar"></span></div></div></div>
- <div class="caution">Angka ini bukan total memori HP dan tidak menunjukkan ukuran cache TikTok, WhatsApp, atau aplikasi lain.</div>
-</section>
-<section class="card">
- <div class="head"><div><div class="kicker">Your file insights</div><h2>Hasil pemeriksaan file</h2><p class="sub">Berdasarkan file yang kamu pilih sendiri.</p></div></div>
- <div class="stats"><div class="stat"><span>File dipilih</span><strong id="count">0</strong></div><div class="stat"><span>Total ukuran</span><strong id="total">0 B</strong></div><div class="stat"><span>File besar (&gt;100 MB)</span><strong id="large">0</strong></div><div class="stat"><span>Potensi duplikat</span><strong id="dupes">0 B</strong></div></div>
- <p class="sub" style="margin-top:13px">File tidak akan dihapus otomatis. Tinjau hasilnya sebelum menghapusnya melalui aplikasi File/Galeri.</p>
-</section>
-</div>
-
-<div class="quickActions">
- <button class="quickAction" data-jump="fileSection"><span class="quickIcon">⌕</span><span><b>Periksa file</b><small>Temukan file besar & duplikat</small></span><span class="quickArrow">›</span></button>
- <button class="quickAction" data-jump="androidTools"><span class="quickIcon">▤</span><span><b>Storage perangkat</b><small>Lihat ruang dan cache aplikasi</small></span><span class="quickArrow">›</span></button>
- <button class="quickAction" data-jump="guideSection"><span class="quickIcon">♡</span><span><b>Panduan aman</b><small>Rawat penyimpanan dengan bijak</small></span><span class="quickArrow">›</span></button>
-</div>
-<section id="androidTools" class="section card androidPanel hidden">
- <div class="head"><div><div class="kicker">Android device tools</div><h2>Penyimpanan perangkat</h2><p class="sub">Statistik internal Android dan cache aplikasi yang dapat dibaca setelah izin diberikan.</p></div><button id="deviceRefreshBtn" class="btn soft">↻ Perbarui</button></div>
- <div class="deviceStat">
-  <div>
-   <div class="kicker">Internal storage</div>
-   <div><strong id="deviceUsed" style="font-size:28px;letter-spacing:-.04em">—</strong> <span id="devicePercent" class="sub">—</span></div>
-   <div id="deviceDetail" class="sub">Membaca statistik perangkat…</div>
-   <div class="deviceBar"><span id="deviceBar"></span></div>
+ <div class="navLabel">Menu utama</div>
+ <nav class="nav"><a class="active" href="#home"><span>⌂</span>Dashboard</a><a href="#workspace"><span>▤</span>Pemeriksa file</a><a href="#storage"><span>◉</span>Penyimpanan web</a><a href="#guide"><span>☷</span>Panduan perangkat</a></nav>
+ <div class="sidebarFoot"><b>✦ Privasi diutamakan</b><p>File yang kamu pilih diproses langsung di browser. RUANG LEGA tidak mengunggah file ke server.</p></div>
+</aside>
+<main class="main">
+ <header class="topbar"><div class="breadcrumb">Ruang kerja / <b>Dashboard</b></div><div class="topActions"><span class="privacy"><i></i> Pemrosesan lokal</span><button id="installBtn" class="btn outline" hidden>＋ Pasang aplikasi</button></div></header>
+ <section class="hero" id="home"><div class="heroCopy"><div class="eyebrow">YOUR PERSONAL STORAGE ASSISTANT</div><h1>Ruang digital yang lebih lega, mulai dari sini.</h1><p>Periksa file besar, temukan file identik, dan kelola ruang penyimpanan dengan langkah yang aman — dari laptop, tablet, maupun HP.</p><div class="heroActions"><button class="btn heroLight" data-jump="workspace">⌕ Periksa file sekarang</button><button class="btn heroGhost" data-jump="guide">Lihat panduan perangkat →</button></div></div><div class="orb" aria-hidden="true"><div class="orbInner"><span>✦</span><b>SPACE<br>FOR MORE</b><small>Keep what matters</small></div></div></section>
+ <section class="metrics" aria-label="Ringkasan pemeriksaan"><div class="metric"><div class="metricIcon">▤</div><div><small>File dipilih</small><strong id="fileCount">0</strong><em>file dalam sesi ini</em></div></div><div class="metric"><div class="metricIcon">◫</div><div><small>Total ukuran</small><strong id="totalSize">0 B</strong><em>file yang kamu pilih</em></div></div><div class="metric"><div class="metricIcon">✧</div><div><small>Potensi duplikat</small><strong id="duplicateSize">0 B</strong><em>estimasi ruang berulang</em></div></div></section>
+ <section class="storageGrid" id="storage">
+  <div class="panel"><div class="panelHead"><div><div class="kicker">Penyimpanan browser</div><h2>Ruang situs ini</h2><p class="sub">Estimasi data RUANG LEGA yang tersimpan di browser perangkat ini.</p></div><button id="refreshStorage" class="btn outline">↻ Perbarui</button></div><div class="storageBox"><div class="ring" id="storageRing"><div><strong id="storagePercent">—%</strong><span>digunakan</span></div></div><div class="storageText"><strong id="storageUsed">Belum tersedia</strong><small id="storageQuota">Estimasi kuota penyimpanan untuk situs ini.</small><div class="progress"><span id="storageBar"></span></div></div></div><div class="notice">Angka ini hanya untuk penyimpanan situs RUANG LEGA di browser, bukan seluruh kapasitas SSD/HDD laptop atau memori HP.</div></div>
+  <div class="panel"><div class="panelHead"><div><div class="kicker">Informasi perangkat</div><h2>Mode penggunaan</h2><p class="sub">Fitur mengikuti izin yang tersedia di browser dan sistem operasi.</p></div></div><div class="storageInfo"><div class="infoTile"><small>Perangkat terdeteksi</small><b id="deviceType">Browser</b></div><div class="infoTile"><small>Folder sekaligus</small><b id="folderSupport">Memeriksa…</b></div><div class="infoTile"><small>Koneksi</small><b id="onlineState">Memeriksa…</b></div><div class="infoTile"><small>Privasi file</small><b>Di perangkat</b></div></div><p class="sub" style="margin-top:12px">Di laptop, pilih banyak file atau satu folder untuk dianalisis. Browser tidak diberi izin untuk menyisir seluruh disk secara diam-diam.</p></div>
+ </section>
+ <section class="workspace" id="workspace">
+  <div class="panel filePanel">
+   <div class="fileHead"><div><div class="kicker">Local file analyzer</div><h2>Pemeriksa file & duplikat</h2><p class="sub">Pilih file atau folder yang ingin diperiksa. File asli tidak diubah.</p></div><div class="fileActions"><button id="scanDuplicates" class="btn primary" disabled>⌕ Cari file kembar</button><button id="exportCsv" class="btn outline" disabled>↓ Ekspor CSV</button></div></div>
+   <div class="drop" id="dropZone"><div class="dropIcon">⇧</div><strong>Seret file ke sini atau pilih dari perangkat</strong><p>Bisa memilih banyak file sekaligus. Di browser laptop yang mendukungnya, kamu juga bisa memilih satu folder untuk dianalisis.</p><div class="dropButtons"><button id="chooseFiles" class="btn primary">Pilih file</button><button id="chooseFolder" class="btn soft">Pilih folder</button></div><input id="fileInput" class="hiddenInput" type="file" multiple><input id="folderInput" class="hiddenInput" type="file" multiple webkitdirectory directory></div>
+   <div class="fileTools"><label class="search"><input id="fileSearch" type="search" placeholder="Cari nama file…"></label><span class="sortLabel" id="fileSummary">Belum ada file dipilih</span><button id="clearList" class="btn outline" disabled>Kosongkan daftar</button></div>
+   <div class="fileTableWrap"><table class="fileTable"><thead><tr><th>Nama file</th><th>Jenis</th><th style="text-align:right">Ukuran</th></tr></thead><tbody id="fileRows"><tr><td colspan="3" class="empty">Pilih file atau folder untuk memulai pemeriksaan.</td></tr></tbody></table></div>
+   <div class="status" id="scanStatus" aria-live="polite">File diproses di browser perangkat ini. Tidak ada unggahan ke server.</div>
   </div>
-  <div class="deviceNumbers">
-   <div class="stat"><span>Total</span><strong id="deviceTotal">—</strong></div>
-   <div class="stat"><span>Terpakai</span><strong id="deviceUsedSmall">—</strong></div>
-   <div class="stat"><span>Tersedia</span><strong id="deviceFree">—</strong></div>
-  </div>
- </div>
- <div class="permGrid">
-  <div class="perm"><b>1. Akses statistik penggunaan</b><p>Memungkinkan RUANG LEGA membaca ukuran aplikasi, data, dan cache. Tidak membuka isi pesan, foto privat, atau dokumen aplikasi.</p><button id="usagePermissionBtn" class="btn primary">Aktifkan Usage access</button></div>
-  <div class="perm"><b>2. Akses semua file (opsional)</b><p>Diperlukan hanya untuk meminta Android menampilkan konfirmasi pembersihan cache lintas aplikasi. Izin ini luas dan dapat ditolak.</p><button id="filesPermissionBtn" class="btn outline">Atur akses semua file</button></div>
- </div>
- <div class="head" style="margin:18px 0 8px"><div><h2 style="font-size:16px">Analisis aplikasi terpasang</h2><p class="sub">Aplikasi yang dapat ditampilkan di launcher perangkat.</p></div><button id="scanAppsBtn" class="btn primary">Pindai aplikasi</button></div>
- <div class="stats" style="margin-top:8px"><div class="stat"><span>Aplikasi dipindai</span><strong id="appCount">0</strong></div><div class="stat"><span>Total cache terdeteksi</span><strong id="appCacheTotal">0 B</strong></div></div>
- <div id="appScanStatus" class="nativeStatus" aria-live="polite">Aktifkan Usage access untuk memulai pemindaian.</div>
- <div id="installedApps" class="appList"><div class="empty">Daftar aplikasi belum dipindai.</div></div>
- <div class="actions" style="margin-top:16px">
-  <button id="clearAllCacheBtn" class="btn primary">Bersihkan cache aplikasi (konfirmasi Android)</button>
-  <button id="clearSelfCacheBtn" class="btn outline">Bersihkan cache RUANG LEGA</button>
- </div>
- <div class="nativeHint">Penting: Android tidak mengizinkan aplikasi biasa menghapus data privat aplikasi lain secara diam-diam. Tombol pembersihan lintas aplikasi hanya meminta layar konfirmasi resmi Android. Setiap aplikasi juga memiliki tombol untuk membuka halaman Penyimpanan aplikasinya agar kamu dapat memilih Hapus cache sendiri. Fitur ini memerlukan Android 11+ untuk permintaan massal dan tidak selalu tersedia di semua merek/perangkat.</div>
-</section>
-
-<section id="fileSection" class="section card filecard">
- <div class="filehead"><div><div class="kicker">Local file inspector</div><h2>Pemeriksa file</h2><p class="sub">Pilih foto, video, dokumen, atau file lain dari perangkat.</p></div><div class="actions"><button id="findBtn" class="btn soft" disabled>⌕ Cari file kembar</button><button id="exportBtn" class="btn outline" disabled>↓ Ekspor CSV</button><button id="clearBtn" class="btn outline" disabled>Kosongkan daftar</button></div></div>
- <div class="drop"><div style="font-size:27px">▧</div><strong>Pilih file yang ingin ditinjau</strong><p>Pemeriksaan dilakukan lokal. File lebih dari 30 MB dilewati saat pencarian hash agar proses tetap ringan.</p><label for="fileInput" class="btn primary">Pilih file dari perangkat</label><input id="fileInput" type="file" multiple></div>
- <div class="filelist"><div class="sub" style="font-weight:800;margin-bottom:8px">FILE TERPILIH <span id="selectedLabel">(0)</span></div><div id="items" class="empty">Belum ada file. Pilih beberapa file untuk memulai.</div></div>
- <div id="scanStatus" class="status" aria-live="polite"></div>
-</section>
-<div id="guideSection" class="sectionTitle"><h2>Panduan membersihkan penyimpanan</h2><p>Pilih perangkat yang kamu gunakan dan ikuti langkah yang aman.</p></div>
-<div class="guides">
-<section class="card"><div class="kicker">Step-by-step guide</div><h2>Petunjuk perangkat</h2><div class="tabs"><button class="tab active" data-device="android">Android</button><button class="tab" data-device="iphone">iPhone</button><button class="tab" data-device="windows">Windows</button></div><div id="guideContent"></div></section>
-<section class="card"><div class="kicker">TikTok cache guide</div><h2>Bersihkan cache TikTok</h2><ol><li>Buka TikTok, lalu masuk ke tab <b>Profil</b>.</li><li>Ketuk ikon menu <b>☰</b> → <b>Pengaturan dan privasi</b>.</li><li>Pilih <b>Ruang kosong / Free up space</b> atau menu sejenis.</li><li>Tekan <b>Hapus</b> pada bagian Cache. Tinjau bagian Unduhan sebelum menghapus.</li></ol><div class="safety">Nama menu dapat berubah mengikuti versi aplikasi. Menghapus cache berbeda dari menghapus data aplikasi. Jangan menghapus draft, unduhan, atau data penting tanpa memeriksanya lebih dahulu.</div></section>
+  <aside class="sideStack">
+   <div class="panel"><div class="kicker">Cara menggunakan</div><h2>Mulai dalam 3 langkah</h2><div class="steps"><div class="step"><div class="stepNo">01</div><div><b>Pilih file atau folder</b><p>Ambil file yang ingin dianalisis dari perangkatmu.</p></div></div><div class="step"><div class="stepNo">02</div><div><b>Periksa file kembar</b><p>RUANG LEGA membandingkan sidik file dengan SHA-256.</p></div></div><div class="step"><div class="stepNo">03</div><div><b>Tinjau sebelum menghapus</b><p>Gunakan File Explorer/Finder untuk menghapus sendiri file yang tidak diperlukan.</p></div></div></div></div>
+   <div class="panel"><div class="kicker">Catatan keamanan</div><h2>Jangan hapus terburu-buru</h2><div class="tipList"><div class="tip"><span>✓</span>Pastikan file duplikat memang salinan yang sama.</div><div class="tip"><span>✓</span>Simpan cadangan dokumen penting sebelum menghapus.</div><div class="tip"><span>✓</span>Jangan menghapus file sistem atau folder yang tidak dikenal.</div><div class="tip"><span>✓</span>Hapus cache aplikasi melalui pengaturan resmi perangkat.</div></div></div>
+  </aside>
+ </section>
+ <section class="guideSection" id="guide"><div class="panelHead"><div><div class="kicker">Panduan lintas perangkat</div><h2>Kelola penyimpanan sesuai perangkatmu</h2><p class="sub">Panduan singkat untuk Android, iPhone/iPad, Windows, dan macOS.</p></div></div><div class="guideGrid"><div class="panel"><div class="guideTabs"><button class="tab active" data-guide="windows">Windows</button><button class="tab" data-guide="mac">macOS</button><button class="tab" data-guide="android">Android</button><button class="tab" data-guide="iphone">iPhone/iPad</button></div><div class="guideContent" id="guideContent"></div></div><div class="panel"><div class="kicker">Pahami batas akses</div><h2>Apa yang bisa dilakukan web?</h2><div class="tipList"><div class="tip"><span>✓</span>Menganalisis file dan folder yang secara sadar kamu pilih.</div><div class="tip"><span>✓</span>Mengurutkan file berdasarkan ukuran dan mendeteksi salinan identik.</div><div class="tip"><span>✓</span>Membuat laporan CSV yang bisa dibuka di Excel.</div><div class="tip"><span>—</span>Tidak dapat memindai seluruh disk atau menghapus file secara otomatis.</div><div class="tip"><span>—</span>Tidak dapat membaca cache privat TikTok, WhatsApp, atau aplikasi desktop lain.</div></div><div class="safety">Pembatasan ini merupakan perlindungan privasi browser. Untuk membersihkan cache aplikasi, gunakan menu Settings/Pengaturan perangkat atau aplikasi tersebut.</div></div></div></section>
+ <footer class="footer">RUANG LEGA · Smart Storage Assistant<br>Analisis file dilakukan lokal di browser. Pilihan file tidak dikirim ke server. © 2026</footer>
+</main>
+<nav class="mobileDock" aria-label="Navigasi bawah"><a class="active" href="#home"><span>⌂</span><small>Home</small></a><a href="#workspace"><span>▤</span><small>File</small></a><a href="#storage"><span>◉</span><small>Storage</small></a><a href="#guide"><span>☷</span><small>Panduan</small></a></nav>
 </div>
-<div class="footer">RUANG LEGA · Dibuat untuk proyek KKA Aris Sahwan · Versi 1.4<br>Alat bantu pengelolaan file, bukan pembersih sistem. Selalu periksa file sebelum menghapus.</div>
-</div>
-<nav class="appDock" aria-label="Navigasi utama">
- <button class="dockItem active" data-jump="homeSection"><span>⌂</span><small>Beranda</small></button>
- <button class="dockItem" data-jump="fileSection"><span>⌕</span><small>Pemeriksa</small></button>
- <button class="dockItem" data-jump="androidTools"><span>▤</span><small>Storage</small></button>
- <button class="dockItem" data-jump="guideSection"><span>♡</span><small>Panduan</small></button>
-</nav>
-<div id="toast" class="toast hidden" role="status"></div>
+<div id="toast" class="toast" hidden></div>
 <script>
 (function(){
 'use strict';
-const $ = id => document.getElementById(id);
-const state = {files:[], duplicates:[], duplicateBytes:0, installPrompt:null, guide:'android'};
-function bytes(n){if(!Number.isFinite(n)||n<=0)return '0 B';const u=['B','KB','MB','GB','TB'];const i=Math.min(Math.floor(Math.log(n)/Math.log(1024)),u.length-1);return (n/Math.pow(1024,i)).toLocaleString('id-ID',{maximumFractionDigits:i?1:0})+' '+u[i]}
-function toast(s){$('toast').textContent=s;$('toast').classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.add('hidden'),2600)}
-function updateStats(){const total=state.files.reduce((a,x)=>a+x.file.size,0);$('count').textContent=state.files.length;$('total').textContent=bytes(total);$('large').textContent=state.files.filter(x=>x.file.size>100*1024*1024).length;$('dupes').textContent=bytes(state.duplicateBytes);$('selectedLabel').textContent='('+state.files.length+')';$('findBtn').disabled=state.files.length<2;$('exportBtn').disabled=!state.files.length;$('clearBtn').disabled=!state.files.length}
-function fileKind(f){const t=f.type||'';if(t.startsWith('image/'))return 'Foto';if(t.startsWith('video/'))return 'Video';if(t.startsWith('audio/'))return 'Audio';if(t.includes('pdf'))return 'PDF';return 'Dokumen/file'}
-function render(){const list=$('items');if(!state.files.length){list.className='empty';list.textContent='Belum ada file. Pilih beberapa file untuk memulai.';updateStats();return}list.className='';list.innerHTML='';const sorted=[...state.files].sort((a,b)=>b.file.size-a.file.size);for(const x of sorted){const d=document.createElement('div');d.className='item';const a=document.createElement('div');a.style.minWidth='0';const n=document.createElement('div');n.className='fname';n.textContent=x.file.name;const m=document.createElement('div');m.className='fmeta';m.textContent=fileKind(x.file)+' · '+new Date(x.file.lastModified||Date.now()).toLocaleDateString('id-ID');a.append(n,m);const z=document.createElement('div');z.className='fsize';z.textContent=bytes(x.file.size);if(state.duplicates.some(g=>g.ids.includes(x.id))){const tag=document.createElement('div');tag.className='tag warn';tag.textContent='Duplikat terdeteksi';z.append(tag)}d.append(a,z);list.append(d)}updateStats()}
-$('fileInput').addEventListener('change',e=>{const incoming=Array.from(e.target.files||[]);for(const file of incoming){state.files.push({id:Math.random().toString(36).slice(2)+Date.now(),file,hash:null})}state.duplicates=[];state.duplicateBytes=0;$('scanStatus').textContent=incoming.length+' file ditambahkan. Pilih “Cari file kembar” untuk pemeriksaan.';render();e.target.value=''});
-$('clearBtn').addEventListener('click',()=>{state.files=[];state.duplicates=[];state.duplicateBytes=0;$('scanStatus').textContent='Daftar file dikosongkan. File asli di perangkat tidak berubah.';render()});
-async function digest(file){const b=await file.arrayBuffer();const h=await crypto.subtle.digest('SHA-256',b);return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,'0')).join('')}
-$('findBtn').addEventListener('click',async()=>{const btn=$('findBtn');btn.disabled=true;btn.textContent='Memeriksa…';state.duplicates=[];state.duplicateBytes=0;const eligible=state.files.filter(x=>x.file.size<=30*1024*1024);try{for(let i=0;i<eligible.length;i++){const x=eligible[i];if(!x.hash)x.hash=await digest(x.file);$('scanStatus').textContent='Memeriksa '+(i+1)+' dari '+eligible.length+' file…'}const groups=new Map();for(const x of eligible){const key=x.file.size+':'+x.hash;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(x.id)}for(const [hash,ids] of groups){if(ids.length>1){state.duplicates.push({hash,ids});state.duplicateBytes+=ids.slice(1).reduce((n,id)=>n+state.files.find(x=>x.id===id).file.size,0)}}const skipped=state.files.length-eligible.length;$('scanStatus').textContent=state.duplicates.length?'Ditemukan '+state.duplicates.length+' kelompok file identik. Potensi ruang duplikat: '+bytes(state.duplicateBytes)+'. Periksa dahulu sebelum menghapus.' :'Tidak ditemukan file identik pada file yang diperiksa.';if(skipped)$('scanStatus').textContent+=' '+skipped+' file di atas 30 MB dilewati.';render();toast('Pemeriksaan file selesai.')}catch(err){$('scanStatus').textContent='Pemeriksaan gagal. Coba pilih lebih sedikit file atau browser yang lebih baru.'}finally{btn.disabled=state.files.length<2;btn.textContent='⌕ Cari file kembar'}});
-$('exportBtn').addEventListener('click',()=>{const rows=[['Nama file','Ukuran byte','Kategori','SHA-256','Status']];for(const x of state.files){rows.push([x.file.name,x.file.size,fileKind(x.file),x.hash||'',state.duplicates.some(g=>g.ids.includes(x.id))?'Duplikat':'Belum/tidak terdeteksi'])}const csv='\uFEFF'+rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\r\n');const name='laporan-ruang-lega-'+new Date().toISOString().slice(0,10)+'.csv';const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});if(window.AndroidBridge&&window.AndroidBridge.saveCsv){const reader=new FileReader();reader.onload=()=>window.AndroidBridge.saveCsv(name,String(reader.result).split(',')[1]||'');reader.readAsDataURL(blob);toast('Menyiapkan laporan untuk disimpan…');return}const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1200);toast('Laporan CSV berhasil dibuat.')});
-async function storage(){try{if(!navigator.storage||!navigator.storage.estimate)throw 0;const e=await navigator.storage.estimate(),u=e.usage||0,q=e.quota||0,p=q?Math.min(100,u/q*100):0;$('ring').style.setProperty('--pct',p);$('percent').textContent=p.toLocaleString('id-ID',{maximumFractionDigits:1})+'%';$('used').textContent=bytes(u)+' terpakai';$('quota').textContent='Dari estimasi kuota '+bytes(q)+' untuk situs ini';$('bar').style.width=p+'%'}catch(e){$('percent').textContent='—%';$('used').textContent='Tidak tersedia';$('quota').textContent='Browser tidak menyediakan estimasi penyimpanan situs.';$('bar').style.width='0%'}}
-$('refreshBtn').addEventListener('click',storage);storage();
-
-function nativeAndroid(){return !!(window.AndroidBridge&&typeof AndroidBridge.getDeviceStorageSnapshot==='function')}
-function refreshAndroidTools(){
- const panel=$('androidTools');if(!panel)return;
- panel.classList.remove('hidden');
- if(!nativeAndroid()){
-  $('deviceUsed').textContent='APK Android';
-  $('devicePercent').textContent='Fitur perangkat';
-  $('deviceDetail').textContent='Pemindaian penyimpanan dan cache aplikasi tersedia di APK Android, bukan browser.';
-  $('deviceTotal').textContent='—';$('deviceUsedSmall').textContent='—';$('deviceFree').textContent='—';$('deviceBar').style.width='0%';
-  $('usagePermissionBtn').textContent='Khusus APK Android';$('usagePermissionBtn').disabled=true;
-  $('filesPermissionBtn').textContent='Khusus APK Android';$('filesPermissionBtn').disabled=true;
-  $('scanAppsBtn').disabled=true;$('clearAllCacheBtn').disabled=true;$('clearSelfCacheBtn').disabled=true;
-  $('appScanStatus').textContent='Mode website: gunakan APK RUANG LEGA untuk membaca statistik cache dan membuka fitur pengelolaan native Android.';
-  $('appCount').textContent='—';$('appCacheTotal').textContent='—';
-  return;
- }
- $('usagePermissionBtn').disabled=false;$('filesPermissionBtn').disabled=false;$('clearAllCacheBtn').disabled=false;$('clearSelfCacheBtn').disabled=false;
- try{
-  const s=JSON.parse(AndroidBridge.getDeviceStorageSnapshot());
-  if(s.ok){const p=Math.max(0,Math.min(100,s.usagePercent||0));$('deviceUsed').textContent=bytes(s.usedBytes);$('devicePercent').textContent=p.toLocaleString('id-ID',{maximumFractionDigits:1})+'% terpakai';$('deviceDetail').textContent='Android '+s.androidVersion+' · Internal storage';$('deviceTotal').textContent=bytes(s.totalBytes);$('deviceUsedSmall').textContent=bytes(s.usedBytes);$('deviceFree').textContent=bytes(s.freeBytes);$('deviceBar').style.width=p+'%'}
-  else $('deviceDetail').textContent='Statistik penyimpanan perangkat tidak tersedia.';
- }catch(e){$('deviceDetail').textContent='Gagal membaca statistik perangkat.'}
- let usage=false,allFiles=false;
- try{usage=AndroidBridge.hasUsageAccess();allFiles=AndroidBridge.hasAllFilesAccess()}catch(e){}
- $('usagePermissionBtn').textContent=usage?'Usage access aktif ✓':'Aktifkan Usage access';
- $('usagePermissionBtn').className=usage?'btn soft':'btn primary';
- $('filesPermissionBtn').textContent=allFiles?'Akses semua file aktif ✓':'Atur akses semua file';
- $('filesPermissionBtn').className=allFiles?'btn soft':'btn outline';
-}
-window.RuangLegaNativeRefreshPermissions=refreshAndroidTools;
-window.RuangLegaNativeCacheResult=function(result){
- $('appScanStatus').textContent=result===-1?'Android melaporkan kesalahan saat membersihkan cache.':result===0?'Pembersihan dibatalkan atau tidak disetujui.':'Android menyelesaikan permintaan pembersihan cache. Perbarui statistik untuk melihat hasilnya.';
-};
-$('usagePermissionBtn').addEventListener('click',()=>{if(nativeAndroid())AndroidBridge.requestUsageAccess()});
-$('filesPermissionBtn').addEventListener('click',()=>{if(nativeAndroid())AndroidBridge.requestAllFilesAccess()});
-$('deviceRefreshBtn').addEventListener('click',()=>{refreshAndroidTools();toast('Statistik perangkat diperbarui.')});
-$('scanAppsBtn').addEventListener('click',()=>{
- if(!nativeAndroid())return;
- if(!AndroidBridge.hasUsageAccess()){ $('appScanStatus').textContent='Aktifkan Usage access terlebih dahulu, lalu kembali ke RUANG LEGA.';AndroidBridge.requestUsageAccess();return}
- $('appScanStatus').textContent='Memindai statistik aplikasi…';$('scanAppsBtn').disabled=true;
- setTimeout(()=>{
-  try{
-   const r=JSON.parse(AndroidBridge.scanInstalledApps());
-   if(!r.ok){$('appScanStatus').textContent=r.error==='usage_access_required'?'Izin Usage access belum aktif.':'Pemindaian tidak dapat dilakukan: '+r.error;$('installedApps').innerHTML='<div class="empty">Belum ada hasil pemindaian.</div>';return}
-   const apps=Array.isArray(r.apps)?r.apps:[];const total=apps.reduce((n,a)=>n+(Number(a.cacheBytes)||0),0);
-   $('appCount').textContent=apps.length;$('appCacheTotal').textContent=bytes(total);
-   $('appScanStatus').textContent='Selesai memeriksa '+apps.length+' aplikasi. Diurutkan berdasarkan ukuran cache terbesar.';
-   const root=$('installedApps');root.innerHTML='';
-   if(!apps.length){root.innerHTML='<div class="empty">Tidak ada aplikasi yang dapat ditampilkan atau statistik tidak tersedia.</div>';return}
-   for(const app of apps){
-    const row=document.createElement('div');row.className='appRow';
-    const details=document.createElement('div');details.style.minWidth='0';
-    const name=document.createElement('div');name.className='appName';name.textContent=app.appName||app.packageName;
-    const pkg=document.createElement('div');pkg.className='pkgName';pkg.textContent=app.packageName;
-    const metrics=document.createElement('div');metrics.className='appMetrics';
-    for(const [label,value] of [['Aplikasi',app.appBytes],['Data',app.dataBytes],['Cache',app.cacheBytes]]){const tag=document.createElement('span');tag.className='appMetric';tag.textContent=label+': '+bytes(Number(value)||0);metrics.append(tag)}
-    details.append(name,pkg,metrics);
-    const actions=document.createElement('div');actions.className='appActions';
-    const btn=document.createElement('button');btn.className='btn outline';btn.textContent='Kelola / Hapus cache';btn.addEventListener('click',()=>AndroidBridge.openAppSettings(app.packageName));
-    actions.append(btn);row.append(details,actions);root.append(row);
-   }
-  }catch(e){$('appScanStatus').textContent='Pemindaian gagal. Coba buka ulang aplikasi.'}
-  finally{$('scanAppsBtn').disabled=false;refreshAndroidTools()}
- },60);
-});
-$('clearAllCacheBtn').addEventListener('click',()=>{
- if(!nativeAndroid())return;
- if(!AndroidBridge.hasAllFilesAccess()){ $('appScanStatus').textContent='Aktifkan Akses semua file untuk meminta konfirmasi Android.';AndroidBridge.requestAllFilesAccess();return}
- const r=AndroidBridge.requestClearExternalCaches();
- if(r==='system_confirmation_requested')$('appScanStatus').textContent='Android sedang membuka konfirmasi pembersihan cache. Periksa pesan sistem dan setujui hanya jika kamu yakin.';
- else if(r==='unsupported')$('appScanStatus').textContent='Pembersihan lintas aplikasi memerlukan Android 11 atau lebih baru.';
- else $('appScanStatus').textContent='Android membutuhkan izin Akses semua file.';
-});
-$('clearSelfCacheBtn').addEventListener('click',()=>{
- if(!nativeAndroid())return;
- if(confirm('Bersihkan cache sementara milik aplikasi RUANG LEGA? File yang kamu pilih dan data aplikasi lain tidak akan dihapus.'))AndroidBridge.clearOwnCache();
-});
-refreshAndroidTools();
-
+const $=id=>document.getElementById(id);
+const state={files:[],duplicates:[],duplicateBytes:0,installPrompt:null,guide:'windows'};
+function bytes(n){if(!Number.isFinite(n)||n<0)return '—';if(n===0)return '0 B';const u=['B','KB','MB','GB','TB'];const i=Math.min(Math.floor(Math.log(n)/Math.log(1024)),u.length-1);return (n/Math.pow(1024,i)).toLocaleString('id-ID',{maximumFractionDigits:i?1:0})+' '+u[i]}
+function fileKind(f){const e=(f.name.split('.').pop()||'').toLowerCase();if(/^(jpg|jpeg|png|gif|webp|heic|svg)$/.test(e))return 'Gambar';if(/^(mp4|mov|mkv|avi|webm)$/.test(e))return 'Video';if(/^(mp3|wav|m4a|aac|flac)$/.test(e))return 'Audio';if(/^(pdf|doc|docx|xls|xlsx|ppt|pptx|txt|csv)$/.test(e))return 'Dokumen';if(/^(zip|rar|7z|tar|gz)$/.test(e))return 'Arsip';return 'Lainnya'}
+function toast(msg){const t=$('toast');t.textContent=msg;t.hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.hidden=true,2800)}
+function updateSummary(){const total=state.files.reduce((n,x)=>n+x.file.size,0);$('fileCount').textContent=state.files.length.toLocaleString('id-ID');$('totalSize').textContent=bytes(total);$('duplicateSize').textContent=bytes(state.duplicateBytes);$('scanDuplicates').disabled=state.files.length<2;$('exportCsv').disabled=!state.files.length;$('clearList').disabled=!state.files.length;$('fileSummary').textContent=state.files.length?state.files.length+' file · '+bytes(total):'Belum ada file dipilih'}
+function renderFiles(){const root=$('fileRows');root.textContent='';const q=$('fileSearch').value.trim().toLowerCase();const sorted=state.files.filter(x=>x.file.name.toLowerCase().includes(q)).slice().sort((a,b)=>b.file.size-a.file.size);if(!sorted.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=3;td.className='empty';td.textContent=state.files.length?'Tidak ada nama file yang cocok dengan pencarian.':'Pilih file atau folder untuk memulai pemeriksaan.';tr.append(td);root.append(tr);updateSummary();return}const dupIds=new Set(state.duplicates.flatMap(g=>g.ids));for(const x of sorted){const tr=document.createElement('tr'),name=document.createElement('td'),type=document.createElement('td'),size=document.createElement('td'),nm=document.createElement('div'),meta=document.createElement('div'),tag=document.createElement('span');nm.className='fileName';nm.textContent=x.file.name;meta.className='fileMeta';meta.textContent=x.file.webkitRelativePath||x.file.type||'File lokal';name.append(nm,meta);tag.className='fileType';tag.textContent=fileKind(x.file);type.append(tag);if(dupIds.has(x.id)){const d=document.createElement('span');d.className='dupTag';d.textContent='Duplikat';type.append(d)}size.className='sizeCell';size.textContent=bytes(x.file.size);tr.append(name,type,size);root.append(tr)}updateSummary()}
+function addFiles(files){let added=0;for(const f of files){const key=f.name+'|'+f.size+'|'+f.lastModified+'|'+(f.webkitRelativePath||'');if(state.files.some(x=>x.key===key))continue;state.files.push({id:String(Date.now())+Math.random().toString(36).slice(2),key,file:f,hash:null});added++}if(added){state.duplicates=[];state.duplicateBytes=0;$('scanStatus').textContent=added+' file ditambahkan. Pilih “Cari file kembar” untuk memeriksa salinan identik.';renderFiles();toast(added+' file ditambahkan')}else if(files.length)toast('File yang dipilih sudah ada di daftar')}
+$('chooseFiles').addEventListener('click',()=>$('fileInput').click());$('chooseFolder').addEventListener('click',()=>{if('webkitdirectory'in $('folderInput'))$('folderInput').click();else toast('Browser ini belum mendukung pemilihan folder. Gunakan Pilih file.')});
+$('fileInput').addEventListener('change',e=>{addFiles(Array.from(e.target.files||[]));e.target.value=''});
+$('folderInput').addEventListener('change',e=>{addFiles(Array.from(e.target.files||[]));e.target.value=''});
+$('clearList').addEventListener('click',()=>{state.files=[];state.duplicates=[];state.duplicateBytes=0;$('scanStatus').textContent='Daftar analisis dikosongkan. File asli pada perangkatmu tidak berubah.';renderFiles()});
+$('fileSearch').addEventListener('input',renderFiles);
+const drop=$('dropZone');['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));drop.addEventListener('drop',e=>addFiles(Array.from(e.dataTransfer.files||[])));
+async function digest(file){const buffer=await file.arrayBuffer();const hash=await crypto.subtle.digest('SHA-256',buffer);return Array.from(new Uint8Array(hash)).map(x=>x.toString(16).padStart(2,'0')).join('')}
+$('scanDuplicates').addEventListener('click',async()=>{if(!crypto.subtle){$('scanStatus').textContent='Browser tidak menyediakan SHA-256. Buka website melalui HTTPS atau gunakan browser terbaru.';return}const btn=$('scanDuplicates');btn.disabled=true;btn.textContent='Memeriksa…';state.duplicates=[];state.duplicateBytes=0;const eligible=state.files.filter(x=>x.file.size<=50*1024*1024);let hashedBytes=0;try{for(let i=0;i<eligible.length;i++){const x=eligible[i];if(!x.hash){if(hashedBytes+x.file.size>300*1024*1024)continue;x.hash=await digest(x.file);hashedBytes+=x.file.size}$('scanStatus').textContent='Memeriksa sidik file '+(i+1)+' dari '+eligible.length+'…'}const groups=new Map();for(const x of eligible){if(!x.hash)continue;const key=x.file.size+':'+x.hash;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(x.id)}for(const ids of groups.values()){if(ids.length>1){state.duplicates.push({ids});state.duplicateBytes+=ids.slice(1).reduce((n,id)=>n+state.files.find(x=>x.id===id).file.size,0)}}const skipped=state.files.length-eligible.length;$('scanStatus').textContent=state.duplicates.length?'Ditemukan '+state.duplicates.length+' kelompok file identik. Potensi ruang berulang '+bytes(state.duplicateBytes)+'. Tinjau file sebelum menghapus.':'Tidak ditemukan file identik pada file yang berhasil diperiksa.';if(skipped)$('scanStatus').textContent+=' '+skipped+' file lebih dari 50 MB dilewati.';renderFiles();toast('Pemeriksaan file selesai')}catch(err){$('scanStatus').textContent='Pemeriksaan gagal. Coba kurangi jumlah file atau gunakan browser yang lebih baru.'}finally{btn.disabled=state.files.length<2;btn.textContent='⌕ Cari file kembar'}});
+$('exportCsv').addEventListener('click',()=>{const rows=[['Nama file','Lokasi relatif','Ukuran byte','Jenis','SHA-256','Status']];const dupIds=new Set(state.duplicates.flatMap(g=>g.ids));for(const x of state.files)rows.push([x.file.name,x.file.webkitRelativePath||'',x.file.size,fileKind(x.file),x.hash||'',dupIds.has(x.id)?'Duplikat':'Tidak terdeteksi']);const csv='\uFEFF'+rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='laporan-ruang-lega-'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1200);toast('Laporan CSV berhasil dibuat')});
+async function refreshStorage(){try{if(!navigator.storage||!navigator.storage.estimate)throw 0;const e=await navigator.storage.estimate(),u=e.usage||0,q=e.quota||0,p=q?Math.min(100,u/q*100):0;$('storageRing').style.setProperty('--pct',p);$('storagePercent').textContent=p.toLocaleString('id-ID',{maximumFractionDigits:1})+'%';$('storageUsed').textContent=bytes(u)+' digunakan';$('storageQuota').textContent='Dari estimasi kuota '+bytes(q)+' untuk situs ini';$('storageBar').style.width=p+'%'}catch(e){$('storagePercent').textContent='—%';$('storageUsed').textContent='Tidak tersedia';$('storageQuota').textContent='Browser tidak menyediakan estimasi penyimpanan situs.';$('storageBar').style.width='0%'}}
+$('refreshStorage').addEventListener('click',()=>{refreshStorage();toast('Estimasi penyimpanan diperbarui')});refreshStorage();
+function deviceInfo(){const ua=navigator.userAgent||'';let type='Desktop';if(/Android|iPhone|iPad|iPod|Mobile/i.test(ua))type=/iPad|Tablet/i.test(ua)?'Tablet':'HP';$('deviceType').textContent=type;$('folderSupport').textContent='webkitdirectory'in document.createElement('input')?'Didukung':'Pilih file';$('onlineState').textContent=navigator.onLine?'Online':'Offline'}
+deviceInfo();window.addEventListener('online',deviceInfo);window.addEventListener('offline',deviceInfo);
 const guides={
-android:{steps:['Buka Pengaturan → Aplikasi → pilih aplikasi yang ingin diperiksa.','Pilih Penyimpanan atau Penyimpanan & cache.','Tekan Hapus cache saja untuk membersihkan file sementara.','Tinjau Pengaturan → Penyimpanan untuk mencari file besar dan aplikasi yang jarang dipakai.'],note:'Jangan tekan Hapus data / Clear storage bila belum mencadangkan data. Tindakan itu dapat menghapus pengaturan, sesi masuk, atau data lokal.'},
-iphone:{steps:['Buka Pengaturan → Umum → Penyimpanan iPhone.','Tunggu daftar aplikasi dan ukurannya muncul.','Gunakan Offload App untuk melepas aplikasi sambil mempertahankan dokumen dan data jika pilihan tersedia.','Tinjau foto, video, unduhan, dan lampiran besar; pastikan ada cadangan sebelum menghapus.'],note:'iPhone tidak menyediakan tombol hapus cache semua aplikasi. Offload berbeda dari Delete App; baca keterangan sebelum memilih.'},
-windows:{steps:['Buka Settings → System → Storage.','Periksa kategori Temporary files, Apps, dan Other.','Pilih hanya file sementara yang kamu pahami, lalu gunakan Remove files.','Pindahkan file besar yang masih dibutuhkan ke drive eksternal atau penyimpanan cloud tepercaya.'],note:'Jangan menghapus folder sistem atau file yang tidak dikenal. Periksa Recycle Bin dan folder Downloads sebelum mengosongkannya.'}
+windows:{steps:['Buka Settings → System → Storage untuk melihat kategori penggunaan ruang.','Pilih Temporary files untuk meninjau file sementara yang dapat dibersihkan.','Buka File Explorer → Downloads dan urutkan berdasarkan Size untuk mencari file besar.','Periksa Recycle Bin dan cadangkan dokumen penting sebelum menghapus.'],note:'Hindari menghapus folder Windows, Program Files, atau file sistem yang tidak dikenal.'},
+mac:{steps:['Buka menu Apple → System Settings → General → Storage.','Tinjau kategori Documents, Applications, dan Trash.','Buka Finder dan gunakan Sort by Size untuk menemukan file besar.','Kosongkan Trash hanya setelah memastikan file tidak lagi dibutuhkan.'],note:'Jangan menghapus Library atau folder sistem secara manual jika tidak memahami fungsinya.'},
+android:{steps:['Buka Pengaturan → Penyimpanan untuk melihat ruang perangkat.','Masuk ke Pengaturan → Aplikasi → pilih aplikasi terkait.','Pilih Penyimpanan → Hapus cache jika ingin membersihkan file sementara.','Periksa folder Downloads dan media yang sudah dicadangkan.'],note:'Jangan pilih Hapus data/Clear storage kecuali siap kehilangan data lokal atau harus masuk ulang.'},
+iphone:{steps:['Buka Pengaturan → Umum → Penyimpanan iPhone/iPad.','Tinjau aplikasi yang menggunakan ruang paling besar.','Gunakan Offload App jika ingin melepas aplikasi sambil mempertahankan dokumen dan data.','Tinjau Foto, Pesan, dan Unduhan setelah memastikan ada cadangan.'],note:'Offload App berbeda dari Delete App. iOS tidak menyediakan tombol hapus cache untuk semua aplikasi.'}
 };
-function renderGuide(device){state.guide=device;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.device===device));const g=guides[device];$('guideContent').innerHTML='<ol>'+g.steps.map(s=>'<li>'+s+'</li>').join('')+'</ol><div class="safety">'+g.note+'</div>'}
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>renderGuide(b.dataset.device)));renderGuide('android');
-document.querySelectorAll('[data-jump]').forEach(btn=>btn.addEventListener('click',()=>{const target=btn.dataset.jump;const node=$(target);if(node){node.scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.dockItem').forEach(b=>b.classList.toggle('active',b.dataset.jump===target))}}));
-const dockTargets=['homeSection','fileSection','androidTools','guideSection'];
-if('IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){const target=entry.target.id;document.querySelectorAll('.dockItem').forEach(b=>b.classList.toggle('active',b.dataset.jump===target))}})},{rootMargin:'-25% 0px -60% 0px'});dockTargets.forEach(id=>{const n=$(id);if(n)observer.observe(n)})}
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.installPrompt=e;$('installBtn').classList.remove('hidden')});
-$('installBtn').addEventListener('click',async()=>{if(!state.installPrompt)return;state.installPrompt.prompt();await state.installPrompt.userChoice;state.installPrompt=null;$('installBtn').classList.add('hidden')});
+function renderGuide(which){state.guide=which;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.guide===which));const g=guides[which],root=$('guideContent');root.textContent='';const ol=document.createElement('ol');g.steps.forEach(s=>{const li=document.createElement('li');li.textContent=s;ol.append(li)});const note=document.createElement('div');note.className='safety';note.textContent=g.note;root.append(ol,note)}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>renderGuide(b.dataset.guide)));renderGuide('windows');
+document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>{const el=$(b.dataset.jump);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}));
+document.querySelectorAll('.nav a,.mobileDock a').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('.nav a,.mobileDock a').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.nav a[href="'+a.getAttribute('href')+'"],.mobileDock a[href="'+a.getAttribute('href')+'"]').forEach(x=>x.classList.add('active'))}));
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.installPrompt=e;$('installBtn').hidden=false});
+$('installBtn').addEventListener('click',async()=>{if(!state.installPrompt)return;state.installPrompt.prompt();await state.installPrompt.userChoice;state.installPrompt=null;$('installBtn').hidden=true});
 if('serviceWorker'in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script>
-</body></html>
+</body>
+</html>
