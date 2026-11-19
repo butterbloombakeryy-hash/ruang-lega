@@ -196,11 +196,13 @@ public final class AutoCacheCleanupManager {
         long freed = 0L;
         for (File child : children) {
             try {
-                // Do not follow symbolic links out of the app's cache directory.
-                if (java.nio.file.Files.isSymbolicLink(child.toPath())) {
-                    if (child.delete()) {
-                        // The symlink itself is disposable cache content; its target is untouched.
-                    }
+                // Canonical-path check prevents deleting anything outside this app cache tree.
+                String childPath = child.getCanonicalPath();
+                String parentPath = directory.getCanonicalPath();
+                if (!childPath.equals(parentPath)
+                        && !childPath.startsWith(parentPath + File.separator)) {
+                    // If this is a symbolic link to an external path, delete only the link.
+                    child.delete();
                 } else if (child.isDirectory()) {
                     freed += clearCacheDirectory(child, visited);
                     child.delete();
