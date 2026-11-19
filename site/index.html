@@ -236,15 +236,172 @@ $('refreshStorage').addEventListener('click',()=>{refreshStorage();toast('Estima
 function deviceInfo(){const ua=navigator.userAgent||'';let type='Desktop';if(/Android|iPhone|iPad|iPod|Mobile/i.test(ua))type=/iPad|Tablet/i.test(ua)?'Tablet':'HP';$('deviceType').textContent=type;$('folderSupport').textContent='webkitdirectory'in document.createElement('input')?'Didukung':'Pilih file';$('onlineState').textContent=navigator.onLine?'Online':'Offline'}
 deviceInfo();window.addEventListener('online',deviceInfo);window.addEventListener('offline',deviceInfo);
 
-/* v1.6 safe folder cleanup: explicit folder permission, preview, selection and confirmation */
+/* v1.6 safe folder cleanup */
 const cleanupState={root:null,items:[],scanned:0,capped:false};
-const skipCleanupFolders=new Set(['$RECYCLE.BIN','SYSTEM VOLUME INFORMATION','WINDOWS','PROGRAM FILES','PROGRAM FILES (X86)','PROGRAMDATA','SYSTEM','LIBRARY','.GIT','NODE_MODULES','ANDROID','ANDROID DATA','ANDROID OBB']);
+const skipCleanupFolders=new Set(['RECYCLE.BIN','SYSTEM VOLUME INFORMATION','WINDOWS','PROGRAM FILES','PROGRAM FILES (X86)','PROGRAMDATA','SYSTEM','LIBRARY','.GIT','NODE_MODULES','ANDROID','ANDROID DATA','ANDROID OBB']);
 function trashRule(name,lastModified){
  const lower=name.toLowerCase();
  const ageDays=(Date.now()-(Number(lastModified)||Date.now()))/86400000;
  if(['.ds_store','thumbs.db','desktop.ini'].includes(lower))return 'Metadata sistem folder';
- if(lower.startsWith('~
-windows:{steps:['Buka Settings → System → Storage untuk melihat kategori penggunaan ruang.','Pilih Temporary files untuk meninjau file sementara yang dapat dibersihkan.','Buka File Explorer → Downloads dan urutkan berdasarkan Size untuk mencari file besar.','Periksa Recycle Bin dan cadangkan dokumen penting sebelum menghapus.'],note:'Hindari menghapus folder Windows, Program Files, atau file sistem yang tidak dikenal.'},
+ if(name.charCodeAt(0)===126&&name.charCodeAt(1)===36&&ageDays>=2)return 'File kunci Office lama (2+ hari)';
+ if(/\.(tmp|temp|part|partial|crdownload|download)$/i.test(lower)&&ageDays>=7)return 'File sementara/unduhan tidak lengkap (7+ hari)';
+ return '';
+}
+function updateTrashStats(){
+ const selected=cleanupState.items.filter(x=>x.selected);
+ $('trashScanned').textContent=cleanupState.scanned.toLocaleString('id-ID');
+ $('trashFound').textContent=cleanupState.items.length.toLocaleString('id-ID');
+ $('trashBytes').textContent=bytes(cleanupState.items.reduce((n,x)=>n+x.size,0));
+ $('cleanTrashBtn').disabled=!selected.length||!cleanupState.root;
+ $('selectAllTrashBtn').disabled=!cleanupState.items.length;
+ $('clearTrashSelectionBtn').disabled=!selected.length;
+}
+function renderTrashList(){
+ const root=$('trashList');root.textContent='';
+ if(!cleanupState.items.length){
+  const empty=document.createElement('div');empty.className='empty';
+  empty.textContent=cleanupState.root?'Tidak ditemukan kandidat berdasarkan aturan sampah aman. Tidak ada file yang diubah.':'Tekan “Pindai Sampah” lalu pilih folder yang ingin diperiksa.';
+  root.append(empty);updateTrashStats();return;
+ }
+ cleanupState.items.forEach(item=>{
+  const row=document.createElement('label');row.className='cleanupRow';
+  const check=document.createElement('input');check.type='checkbox';check.checked=!!item.selected;
+  check.addEventListener('change',()=>{item.selected=check.checked;updateTrashStats()});
+  const main=document.createElement('span');main.className='cleanupRowMain';
+  const name=document.createElement('span');name.className='cleanupRowName';name.textContent=item.name;
+  const path=document.createElement('span');path.className='cleanupRowPath';path.textContent=item.path+' · '+item.reason;
+  main.append(name,path);
+  const size=document.createElement('span');size.className='cleanupRowSize';size.textContent=bytes(item.size);
+  row.append(check,main,size);root.append(row);
+ });
+ updateTrashStats();
+}
+async function walkCleanupFolder(dir,path){
+ for await(const [name,handle] of dir.entries()){
+  if(cleanupState.scanned>=5000){cleanupState.capped=true;return}
+  const nextPath=path?path+'/'+name:name;
+  if(handle.kind==='directory'){
+   if(skipCleanupFolders.has(name.toUpperCase()))continue;
+   await walkCleanupFolder(handle,nextPath);
+   if(cleanupState.capped)return;
+  }else if(handle.kind==='file'){
+   cleanupState.scanned++;
+   try{
+    const file=await handle.getFile();
+    const reason=trashRule(name,file.lastModified);
+    if(reason)cleanupState.items.push({id:cleanupState.items.length,name,path:nextPath,size:file.size,reason,parent:dir,selected:false});
+   }catch(_){}
+  }
+ }
+}
+$('scanTrashBtn').addEventListener('click',async()=>{
+ if(!window.isSecureContext||typeof window.showDirectoryPicker!=='function'){
+  $('trashStatus').textContent='Browser ini belum mendukung pemindaian folder yang dapat dihapus. Gunakan Chrome atau Edge terbaru di komputer melalui HTTPS. Pemilih file biasa tetap tersedia untuk analisis tanpa penghapusan.';
+  toast('Pemindaian folder memerlukan browser desktop yang mendukung izin folder.');return;
+ }
+ try{
+  const root=await window.showDirectoryPicker({id:'ruang-lega-cleanup',mode:'readwrite'});
+  let permission=await root.queryPermission({mode:'readwrite'});
+  if(permission!=='granted')permission=await root.requestPermission({mode:'readwrite'});
+  if(permission!=='granted'){$('trashStatus').textContent='Izin baca dan tulis folder tidak diberikan. Tidak ada file yang diubah.';return}
+  cleanupState.root=root;cleanupState.items=[];cleanupState.scanned=0;cleanupState.capped=false;
+  $('trashFolderLabel').textContent='Folder diperiksa: '+root.name;
+  $('trashStatus').textContent='Memindai nama dan ukuran file… hanya folder yang kamu pilih yang diperiksa.';
+  $('scanTrashBtn').disabled=true;$('scanTrashBtn').textContent='Memindai…';
+  await walkCleanupFolder(root,'');
+  renderTrashList();
+  $('trashStatus').textContent='Pemindaian selesai. '+cleanupState.items.length+' kandidat ditemukan dari '+cleanupState.scanned+' file. Pilih hanya file yang kamu yakin tidak dibutuhkan.';
+  if(cleanupState.capped)$('trashStatus').textContent+=' Batas 5.000 file tercapai; sebagian isi folder mungkin belum dipindai.';
+  toast('Pemindaian sampah selesai');
+ }catch(error){
+  if(error&&error.name==='AbortError')$('trashStatus').textContent='Pemilihan folder dibatalkan. Tidak ada perubahan.';
+  else $('trashStatus').textContent='Folder tidak dapat dipindai. Pastikan izin diberikan dan coba folder lain.';
+ }finally{$('scanTrashBtn').disabled=false;$('scanTrashBtn').textContent='⌕ Pindai Sampah'}
+});
+$('selectAllTrashBtn').addEventListener('click',()=>{cleanupState.items.forEach(x=>x.selected=true);renderTrashList()});
+$('clearTrashSelectionBtn').addEventListener('click',()=>{cleanupState.items.forEach(x=>x.selected=false);renderTrashList()});
+$('cleanTrashBtn').addEventListener('click',async()=>{
+ const selected=cleanupState.items.filter(x=>x.selected);
+ if(!selected.length||!cleanupState.root)return;
+ const estimated=selected.reduce((n,x)=>n+x.size,0);
+ if(!confirm('Hapus '+selected.length+' file kandidat dari folder “'+cleanupState.root.name+'”?\nEstimasi ruang yang dapat dibebaskan: '+bytes(estimated)+'.\n\nPenghapusan tidak selalu dapat dibatalkan. Pastikan daftar sudah diperiksa.'))return;
+ try{
+  let permission=await cleanupState.root.queryPermission({mode:'readwrite'});
+  if(permission!=='granted')permission=await cleanupState.root.requestPermission({mode:'readwrite'});
+  if(permission!=='granted'){$('trashStatus').textContent='Izin tulis folder tidak tersedia. Tidak ada file yang dihapus.';return}
+  $('cleanTrashBtn').disabled=true;$('cleanTrashBtn').textContent='Membersihkan…';
+  let removed=0,freed=0;const failed=[];
+  for(const item of selected){
+   try{await item.parent.removeEntry(item.name);removed++;freed+=item.size}
+   catch(_){failed.push(item)}
+  }
+  cleanupState.items=cleanupState.items.filter(x=>!selected.includes(x)||failed.includes(x));
+  cleanupState.items.forEach(x=>x.selected=false);
+  renderTrashList();
+  $('trashStatus').textContent='Selesai: '+removed+' file dihapus, estimasi '+bytes(freed)+' dibebaskan.'+(failed.length?' '+failed.length+' file gagal dihapus atau sudah berubah.':'');
+  toast(removed+' file sampah dibersihkan');
+ }catch(error){$('trashStatus').textContent='Pembersihan tidak dapat dilanjutkan. Periksa izin folder dan coba lagi.'}
+ finally{$('cleanTrashBtn').textContent='✦ Bersihkan yang dipilih';updateTrashStats()}
+});
+
+/* Native Android cache tools */
+function hasNativeAndroid(){return !!(window.AndroidBridge&&typeof AndroidBridge.getDeviceStorageSnapshot==='function')}
+function refreshNativeAndroid(){
+ const panel=$('nativeAndroidCleanup');if(!panel||!hasNativeAndroid())return;
+ panel.hidden=false;
+ let usage=false,allFiles=false;
+ try{usage=AndroidBridge.hasUsageAccess();allFiles=AndroidBridge.hasAllFilesAccess()}catch(_){}
+ $('nativePermissionStatus').textContent=usage?(allFiles?'Izin siap':'Usage access aktif'):'Perlu izin';
+}
+window.RuangLegaNativeRefreshPermissions=refreshNativeAndroid;
+window.RuangLegaNativeCacheResult=function(result){
+ $('nativeCleanupStatus').textContent=result===-1?'Android melaporkan kesalahan saat membersihkan cache.':result===0?'Pembersihan dibatalkan atau tidak disetujui.':'Permintaan pembersihan selesai. Pindai ulang untuk memeriksa ukuran cache.';
+};
+$('nativeScanAppsBtn').addEventListener('click',()=>{
+ if(!hasNativeAndroid())return;
+ if(!AndroidBridge.hasUsageAccess()){
+  $('nativeCleanupStatus').textContent='Aktifkan Usage access di Pengaturan Android, lalu kembali dan tekan Pindai lagi.';
+  AndroidBridge.requestUsageAccess();return;
+ }
+ $('nativeScanAppsBtn').disabled=true;$('nativeCleanupStatus').textContent='Membaca statistik aplikasi dari Android…';
+ try{
+  const result=JSON.parse(AndroidBridge.scanInstalledApps());
+  if(!result.ok){$('nativeCleanupStatus').textContent='Pemindaian belum bisa dilakukan: '+(result.error||'kesalahan tidak diketahui');return}
+  const apps=Array.isArray(result.apps)?result.apps:[],sum=apps.reduce((n,a)=>n+(Number(a.cacheBytes)||0),0);
+  $('nativeAppCount').textContent=apps.length.toLocaleString('id-ID');$('nativeCacheTotal').textContent=bytes(sum);
+  const root=$('nativeCacheList');root.textContent='';
+  if(!apps.length){const e=document.createElement('div');e.className='empty';e.textContent='Android tidak memberikan daftar aplikasi yang dapat ditampilkan.';root.append(e)}
+  apps.slice(0,100).forEach(app=>{
+   const row=document.createElement('div');row.className='cleanupRow';
+   const main=document.createElement('span');main.className='cleanupRowMain';
+   const name=document.createElement('span');name.className='cleanupRowName';name.textContent=app.appName||app.packageName;
+   const pkg=document.createElement('span');pkg.className='cleanupRowPath';pkg.textContent=app.packageName+' · Data '+bytes(Number(app.dataBytes)||0);
+   main.append(name,pkg);
+   const size=document.createElement('span');size.className='cleanupRowSize';size.textContent='Cache '+bytes(Number(app.cacheBytes)||0);
+   const open=document.createElement('button');open.className='btn outline';open.textContent='Kelola';open.addEventListener('click',()=>AndroidBridge.openAppSettings(app.packageName));
+   row.append(main,size,open);root.append(row);
+  });
+  $('nativeCleanupStatus').textContent='Selesai memeriksa '+apps.length+' aplikasi. Ini adalah ukuran cache yang dilaporkan Android, bukan bukti semua cache aman dihapus.';
+ }catch(_){$('nativeCleanupStatus').textContent='Pemindaian gagal. Coba tutup dan buka kembali aplikasi.'}
+ finally{$('nativeScanAppsBtn').disabled=false;refreshNativeAndroid()}
+});
+$('nativeClearCacheBtn').addEventListener('click',()=>{
+ if(!hasNativeAndroid())return;
+ if(!AndroidBridge.hasAllFilesAccess()){
+  $('nativeCleanupStatus').textContent='Android meminta izin khusus sebelum menampilkan konfirmasi pembersihan cache.';
+  AndroidBridge.requestAllFilesAccess();return;
+ }
+ if(!confirm('Minta Android membersihkan cache aplikasi yang diizinkan? Android akan menampilkan konfirmasi sistem. Data pribadi aplikasi tidak diminta untuk dihapus.'))return;
+ const response=AndroidBridge.requestClearExternalCaches();
+ $('nativeCleanupStatus').textContent=response==='system_confirmation_requested'?'Layar konfirmasi Android sedang dibuka. Setujui hanya bila ingin melanjutkan.':response==='unsupported'?'Fitur massal memerlukan Android 11 atau lebih baru.':'Android belum mengizinkan permintaan ini. Periksa izin dan kompatibilitas perangkat.';
+});
+$('nativeClearOwnCacheBtn').addEventListener('click',()=>{
+ if(!hasNativeAndroid())return;
+ if(confirm('Bersihkan file cache sementara milik aplikasi RUANG LEGA saja? Data dan file aplikasi lain tidak akan dihapus.')){AndroidBridge.clearOwnCache();$('nativeCleanupStatus').textContent='Pembersihan cache RUANG LEGA diminta. Periksa notifikasi Android.'}
+});
+refreshNativeAndroid();
+
+const guides={windows:{steps:['Buka Settings → System → Storage untuk melihat kategori penggunaan ruang.','Pilih Temporary files untuk meninjau file sementara yang dapat dibersihkan.','Buka File Explorer → Downloads dan urutkan berdasarkan Size untuk mencari file besar.','Periksa Recycle Bin dan cadangkan dokumen penting sebelum menghapus.'],note:'Hindari menghapus folder Windows, Program Files, atau file sistem yang tidak dikenal.'},
 mac:{steps:['Buka menu Apple → System Settings → General → Storage.','Tinjau kategori Documents, Applications, dan Trash.','Buka Finder dan gunakan Sort by Size untuk menemukan file besar.','Kosongkan Trash hanya setelah memastikan file tidak lagi dibutuhkan.'],note:'Jangan menghapus Library atau folder sistem secara manual jika tidak memahami fungsinya.'},
 android:{steps:['Buka Pengaturan → Penyimpanan untuk melihat ruang perangkat.','Masuk ke Pengaturan → Aplikasi → pilih aplikasi terkait.','Pilih Penyimpanan → Hapus cache jika ingin membersihkan file sementara.','Periksa folder Downloads dan media yang sudah dicadangkan.'],note:'Jangan pilih Hapus data/Clear storage kecuali siap kehilangan data lokal atau harus masuk ulang.'},
 iphone:{steps:['Buka Pengaturan → Umum → Penyimpanan iPhone/iPad.','Tinjau aplikasi yang menggunakan ruang paling besar.','Gunakan Offload App jika ingin melepas aplikasi sambil mempertahankan dokumen dan data.','Tinjau Foto, Pesan, dan Unduhan setelah memastikan ada cadangan.'],note:'Offload App berbeda dari Delete App. iOS tidak menyediakan tombol hapus cache untuk semua aplikasi.'}
