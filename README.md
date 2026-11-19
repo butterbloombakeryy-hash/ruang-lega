@@ -74,3 +74,10 @@ Versi web/PWA tidak memiliki akses native ke statistik penyimpanan semua aplikas
 - JavaScript aplikasi dipindahkan dari inline HTML ke `site/app.js` dan `android/app/src/main/assets/app.js`.
 - HTML tidak lagi memuat fragmen kode di luar tag script; skrip dimuat melalui `<script src="./app.js?v=1.9.1" defer>`.
 - Service Worker mempramuat app.js bersama shell utama agar tetap tersedia offline dan mengganti cache versi sebelumnya.
+
+
+## Device storage and cache access (v1.10)
+- Android APK requests the special `MANAGE_EXTERNAL_STORAGE` setting only when the user taps “Izinkan akses penyimpanan”. After this permission is granted, “Minta Android bersihkan cache aplikasi” launches Android's official `StorageManager.ACTION_CLEAR_APP_CACHE` confirmation dialog (Android 11+). The operating system, not RUANG LEGA, decides which external app-cache folders can be cleared and waits for the user's confirmation.
+- This system dialog is not an API for silently clearing every app's private/internal cache or user data. The user must confirm it. The 24-hour WorkManager task continues to clear only RUANG LEGA's own cache directories.
+- Web desktop browsers that support the File System Access API let users pick one folder and grant read/write permission. Optional 24-hour cleanup runs when the site is opened, and only removes selected temporary-file extensions older than seven days within that granted folder.
+- The web app cannot get a permission to sweep all operating-system storage or private caches belonging to other apps. Folder permissions are user-controlled and can be revoked in browser settings.
