@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ruang-lega-v1-8-auto';
+const CACHE_NAME = 'ruang-lega-v1-9-auto';
 const APP_SHELL = [
   './',
   './index.html',
