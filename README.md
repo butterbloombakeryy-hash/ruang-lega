@@ -81,3 +81,10 @@ Versi web/PWA tidak memiliki akses native ke statistik penyimpanan semua aplikas
 - This system dialog is not an API for silently clearing every app's private/internal cache or user data. The user must confirm it. The 24-hour WorkManager task continues to clear only RUANG LEGA's own cache directories.
 - Web desktop browsers that support the File System Access API let users pick one folder and grant read/write permission. Optional 24-hour cleanup runs when the site is opened, and only removes selected temporary-file extensions older than seven days within that granted folder.
 - The web app cannot get a permission to sweep all operating-system storage or private caches belonging to other apps. Folder permissions are user-controlled and can be revoked in browser settings.
+
+## Android install compatibility (v1.11)
+- Android minimum version: Android 6.0 Marshmallow (API 23). WorkManager 2.11.2 is used because WorkManager 2.12.0 raised minSdk to API 24.
+- APK is built as a single universal Java/Kotlin package without ABI-specific native libraries.
+- The app ID is now `id.ruanglega.app`, separate from earlier debug-package ID `id.ruanglega.app.debug`; this allows the new installation to coexist with previous debug builds.
+- GitHub Actions reuses a stable debug signing keystore cache so subsequent v1.11+ APK builds keep the same signing identity. First build with the new stable key is not signed with the former temporary runner key.
+- The first install is a sideload/debug distribution and is not a Play Store release.
