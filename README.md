@@ -68,3 +68,9 @@ Versi web/PWA tidak memiliki akses native ke statistik penyimpanan semua aplikas
 - Jadwal WorkManager adalah pekerjaan berkala yang dapat ditunda oleh Doze/optimasi baterai Android; 24 jam adalah interval target, bukan janji waktu eksekusi tepat.
 - PWA membersihkan cache sementara/runtime milik RUANG LEGA saat dibuka paling banyak sekali per 24 jam dan mencatat log lokal. Jika browser mendukung Periodic Background Sync dan mengizinkannya, PWA juga meminta jadwal background 24 jam; jadwal ini bersifat best-effort dan tidak tersedia di semua browser. Ketika versi Service Worker baru aktif, cache versi lama dengan awalan `ruang-lega-` dibersihkan. Jika background sync tidak tersedia, pembersihan PWA hanya terjadi saat website dibuka.
 - Tidak ada pembersihan otomatis terhadap cache privat aplikasi lain atau file pengguna. Penghapusan folder pribadi tetap memerlukan pemilihan folder dan persetujuan pengguna.
+
+
+## Perbaikan pemuatan skrip (v1.9.1)
+- JavaScript aplikasi dipindahkan dari inline HTML ke `site/app.js` dan `android/app/src/main/assets/app.js`.
+- HTML tidak lagi memuat fragmen kode di luar tag script; skrip dimuat melalui `<script src="./app.js?v=1.9.1" defer>`.
+- Service Worker mempramuat app.js bersama shell utama agar tetap tersedia offline dan mengganti cache versi sebelumnya.
