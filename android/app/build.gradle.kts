@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId = "id.ruanglega.app"
-        minSdk = 26
+        minSdk = 23
         targetSdk = 35
-        versionCode = 8
-        versionName = "1.10.0"
+        versionCode = 9
+        versionName = "1.11.0"
     }
 
     compileOptions {
@@ -17,10 +17,18 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    signingConfigs {
+        create("stableDebug") {
+            storeFile = file("${System.getProperty("user.home")}/.android/ruang-lega-debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
         debug {
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
+            signingConfig = signingConfigs.getByName("stableDebug")
         }
         release { isMinifyEnabled = false }
     }
