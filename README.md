@@ -48,3 +48,13 @@ Versi web/PWA tidak memiliki akses native ke statistik penyimpanan semua aplikas
 - `android/` — aplikasi Android native WebView dan aset lokal.
 - `.github/workflows/publish-pwa.yml` — workflow GitHub Pages.
 - `.github/workflows/build-android-apk.yml` — workflow build APK.
+
+
+## Fitur pembersihan aman (v1.6)
+- Pindai Sampah pada web: pengguna memilih satu folder melalui File System Access API (browser desktop Chromium yang mendukungnya, di HTTPS) dengan izin baca/tulis yang jelas.
+- Memindai file dalam folder yang dipilih sampai 5.000 file; melewati folder sistem/terlindungi yang umum.
+- Kandidat terbatas pada metadata sampah (.DS_Store, Thumbs.db, desktop.ini), file kunci Office lama, serta file sementara/unduhan tidak lengkap yang sudah berumur sekurangnya 7 hari. File foto, video, dokumen, backup, dan log tidak otomatis ditandai.
+- Semua kandidat tampil untuk ditinjau; tidak ada file yang dihapus otomatis setelah pemindaian. Pengguna memilih file dan mengonfirmasi sebelum penghapusan.
+- Fitur penghapusan folder belum tersedia di browser yang tidak mendukung File System Access API; browser biasa tetap dapat menganalisis file pilihan namun tidak diberi hak menghapusnya.
+- APK Android menyertakan panel native untuk membaca statistik cache aplikasi setelah Usage Access dan mengajukan permintaan pembersihan melalui konfirmasi sistem Android. Pembersihan cache milik RUANG LEGA sendiri juga tersedia. Android tetap mengatur persetujuan; aplikasi tidak menghapus data privat aplikasi lain.
+- Web/PWA tidak dapat membaca cache privat aplikasi lain atau membersihkan seluruh disk secara diam-diam. Angka Storage API hanya kuota situs. Hindari klaim bahwa satu tombol web dapat membersihkan semua sampah perangkat.
