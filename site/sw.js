@@ -1,4 +1,4 @@
-const CACHE_NAME='ruang-lega-v1-5-desktop';
+const CACHE_NAME='ruang-lega-v1-6-cleanup';
 const FILES=['./','./index.html','./manifest.webmanifest','./icons/ruang-lega.svg'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(FILES)));self.skipWaiting()});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key)))));self.clients.claim()});
