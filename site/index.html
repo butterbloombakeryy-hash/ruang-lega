@@ -191,6 +191,24 @@ button:focus-visible,a:focus-visible{outline:3px solid #7bd8c2;outline-offset:2p
   <div id="trashStatus" class="cleanupStatus" aria-live="polite">Tidak ada file yang akan dihapus sebelum kamu memilihnya dan menyetujui konfirmasi.</div>
 
 
+  <div class="panel autoCleanupWeb" id="webFolderAutoCleanupPanel" style="margin-top:14px">
+   <div class="autoCleanupHeader">
+    <div><div class="kicker">Device folder permission</div><div class="autoCleanupTitle">Pembersihan otomatis folder perangkat</div><div class="autoCleanupMeta" id="webFolderAutoCleanupStatus">Pilih folder perangkat dan berikan izin baca-tulis agar RUANG LEGA dapat membersihkan file sementara yang memenuhi kriteria.</div></div>
+    <div class="cleanupButtons">
+     <button id="webFolderGrantBtn" class="btn primary">Izinkan akses folder</button>
+     <button id="webFolderRunBtn" class="btn soft" disabled>Bersihkan sekarang</button>
+     <button id="webFolderDisableBtn" class="btn outline" disabled>Nonaktifkan</button>
+    </div>
+   </div>
+   <div class="cleanupStats">
+    <div class="cleanupStat"><small>Folder yang diizinkan</small><strong id="webFolderName">Belum dipilih</strong></div>
+    <div class="cleanupStat"><small>Jadwal</small><strong id="webFolderInterval">Belum aktif</strong></div>
+    <div class="cleanupStat"><small>Ruang terakhir dibebaskan</small><strong id="webFolderFreed">0 B</strong></div>
+   </div>
+   <div class="cleanupFoot">Setelah kamu memilih folder (misalnya Downloads) dan mengaktifkan izin, RUANG LEGA dapat menghapus otomatis hanya file sementara berakhiran .tmp, .temp, .part, .partial, .crdownload, atau .download yang berumur minimal 7 hari di dalam folder tersebut. Pembersihan berjalan saat website dibuka jika sudah waktunya. File lain, subfolder sistem yang dilindungi, foto, video, dokumen, arsip, dan data browser tidak dihapus. Akses dapat dicabut kapan saja di pengaturan situs browser.</div>
+   <div class="sub" style="font-weight:800;margin-top:12px">RIWAYAT PEMBERSIHAN FOLDER</div>
+   <div id="webFolderAutoLogs" class="autoCleanupLogs"><div class="empty">Belum ada riwayat.</div></div>
+  </div>
   <div class="panel autoCleanupWeb" id="webAutoCleanupPanel">
    <div class="autoCleanupHeader">
     <div><div class="kicker">PWA maintenance</div><div class="autoCleanupTitle">Pembersihan otomatis cache website</div><div class="autoCleanupMeta" id="webAutoCleanupStatus">Memeriksa cache versi lama milik RUANG LEGA…</div></div>
@@ -204,7 +222,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #7bd8c2;outline-offset:2p
   <div id="nativeAndroidCleanup" class="panel" hidden style="margin-top:14px;border-color:#cfe8db">
    <div class="panelHead"><div><div class="kicker">Android native cleanup</div><h2>Pemindaian cache aplikasi Android</h2><p class="sub">Bagian ini aktif di APK RUANG LEGA. Android menampilkan ukuran cache aplikasi dan mengatur proses pembersihan melalui konfirmasi sistem.</p></div><span class="privacy"><i></i> Mode APK</span></div>
    <div class="cleanupStats"><div class="cleanupStat"><small>Aplikasi terbaca</small><strong id="nativeAppCount">—</strong></div><div class="cleanupStat"><small>Perkiraan total cache</small><strong id="nativeCacheTotal">—</strong></div><div class="cleanupStat"><small>Status izin</small><strong id="nativePermissionStatus">Belum dicek</strong></div></div>
-   <div class="cleanupButtons"><button id="nativeScanAppsBtn" class="btn primary">⌕ Pindai cache aplikasi</button><button id="nativeClearCacheBtn" class="btn soft">Bersihkan cache (konfirmasi Android)</button><button id="nativeClearOwnCacheBtn" class="btn outline">Bersihkan cache RUANG LEGA</button></div>
+   <div class="cleanupFoot">Untuk meminta Android membersihkan cache eksternal aplikasi lain, aktifkan akses khusus “Akses semua file” terlebih dahulu. Android akan menampilkan dialog konfirmasi sistem; RUANG LEGA tidak bisa menyetujui dialog itu secara otomatis.</div>
+   <div class="cleanupButtons"><button id="nativeGrantCacheAccessBtn" class="btn primary">Izinkan akses penyimpanan</button><button id="nativeScanAppsBtn" class="btn primary">⌕ Pindai cache aplikasi</button><button id="nativeClearCacheBtn" class="btn soft">Bersihkan cache (konfirmasi Android)</button><button id="nativeClearOwnCacheBtn" class="btn outline">Bersihkan cache RUANG LEGA</button></div>
 
    <div class="panel autoCleanupWeb" id="nativeAutoCleanupSettings" style="margin-top:14px">
     <div class="autoCleanupHeader">
