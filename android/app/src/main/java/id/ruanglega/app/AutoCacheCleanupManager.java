@@ -95,7 +95,7 @@ public final class AutoCacheCleanupManager {
             initialize(application);
         } else {
             workManager.cancelUniqueWork(STARTUP_WORK);
-            workManager.cancelUniquePeriodicWork(PERIODIC_WORK);
+            workManager.cancelUniqueWork(PERIODIC_WORK);
             appendLog(application, "Otomatis dinonaktifkan", "nonaktif", 0L,
                     "Tidak ada cache yang dihapus.");
         }
