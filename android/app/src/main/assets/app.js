@@ -142,7 +142,13 @@ function refreshNativeAndroid(){
 }
 window.RuangLegaNativeRefreshPermissions=refreshNativeAndroid;
 window.RuangLegaNativeCacheResult=function(result){
- $('nativeCleanupStatus').textContent=result===-1?'Android melaporkan kesalahan saat membersihkan cache.':result===0?'Pembersihan dibatalkan atau tidak disetujui.':'Permintaan pembersihan selesai. Pindai ulang untuk memeriksa ukuran cache.';
+ if(result===-1){
+  $('nativeCleanupStatus').textContent='Android mengonfirmasi pembersihan cache eksternal aplikasi selesai. Pindai ulang untuk melihat statistik terbaru.';
+ }else if(result===0){
+  $('nativeCleanupStatus').textContent='Dialog pembersihan cache Android dibatalkan. Tidak ada pembersihan sistem yang dikonfirmasi.';
+ }else{
+  $('nativeCleanupStatus').textContent='Android melaporkan hasil pembersihan: '+result+'. Sebagian perangkat dapat membatasi tindakan ini.';
+ }
 };
 $('nativeScanAppsBtn').addEventListener('click',()=>{
  if(!hasNativeAndroid())return;
@@ -226,8 +232,8 @@ $('nativeAutoCleanupToggle').addEventListener('click',()=>{
 });
 renderNativeAutoCleanup();
 
-const WEB_CLEANUP_VERSION='1.9.1';
-const WEB_CLEANUP_CACHE='ruang-lega-v1-9-1-auto';
+const WEB_CLEANUP_VERSION='1.10.0';
+const WEB_CLEANUP_CACHE='ruang-lega-v1-10-auto';
 const WEB_CLEANUP_LOG_KEY='ruang-lega-web-cleanup-logs';
 const WEB_CLEANUP_LAST_KEY='ruang-lega-web-cleanup-last';
 const WEB_CLEANUP_VERSION_KEY='ruang-lega-web-cleanup-version';
