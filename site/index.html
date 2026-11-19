@@ -412,7 +412,7 @@ document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',(
 document.querySelectorAll('.nav a,.mobileDock a').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('.nav a,.mobileDock a').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.nav a[href="'+a.getAttribute('href')+'"],.mobileDock a[href="'+a.getAttribute('href')+'"]').forEach(x=>x.classList.add('active'))}));
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.installPrompt=e;$('installBtn').hidden=false});
 $('installBtn').addEventListener('click',async()=>{if(!state.installPrompt)return;state.installPrompt.prompt();await state.installPrompt.userChoice;state.installPrompt=null;$('installBtn').hidden=true});
-if('serviceWorker'in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+if('serviceWorker'in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{}));
 })();
 </script>
 </body>
