@@ -1,8 +1,8 @@
-const CACHE_NAME = 'ruang-lega-v1-10';
+const CACHE_NAME = 'ruang-lega-v1-10-device-access';
 const APP_SHELL = [
   './',
   './index.html',
-  './app.js?v=1.9.1',
+  './app.js?v=1.10.0',
   './manifest.webmanifest',
   './icons/ruang-lega.svg'
 ];
